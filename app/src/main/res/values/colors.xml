@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#B87FFF</color>
+    <color name="purple_500">#ff7309</color>
+    <color name="purple_700">#7f27bc</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="purple_900">#5515af</color>
+    <color name="purple_300">#8424ad</color>
+
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="selected_progress">#5EDF8E</color>
+    <color name="unselected_progress_circle">#D2D2D4</color>
+    <color name="placeholder_bg">#dddddd</color>
+    <color name="float_transparent">#00000000</color>
+    <color name="light_gray">#f7f7f7</color>
+
+    <color name="hint_gray">#d3cfcc</color>
+    <color name="gray">#ACACAC</color>
+    <color name="darkGray">#757575</color>
+    <color name="yellow">#FFC369</color>
+    <color name="lightOrange">#fff3ed</color>
+    <color name="red">#FF0000</color>
+    <color name="lightgreen">#70b824</color>
+    <color name="red2">#e01f20</color>
+    <color name="blank">#696969</color>
+    <color name="orange">#f86300</color>
+    <color name="home">#f8d2bd</color>
+    <color name="activity">#673AB7</color>
+    <color name="favorites">#E91E63</color>
+    <color name="settings">#4CAF50</color>
+    <color name="medium_orange"> #e9b193</color>
+
+
+    <color name="light_orange">#ffd8c3</color>
+
+
+</resources>
+

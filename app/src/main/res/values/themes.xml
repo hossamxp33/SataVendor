@@ -1,0 +1,205 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.SataDelivery" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <item name="android:fontFamily">@font/kokn</item>
+
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+    </style>
+    //// circle shape
+    <style name="ShapeAppearanceOverlay.App.CornerSize50Percent" parent="">
+        <item name="cornerSize">50%</item>
+        <item name="background">@drawable/shadowbackground</item>
+    </style>
+    <style name="ShapeAppearanceOverlay.App.CornerSize50Percent.normal" parent="">
+        <item name="cornerSize">0%</item>
+    </style>
+    <style name="topicTitleTextStyle">
+    <item name="android:textSize">18sp</item>
+    <item name="android:textColor">@color/black</item>
+
+        <item name="android:textStyle">bold</item></style>
+    <style name="grayTopicTitleTextStyle">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/darkGray</item>
+        <item name="android:textStyle">bold</item></style>
+
+    <style name="LoginTextStyle">
+    <item name="android:textSize">16sp</item>
+    <item name="android:textColor">@color/black</item>
+    <item name="android:fontFamily">@font/cocon_next_arabic</item>
+    <item name="android:textStyle">bold</item>
+     <item name="android:paddingBottom">8dp</item>
+
+    </style>
+
+    <style name="TextStyle">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">@font/dinar_one_medium</item>
+        <item name="android:textStyle">bold</item>
+
+    </style>
+    <style name="TextStylekufi">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">@font/kufi</item>
+        <item name="android:textStyle">bold</item>
+
+    </style>
+
+    <style name="blackNormalTextStylekufi">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">@font/kufi</item>
+        <item name="android:gravity">center_horizontal</item>
+
+    </style>
+    <style name="sortStyle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">@font/dinar_one_medium</item>
+
+    </style>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textColorPrimary">@color/red</item>
+        <item name="android:textColorSecondary">@color/red</item>
+    </style>
+    <style name="TitleTextStyle">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">@font/diin_bold</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+
+
+    <style name="GlideSliderCardStyle" parent="Base.CardView">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:scaleType">fitXY</item>
+        <item name="background">@android:color/transparent</item>
+    </style>
+
+    <style name="BottomNavStyle">
+        <item name="android:fontFamily">@font/cocon_next_arabic</item>
+        <item name="android:layout_marginRight">12dp</item>
+        <item name="android:layout_marginLeft">12dp</item>
+
+    </style>
+
+    <style name="TitleStyle">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/purple_700</item>
+        <item name="android:fontFamily">@font/dinnextarabicbold</item>
+
+    </style>
+
+    <style name="TabLayoutTextStyle">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@color/orange</item>
+        <item name="android:fontFamily">@font/dinnextarabicbold</item>
+        <item name="android:paddingRight">6dp</item>
+        <item name="android:paddingLeft">6dp</item>
+        <item name="tabIconTint">@color/orange</item>
+        <item name="tabIndicatorColor">@color/orange</item>
+    </style>
+
+    <style name="restaurantdetailsTextStyle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/medium_orange</item>
+        <item name="android:fontFamily">@font/kokn</item>
+        <item name="android:layout_marginLeft">6dp</item>
+        <item name="android:layout_marginRight">6dp</item>
+    </style>
+
+    <style name="SearchTextStyle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/darkGray</item>
+        <item name="android:fontFamily">@font/kokn</item>
+        <item name="android:textColorHint">@color/darkGray</item>
+
+    </style>
+
+    <style name="normalTextStyle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:fontFamily">@font/cocon_next_arabic</item>
+        <item name="android:textColorHint">@color/hint_gray</item>
+
+    </style>
+    <style name="normalTextStylekufi">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:fontFamily">@font/kufi</item>
+        <item name="android:textColorHint">@color/hint_gray</item>
+
+    </style>
+    <style name="CartNormalTextStyle">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:fontFamily">@font/kokn</item>
+        <item name="android:textColorHint">@color/hint_gray</item>
+
+    </style>
+    <style name="blackNormalTextStyle">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">@font/cocon_next_arabic</item>
+        <item name="android:gravity">center</item>
+
+    </style>
+
+
+    <style name="cartBlackNormalTextStyle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">@font/cocon_next_arabic</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColorHint">@color/black</item>
+
+
+    </style>
+
+    <style name="menuTextStyle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">@font/cocon_next_arabic</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColorHint">@color/black</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:layout_marginStart">8dp</item>
+
+        <item name="android:textStyle">bold</item>
+
+    </style>
+    <style name="descriptionTextStyle">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/orange</item>
+        <item name="android:fontFamily">@font/cocon_next_arabic</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:paddingLeft">16dp</item>
+
+    </style>
+
+</resources>
+
+
