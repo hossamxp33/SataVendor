@@ -24,7 +24,7 @@
         <item name="cornerSize">0%</item>
     </style>
     <style name="topicTitleTextStyle">
-    <item name="android:textSize">18sp</item>
+    <item name="android:textSize">20sp</item>
     <item name="android:textColor">@color/black</item>
 
         <item name="android:textStyle">bold</item></style>

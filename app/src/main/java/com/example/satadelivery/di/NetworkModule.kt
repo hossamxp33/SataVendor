@@ -72,11 +72,6 @@ interface AppComponent : AndroidInjector<DaggerApplication> {
     fun inject(app: CurrentOrderFragment)
     fun inject(app: DailyOrderFragment)
 
-
-
-
-
-
 }
 
 @Module
