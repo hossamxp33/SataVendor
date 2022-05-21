@@ -111,7 +111,7 @@ class PreferenceHelper(private val context: Context) {
         }
 
     var token : String?
-        get() = app_prefs!!.getString("Token", "")
+        get() = app_prefs!!.getString("Token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjo0OTQxLCJpYXQiOjE2NTI5ODEyMjZ9.SBVH38ZcwT7tcjtvCLuCmmV1dD-iD4DfivXCCmgwB24")
         set(token) {
             val edit = app_prefs!!.edit()
             edit.putString("Token", token)

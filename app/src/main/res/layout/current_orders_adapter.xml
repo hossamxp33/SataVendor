@@ -3,16 +3,16 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 <data>
-    <variable
-        name="data"
-        type="com.example.satadelivery.models.delivery_orders.DeliveryOrdersItem" />
+<!--    <variable-->
+<!--        name="data"-->
+<!--        type="com.satafood.core.entities.homepage.CitiesModelItem" />-->
 
     <variable
         name="Context"
         type="com.example.satadelivery.presentation.map_activity.MapActivity" />
-    <variable
-        name="listener"
-        type="com.example.satadelivery.helper.ClickHandler"/>
+<!--    <variable-->
+<!--        name="listener"-->
+<!--        type="com.example.satafood.presentaion.ClickHandler"/>-->
 
 </data>
 <androidx.constraintlayout.widget.ConstraintLayout
@@ -81,7 +81,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            android:text="@{data.name}"
+            android:text="@string/name"
             app:layout_constraintRight_toLeftOf="@+id/cardView"
             app:layout_constraintTop_toTopOf="@+id/cardView" />
 
@@ -92,7 +92,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
-            android:text="@{data.name}"
+            android:text="@string/address"
             app:layout_constraintBottom_toBottomOf="@+id/cardView"
             app:layout_constraintRight_toLeftOf="@+id/cardView"
             app:layout_constraintTop_toBottomOf="@+id/name" />

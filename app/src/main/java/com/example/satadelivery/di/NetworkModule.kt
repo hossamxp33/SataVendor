@@ -2,7 +2,7 @@ package com.example.satadelivery.di
 
 import android.content.Context
 import android.util.Log
-import com.example.dagger.di.module.ActivityBuildersModule
+
 import com.example.satadelivery.MainActivity
 import com.example.satadelivery.datalayer.APIServices
 import com.example.satadelivery.helper.Constants.Companion.BASE_URL
@@ -16,9 +16,6 @@ import com.example.satadelivery.presentation.history_order_fragment.HistoryOrder
 import com.example.satadelivery.presentation.map_activity.MapActivity
 import com.example.satadelivery.presentation.new_order_bottomfragment.NewOrderFragment
 
-import com.example.satafood.di.DispatcherModule
-
-import com.example.satafood.presentaion.mainactivity.di.MainModule
 
 import com.github.nkzawa.socketio.client.IO
 import dagger.BindsInstance
@@ -86,10 +83,10 @@ class APIModule constructor() {
                 val originalRequest = chain.request()
                  var Pref = PreferenceHelper(context)
                 val builder = originalRequest.newBuilder()
-                builder.addHeader("Accept", "application/json")
+         //       builder.addHeader("Accept", "application/json")
                 builder.addHeader("Content-Type", "application/json")
                 builder.addHeader("Authorization", "Bearer " + Pref.token)
-                Log.d("token",Pref.token!!)
+
                 val newRequest = builder.build()
                 chain.proceed(newRequest)
             }
@@ -138,7 +135,6 @@ class SocketModule constructor() {
     @Singleton
     @Provides
     fun provideSocket(
-
     ): com.github.nkzawa.socketio.client.Socket {
         return     try {
 //creating socket instance

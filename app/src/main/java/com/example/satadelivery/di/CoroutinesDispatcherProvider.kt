@@ -1,4 +1,4 @@
-package com.example.satafood.di
+package com.example.satadelivery.di
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

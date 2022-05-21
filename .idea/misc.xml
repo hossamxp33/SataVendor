@@ -12,8 +12,10 @@
         <entry key="..\:/SataDelivery/app/src/main/res/drawable/orange_border_shape.xml" value="0.21296296296296297" />
         <entry key="..\:/SataDelivery/app/src/main/res/drawable/shadowbackground.xml" value="0.21296296296296297" />
         <entry key="..\:/SataDelivery/app/src/main/res/layout/current_order_fragment.xml" value="0.18055555555555555" />
+        <entry key="..\:/SataDelivery/app/src/main/res/layout/current_orders_adapter.xml" value="0.2601851851851852" />
         <entry key="..\:/SataDelivery/app/src/main/res/layout/daily_orders_adapter.xml" value="0.18055555555555555" />
-        <entry key="..\:/SataDelivery/app/src/main/res/layout/details_order_adapter.xml" value="0.2" />
+        <entry key="..\:/SataDelivery/app/src/main/res/layout/daily_orders_fragment.xml" value="0.19722222222222222" />
+        <entry key="..\:/SataDelivery/app/src/main/res/layout/details_order_adapter.xml" value="0.22" />
         <entry key="..\:/SataDelivery/app/src/main/res/layout/details_order_fragment.xml" value="0.18055555555555555" />
         <entry key="..\:/SataDelivery/app/src/main/res/layout/history_order_adapter.xml" value="0.301025641025641" />
         <entry key="..\:/SataDelivery/app/src/main/res/layout/history_orders_fragment.xml" value="0.18055555555555555" />

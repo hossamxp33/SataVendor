@@ -1,4 +1,4 @@
-package com.example.satafood.di
+package com.example.satadelivery.di
 
 import dagger.Module
 import dagger.Provides

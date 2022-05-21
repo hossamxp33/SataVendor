@@ -3,16 +3,16 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 <data>
-<!--    <variable-->
-<!--        name="data"-->
-<!--        type="com.satafood.core.entities.homepage.CitiesModelItem" />-->
+    <variable
+        name="data"
+        type="com.example.satadelivery.models.delivery_orders.DeliveryOrdersItem" />
 
     <variable
         name="Context"
         type="com.example.satadelivery.presentation.map_activity.MapActivity" />
-<!--    <variable-->
-<!--        name="listener"-->
-<!--        type="com.example.satafood.presentaion.ClickHandler"/>-->
+    <variable
+        name="listener"
+        type="com.example.satadelivery.helper.ClickHandler"/>
 
 </data>
 <androidx.constraintlayout.widget.ConstraintLayout

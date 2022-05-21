@@ -1,11 +1,10 @@
-package com.example.dagger.di.module
+package com.example.satadelivery.di
 
 import com.example.dagger.di.scopes.ActivityScope
 import com.example.satadelivery.MainActivity
 import com.example.satadelivery.helper.FragmentFactoryModule
 import com.example.satadelivery.presentation.map_activity.MapActivity
 
-import com.example.satafood.presentaion.mainactivity.di.MainModule
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector

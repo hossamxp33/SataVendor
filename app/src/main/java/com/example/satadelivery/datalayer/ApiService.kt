@@ -1,7 +1,9 @@
 package com.example.satadelivery.datalayer
 
-import com.example.satadelivery.models.AuthModel
-import com.example.satadelivery.models.User
+import com.example.satadelivery.models.auth.AuthModel
+import com.example.satadelivery.models.auth.User
+import com.example.satadelivery.models.branch_orders.Weekorder
+import com.example.satadelivery.models.delivery_orders.DeliveryOrdersItem
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -13,17 +15,15 @@ interface APIServices {
 
     ////////////// Authentication
     @POST("Driverlogin")
-    @Headers("Content-Type: Application/json")
     suspend fun login(@Body loginModel: User?): Response<AuthModel>
 
     //delivers/GetDliveryOrders
 
     @GET("delivers/GetDliveryOrders")
-    suspend fun getDeliveryOrders(): AuthModel
+    suspend fun getDeliveryOrders(): ArrayList<DeliveryOrdersItem>
 
     //Delivery Orders By Date
     @POST("delivers/GetDliveryOrdersByDate")
-    @Headers("Content-Type: Application/json")
     suspend fun getDeliveryOrdersByDate(@Body loginModel: User?): Response<AuthModel>
 
     //delivers/indexForBranch
@@ -37,21 +37,19 @@ interface APIServices {
 
     //Restaurant/edit/5
     @POST("Restaurant/edit/5")
-    @Headers("Content-Type: Application/json")
     suspend fun topTenVendor(@Body loginModel: User?): Response<AuthModel>
 
     //orders/getorderReportForBranch/5
     @GET("orders/getorderReportForBranch/5")
-    suspend fun getOrderReportForBranch(@Body loginModel: User?): Response<AuthModel>
+    suspend fun getOrderReportForBranch(): Response<List<Weekorder>>
 
 
     //VerificationQuestions/index
     @GET("VerificationQuestions/index")
-    suspend fun getVerificationQuestions(@Body loginModel: User?): Response<AuthModel>
+    suspend fun getVerificationQuestions(): Response<AuthModel>
 
     //DepartmentPositions/getPositionsByDepartment
     @POST("DepartmentPositions/getPositionsByDepartment")
-    @Headers("Content-Type: Application/json")
     suspend fun getPositionsByDepartment(@Body loginModel: User?): Response<AuthModel>
 
 }

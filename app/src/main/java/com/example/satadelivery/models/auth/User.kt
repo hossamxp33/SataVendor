@@ -1,4 +1,6 @@
-package com.example.satadelivery.models
+package com.example.satadelivery.models.auth
+
+import com.example.satadelivery.models.auth.Driver
 
 data class User(
     var active: Int,

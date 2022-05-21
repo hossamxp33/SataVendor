@@ -7,7 +7,6 @@
     <color name="teal_700">#FF018786</color>
     <color name="purple_900">#5515af</color>
     <color name="purple_300">#8424ad</color>
-
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="selected_progress">#5EDF8E</color>
@@ -15,7 +14,6 @@
     <color name="placeholder_bg">#dddddd</color>
     <color name="float_transparent">#00000000</color>
     <color name="light_gray">#f7f7f7</color>
-
     <color name="hint_gray">#d3cfcc</color>
     <color name="gray">#ACACAC</color>
     <color name="darkGray">#757575</color>

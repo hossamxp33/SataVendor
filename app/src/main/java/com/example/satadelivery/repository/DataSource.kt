@@ -1,7 +1,8 @@
 package com.example.satadelivery.repository
 
-import com.example.satadelivery.models.AuthModel
-import com.example.satadelivery.models.User
+import com.example.satadelivery.models.auth.AuthModel
+import com.example.satadelivery.models.auth.User
+import com.example.satadelivery.models.delivery_orders.DeliveryOrdersItem
 import retrofit2.Response
 
 
@@ -15,6 +16,8 @@ interface DataSource {
     suspend fun getLoginResponse(loginModel: User): Response<AuthModel>
 
 
+
+  suspend fun getDeliveryOrders(): ArrayList<DeliveryOrdersItem>
 
 
 

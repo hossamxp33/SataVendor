@@ -1,4 +1,4 @@
-package com.example.satadelivery.models
+package com.example.satadelivery.models.auth
 
 data class Driver(
     var branch_id: Int,

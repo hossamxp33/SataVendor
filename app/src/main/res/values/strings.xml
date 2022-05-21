@@ -19,4 +19,6 @@
     <string name="startTime">بداية المدة</string>
     <string name="endTime">نهاية المدة</string>
     <string name="close">اغلاق</string>
+    <string name="orderfound">لا يوجد طلبات</string>
+    <string name="backToMenu">رجوع</string>
 </resources>
