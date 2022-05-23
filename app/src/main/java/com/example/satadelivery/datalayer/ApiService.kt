@@ -3,6 +3,7 @@ package com.example.satadelivery.datalayer
 import com.example.satadelivery.models.auth.AuthModel
 import com.example.satadelivery.models.auth.User
 import com.example.satadelivery.models.branch_orders.Weekorder
+import com.example.satadelivery.models.current_orders.CurrentOrdersItem
 import com.example.satadelivery.models.delivery_orders.DeliveryOrdersItem
 import retrofit2.Response
 import retrofit2.http.Body
@@ -21,6 +22,9 @@ interface APIServices {
 
     @GET("delivers/GetDliveryOrders")
     suspend fun getDeliveryOrders(): ArrayList<DeliveryOrdersItem>
+
+    @GET("delivers/GetDliveryCurentOrders")
+    suspend fun getCurrentOrders(): ArrayList<CurrentOrdersItem>
 
     //Delivery Orders By Date
     @POST("delivers/GetDliveryOrdersByDate")

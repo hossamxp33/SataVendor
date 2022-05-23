@@ -7,7 +7,8 @@
     <color name="teal_700">#FF018786</color>
     <color name="purple_900">#5515af</color>
     <color name="purple_300">#8424ad</color>
-    <color name="black">#FF000000</color>
+    <color name="opacityBlack">#44000000</color>
+    <color name="black">#000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="selected_progress">#5EDF8E</color>
     <color name="unselected_progress_circle">#D2D2D4</color>
@@ -18,7 +19,7 @@
     <color name="gray">#ACACAC</color>
     <color name="darkGray">#757575</color>
     <color name="yellow">#FFC369</color>
-    <color name="lightOrange">#fff3ed</color>
+    <color name="lightOrange">#FF9800</color>
     <color name="red">#FF0000</color>
     <color name="lightgreen">#70b824</color>
     <color name="red2">#e01f20</color>

@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
 import com.example.satadelivery.MainActivity
 import com.example.satadelivery.R
 import com.example.satadelivery.databinding.NeworderFragmentBinding
@@ -17,7 +18,7 @@ import com.example.satadelivery.presentation.map_activity.MapActivity
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import javax.inject.Inject
 
-class NewOrderFragment @Inject constructor() : DialogFragment() {
+class NewOrderFragment @Inject constructor() : Fragment() {
 
     companion object { const val TAG = "TownBottomSheetDialogFragment" }
 
@@ -42,15 +43,15 @@ var SelectedSortOption = 0
     }
     override fun onStart() {
         super.onStart()
-        setWindowParams()
+       // setWindowParams()
     }
-    private fun setWindowParams(){
-        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog?.window?.setLayout(
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            LinearLayout.LayoutParams.MATCH_PARENT
-        )
-    }
+//    private fun setWindowParams(){
+//        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+//        dialog?.window?.setLayout(
+//            LinearLayout.LayoutParams.MATCH_PARENT,
+//            LinearLayout.LayoutParams.MATCH_PARENT
+//        )
+//    }
 
 
 

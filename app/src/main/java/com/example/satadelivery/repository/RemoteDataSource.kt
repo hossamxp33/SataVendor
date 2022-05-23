@@ -4,6 +4,7 @@ package com.example.satadelivery.repository
 import com.example.satadelivery.datalayer.APIServices
 import com.example.satadelivery.models.auth.AuthModel
 import com.example.satadelivery.models.auth.User
+import com.example.satadelivery.models.current_orders.CurrentOrdersItem
 import com.example.satadelivery.models.delivery_orders.DeliveryOrdersItem
 
 import retrofit2.Response
@@ -25,6 +26,9 @@ class RemoteDataSource @Inject constructor(private val ApiService: APIServices)
         runCatching { ApiService.getDeliveryOrders() }
             .getOrElse { throw it }
 
+    override suspend fun getCurrentOrders(): ArrayList<CurrentOrdersItem> =
+       runCatching { ApiService.getCurrentOrders() }
+           .getOrElse { throw it }
 
 
 }

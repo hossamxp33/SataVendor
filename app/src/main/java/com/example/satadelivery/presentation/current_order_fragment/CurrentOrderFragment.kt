@@ -2,12 +2,8 @@ package com.example.satadelivery.presentation.current_order_fragment
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.media.MediaPlayer
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.LinearLayout
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
@@ -15,60 +11,58 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.example.satadelivery.MainActivity
 import com.example.satadelivery.R
 import com.example.satadelivery.databinding.CurrentOrderFragmentBinding
 import com.example.satadelivery.databinding.DailyOrdersFragmentBinding
-import com.example.satadelivery.databinding.HistoryOrdersFragmentBinding
-import com.example.satadelivery.databinding.NeworderFragmentBinding
 import com.example.satadelivery.helper.BaseApplication
-import com.example.satadelivery.helper.ClickHandler
 import com.example.satadelivery.helper.UserError
 import com.example.satadelivery.presentation.current_order_fragment.adapter.CurrentOrdersAdapter
 import com.example.satadelivery.presentation.current_order_fragment.mvi.CurrentOrderViewModel
 import com.example.satadelivery.presentation.current_order_fragment.mvi.MainIntent
+import com.example.satadelivery.presentation.daily_order_fragment.adapter.DailyOrderAdapter
+
 import com.example.satadelivery.presentation.map_activity.MapActivity
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
 class CurrentOrderFragment @Inject constructor() : DialogFragment() {
 
-    companion object {
-        const val TAG = "TownBottomSheetDialogFragment"
-    }
-
+    companion object { const val TAG = "TownBottomSheetDialogFragment" }
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     val viewModel by viewModels<CurrentOrderViewModel> { viewModelFactory }
+
     lateinit var currentOrdersAdapter: CurrentOrdersAdapter
+
 
     lateinit var view: CurrentOrderFragmentBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         BaseApplication.appComponent.inject(this)
-    }
+        setStyle(STYLE_NO_FRAME, R.style.colorPickerStyle);
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View? {
+    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
         view = DataBindingUtil.inflate(inflater,
             R.layout.current_order_fragment, container, false)
-        view.listener = ClickHandler()
-        view.context = context as MapActivity
 
+     //   view.listener = ClickHandler()
+        dialog!!.window!!.requestFeature(Window.FEATURE_NO_TITLE);
+        dialog!!.setCanceledOnTouchOutside(true);
         viewModel.intents.trySend(MainIntent.Initialize(viewModel.state.value!!))
         getAllData()
+
+
         currentOrderRecycleView()
         return view.root
     }
     fun currentOrderRecycleView() {
         currentOrdersAdapter = CurrentOrdersAdapter(viewModel.intents, requireContext())
         view.dailyOrderRecycle.apply {
-            adapter = currentOrdersAdapter;
-            setNestedScrollingEnabled(false)
+            adapter = currentOrdersAdapter
+            isNestedScrollingEnabled = false
             setHasFixedSize(true)
         }
     }
@@ -91,7 +85,7 @@ class CurrentOrderFragment @Inject constructor() : DialogFragment() {
                         viewModel.intents.send(MainIntent.ErrorDisplayed(it))
                     } else {
                         if (it.progress == true) {
-                            //  viewModel.intents.send(MainIntent.Initialize(it))
+                            view.progress.isVisible =  true
                         } else {
                             view.progress.visibility = View.GONE
                             if (it.data != null ) {
@@ -102,29 +96,34 @@ class CurrentOrderFragment @Inject constructor() : DialogFragment() {
 
                             }else{
 
+                                view.progress.isVisible =  true
+
+                                viewModel.intents.send(MainIntent.Initialize(it))
+
                             }
 
-
                         }
+
                     }
+
                 }
 
             }
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        setWindowParams()
+    override fun onResume() {
+        super.onResume()
+        val params: ViewGroup.LayoutParams = dialog!!.window!!.attributes
+        params.width = ViewGroup.LayoutParams.MATCH_PARENT
+        params.height = 1800
+        dialog!!.window!!.setGravity(Gravity.CENTER_HORIZONTAL or Gravity.BOTTOM)
+
     }
 
-    private fun setWindowParams() {
-        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog?.window?.setLayout(
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            LinearLayout.LayoutParams.MATCH_PARENT
-        )
-    }
+
+
+
 
 
 }

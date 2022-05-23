@@ -1,7 +1,6 @@
 package com.example.satadelivery.di
 
 import android.content.Context
-import android.util.Log
 
 import com.example.satadelivery.MainActivity
 import com.example.satadelivery.datalayer.APIServices
@@ -10,8 +9,8 @@ import com.example.satadelivery.helper.Constants.Companion.SocketURL
 import com.example.satadelivery.helper.FragmentFactoryModule
 import com.example.satadelivery.helper.PreferenceHelper
 import com.example.satadelivery.helper.ViewModelBuilderModule
-import com.example.satadelivery.presentation.current_order_fragment.CurrentOrderFragment
 import com.example.satadelivery.presentation.daily_order_fragment.DailyOrderFragment
+import com.example.satadelivery.presentation.current_order_fragment.CurrentOrderFragment
 import com.example.satadelivery.presentation.history_order_fragment.HistoryOrderFragment
 import com.example.satadelivery.presentation.map_activity.MapActivity
 import com.example.satadelivery.presentation.new_order_bottomfragment.NewOrderFragment
@@ -31,8 +30,6 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.net.URISyntaxException
-import javax.inject.Inject
-import javax.inject.Named
 import javax.inject.Singleton
 
 
