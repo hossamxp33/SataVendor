@@ -14,7 +14,7 @@
     <string name="archive">أرشيف الطلبات</string>
     <string name="orderNumberText"> رقم الطلب : </string>
     <string name="paymentWayText">طريقة الدفع : </string>
-    <string name="deliveryTimeText">وقت التسليم</string>
+    <string name="deliveryTimeText">وقت التسليم : </string>
     <string name="totalText">المجموع  : </string>
     <string name="startTime">بداية المدة</string>
     <string name="endTime">نهاية المدة</string>

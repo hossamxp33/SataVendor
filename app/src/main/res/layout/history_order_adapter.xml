@@ -77,9 +77,8 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/address"
                 style="@style/grayTopicTitleTextStyle"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 android:text="@{data.billing_address.address}"
                 app:layout_constraintBottom_toBottomOf="@+id/cardView"
@@ -120,7 +119,7 @@
                 style="@style/grayTopicTitleTextStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-              app:datetext="@{data.billing_address.created_at}"
+                app:datetext="@{data.billing_address.created_at}"
                 app:layout_constraintRight_toLeftOf="@+id/deliveryTimeText"
                 app:layout_constraintTop_toBottomOf="@+id/cardView" />
 

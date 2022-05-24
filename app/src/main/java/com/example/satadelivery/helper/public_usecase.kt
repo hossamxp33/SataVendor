@@ -96,7 +96,7 @@ try {
 
     dateObj = myFormat.parse(resource)
     val timestamp = dateObj.time.toString()//  //Example -> in ms
-    val fromServer = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale("en"))
+    val fromServer = SimpleDateFormat(" HH:mm", Locale("en"))
     val dateString = fromServer.format(Date(Long.parseLong(timestamp)))
 
     text.text = dateString
