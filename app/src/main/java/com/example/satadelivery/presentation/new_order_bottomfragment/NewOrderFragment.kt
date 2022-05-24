@@ -3,6 +3,7 @@ package com.example.satadelivery.presentation.new_order_bottomfragment
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +19,7 @@ import com.example.satadelivery.presentation.map_activity.MapActivity
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import javax.inject.Inject
 
-class NewOrderFragment @Inject constructor() : Fragment() {
+class NewOrderFragment @Inject constructor() :DialogFragment() {
 
     companion object { const val TAG = "TownBottomSheetDialogFragment" }
 
@@ -28,6 +29,8 @@ var SelectedSortOption = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         BaseApplication.appComponent.inject(this)
+        setStyle(STYLE_NO_FRAME, R.style.colorPickerStyle);
+
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -41,17 +44,14 @@ var SelectedSortOption = 0
 
         return view.root
     }
-    override fun onStart() {
-        super.onStart()
-       // setWindowParams()
+    override fun onResume() {
+        super.onResume()
+        val params: ViewGroup.LayoutParams = dialog!!.window!!.attributes
+        params.width = ViewGroup.LayoutParams.MATCH_PARENT
+        params.height = 1800
+        dialog!!.window!!.setGravity(Gravity.CENTER_HORIZONTAL or Gravity.BOTTOM)
+
     }
-//    private fun setWindowParams(){
-//        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-//        dialog?.window?.setLayout(
-//            LinearLayout.LayoutParams.MATCH_PARENT,
-//            LinearLayout.LayoutParams.MATCH_PARENT
-//        )
-//    }
 
 
 

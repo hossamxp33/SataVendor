@@ -1,6 +1,7 @@
 package com.example.satadelivery.helper
 
 import android.content.Context
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import com.example.satadelivery.R
 import com.example.satadelivery.presentation.current_order_fragment.CurrentOrderFragment
@@ -14,10 +15,9 @@ class ClickHandler {
     var context: Context? = null
 
 
-    fun OpenMyFragment(context: Context) {
-        val frag = CurrentOrderFragment()
-        frag.apply {
-            show((context as MapActivity).supportFragmentManager, CurrentOrderFragment.TAG)
+    fun OpenMyFragment(context: Context,fragment: DialogFragment,tag:String) {
+        fragment.apply {
+            show((context as MapActivity).supportFragmentManager,tag)
         }
     }
     fun SwitchBetweenFragments(context: Context, fragment: Fragment) {

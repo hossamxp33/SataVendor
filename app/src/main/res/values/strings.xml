@@ -37,4 +37,7 @@
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
     <string name="currentOrders">الطلبات الحالية</string>
+    <string name="dailyOrders">طلبات اليوم</string>
+    <string name="archiveOrders">أرشيف الطلبات</string>
+    <string name="logout">خروج</string>
 </resources>

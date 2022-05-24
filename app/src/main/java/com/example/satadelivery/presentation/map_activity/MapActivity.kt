@@ -50,6 +50,7 @@ import java.io.IOException
 import java.util.*
 import javax.inject.Inject
 import com.beust.klaxon.*
+import com.example.satadelivery.presentation.current_order_fragment.CurrentOrderFragment
 import org.jetbrains.anko.custom.onUiThread
 
 class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
@@ -190,7 +191,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         val opera = LatLng(-33.9320447,151.1597271)
         map.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
         map.addMarker(MarkerOptions().position(opera).title("Opera House"))
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(-34.0, 151.0), 16.0f))
+    //    map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(-34.0, 151.0), 16.0f))
 
 
         val options = PolylineOptions()
@@ -198,42 +199,42 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         options.width(5f)
         val url = getURL(sydney, opera)
         try {
-        async {
-            // Connect to URL, download content and convert into string asynchronously
-            val result = URL(url).readText()
-            onUiThread {
-                // When API call is done, create parser and convert into JsonObjec
-                val parser: Parser = Parser()
-                val stringBuilder: StringBuilder = StringBuilder(result)
-                val json: com.beust.klaxon.JsonObject = parser.parse(stringBuilder) as com.beust.klaxon.JsonObject
-                // get to the correct element in JsonObject
-                try {
-
-                val routes = json.array<com.beust.klaxon.JsonObject>("routes")
-
-                val points = routes!!["legs"]["steps"][0] as com.beust.klaxon.JsonArray<com.beust.klaxon.JsonObject>
-
-                // For every element in the JsonArray, decode the polyline string and pass all points to a List
-
-                val polypts = points.flatMap { decodePoly(it.obj("polyline")?.string("points")!!)  }
-                // Add  points to polyline and bounds
-
-                options.add(sydney)
-                LatLongB.include(sydney)
-                for (point in polypts)  {
-                    options.add(point)
-                    LatLongB.include(point)
-                }
-                options.add(opera)
-                LatLongB.include(opera)
-                // build bounds
-                val bounds = LatLongB.build()
-                // add polyline to the map
-                map.addPolyline(options)
-                // show map with route centered
-                map.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100))  }catch (e:Exception){}
-            }
-        }
+//        async {
+//            // Connect to URL, download content and convert into string asynchronously
+//            val result = URL(url).readText()
+//            onUiThread {
+//                // When API call is done, create parser and convert into JsonObjec
+//                val parser: Parser = Parser()
+//                val stringBuilder: StringBuilder = StringBuilder(result)
+//                val json: com.beust.klaxon.JsonObject = parser.parse(stringBuilder) as com.beust.klaxon.JsonObject
+//                // get to the correct element in JsonObject
+//                try {
+//
+//                val routes = json.array<com.beust.klaxon.JsonObject>("routes")
+//
+//                val points = routes!!["legs"]["steps"][0] as com.beust.klaxon.JsonArray<com.beust.klaxon.JsonObject>
+//
+//                // For every element in the JsonArray, decode the polyline string and pass all points to a List
+//
+//                val polypts = points.flatMap { decodePoly(it.obj("polyline")?.string("points")!!)  }
+//                // Add  points to polyline and bounds
+//
+//                options.add(sydney)
+//                LatLongB.include(sydney)
+//                for (point in polypts)  {
+//                    options.add(point)
+//                    LatLongB.include(point)
+//                }
+//                options.add(opera)
+//                LatLongB.include(opera)
+//                // build bounds
+//                val bounds = LatLongB.build()
+//                // add polyline to the map
+//                map.addPolyline(options)
+//                // show map with route centered
+//                map.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100))  }catch (e:Exception){}
+//            }
+//        }
 
         }catch (e:Exception){}
         if (MapHelper().CheckPermission(this))
@@ -350,37 +351,35 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.nav_home -> {
+            R.id.current_orders -> {
                 // Handle the camera action
-                ClickHandler().OpenMyFragment(this)
+                ClickHandler().OpenMyFragment(this,CurrentOrderFragment(),CurrentOrderFragment.TAG)
             }
-            R.id.nav_gallery -> {
+            R.id.dailyOrder -> {
                 Toast.makeText(this, "nav_gallery", Toast.LENGTH_SHORT).show()
             }
-            R.id.nav_slideshow -> {
+            R.id.archiveOrders -> {
 
             }
             R.id.nav_tools -> {
 
             }
-            R.id.nav_share -> {
-                ClickHandler().SwitchBetweenFragments(this, NewOrderFragment())
+            R.id.logout -> {
+                ClickHandler().OpenMyFragment(this, NewOrderFragment(),NewOrderFragment.TAG)
 
             }
-            R.id.nav_send -> {
 
-            }
         }
 
-        mDrawerLayout?.closeDrawer(GravityCompat.START)
+        mDrawerLayout?.closeDrawer(GravityCompat.END)
         return true
     }
 
     fun openCloseNavigationDrawer(view: View) {
-        if (mDrawerLayout!!.isDrawerOpen(GravityCompat.START)) {
-            mDrawerLayout!!.closeDrawer(GravityCompat.START)
+        if (mDrawerLayout!!.isDrawerOpen(GravityCompat.END)) {
+            mDrawerLayout!!.closeDrawer(GravityCompat.END)
         } else {
-            mDrawerLayout!!.openDrawer(GravityCompat.START)
+            mDrawerLayout!!.openDrawer(GravityCompat.END)
         }
     }
 
