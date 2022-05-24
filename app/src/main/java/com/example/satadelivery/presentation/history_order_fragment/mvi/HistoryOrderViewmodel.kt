@@ -1,4 +1,5 @@
-package com.example.satadelivery.presentation.daily_order_fragment.mvi
+package com.example.satadelivery.presentation.history_order_fragment.mvi
+
 
 import androidx.lifecycle.viewModelScope
 import com.example.satadelivery.helper.BaseViewModel
@@ -11,7 +12,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class DailyOrderViewModel @Inject constructor(private val DateRepoCompnay: DataRepo) :
+class HistoryOrderViewmodel @Inject constructor(private val DateRepoCompnay: DataRepo) :
     BaseViewModel<MainViewState>() {
 
     val intents : Channel<MainIntent> = Channel<MainIntent>(Channel.UNLIMITED)

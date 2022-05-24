@@ -1,6 +1,6 @@
 package com.example.satadelivery.models.current_orders
 
-data class CurrentOrdersItem(
+data class OrdersItem(
     var billing_address: BillingAddress,
     var billing_address_id: Int,
     var branch_id: Int,

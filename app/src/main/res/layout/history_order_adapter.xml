@@ -3,16 +3,16 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-        <!--    <variable-->
-        <!--        name="data"-->
-        <!--        type="com.satafood.core.entities.homepage.CitiesModelItem" />-->
+        <variable
+            name="data"
+            type="com.example.satadelivery.models.current_orders.OrdersItem" />
 
         <variable
             name="Context"
             type="com.example.satadelivery.presentation.map_activity.MapActivity" />
-        <!--    <variable-->
-        <!--        name="listener"-->
-        <!--        type="com.example.satafood.presentaion.ClickHandler"/>-->
+        <variable
+            name="listener"
+            type="com.example.satadelivery.helper.ClickHandler"/>
 
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,7 +22,7 @@
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/sort_recycle"
+            android:id="@+id/mView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -70,7 +70,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                android:text="@string/name"
+                android:text="@{data.billing_address.first_name}"
                 app:layout_constraintRight_toLeftOf="@+id/cardView"
                 app:layout_constraintTop_toTopOf="@+id/cardView" />
 
@@ -79,9 +79,9 @@
                 style="@style/grayTopicTitleTextStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="8dp"
-                android:text="@string/address"
+                android:layout_margin="8dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:text="@{data.billing_address.address}"
                 app:layout_constraintBottom_toBottomOf="@+id/cardView"
                 app:layout_constraintRight_toLeftOf="@+id/cardView"
                 app:layout_constraintTop_toBottomOf="@+id/name" />
@@ -100,7 +100,7 @@
                 style="@style/grayTopicTitleTextStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="12311"
+                android:text="@{String.valueOf(data.billing_address.id)}"
                 app:layout_constraintRight_toLeftOf="@+id/orderNumberText"
                 app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
@@ -120,7 +120,7 @@
                 style="@style/grayTopicTitleTextStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="12311"
+              app:datetext="@{data.billing_address.created_at}"
                 app:layout_constraintRight_toLeftOf="@+id/deliveryTimeText"
                 app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
@@ -140,9 +140,9 @@
                 style="@style/grayTopicTitleTextStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="12311"
+                android:text="@{String.valueOf(data.total)}"
                 app:layout_constraintRight_toLeftOf="@+id/deliveryTimeText"
-                app:layout_constraintTop_toBottomOf="@+id/deliveryTime" />
+                app:layout_constraintTop_toTopOf="@+id/totalText" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/paymentWayText"
@@ -158,7 +158,7 @@
                 style="@style/grayTopicTitleTextStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="cash"
+                android:text="@{data.paymenttype.name}"
                 app:layout_constraintRight_toLeftOf="@+id/paymentWayText"
                 app:layout_constraintTop_toBottomOf="@+id/orderNumberText" />
 

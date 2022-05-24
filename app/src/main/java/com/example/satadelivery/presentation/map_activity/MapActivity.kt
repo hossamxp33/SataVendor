@@ -11,11 +11,9 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.navigation.ui.setupWithNavController
 import com.example.satadelivery.R
 import com.example.satadelivery.helper.BaseApplication
 import com.example.satadelivery.helper.ClickHandler
@@ -32,16 +30,11 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.material.navigation.NavigationView
-import com.google.gson.JsonArray
-import com.google.gson.JsonObject
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
-import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.map_activity.*
-import org.jetbrains.anko.custom.async
-import java.net.URL
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.LatLngBounds
@@ -49,9 +42,8 @@ import com.google.android.gms.maps.model.PolylineOptions
 import java.io.IOException
 import java.util.*
 import javax.inject.Inject
-import com.beust.klaxon.*
 import com.example.satadelivery.presentation.current_order_fragment.CurrentOrderFragment
-import org.jetbrains.anko.custom.onUiThread
+import com.example.satadelivery.presentation.history_order_fragment.HistoryOrderFragment
 
 class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     NavigationView.OnNavigationItemSelectedListener {
@@ -353,10 +345,10 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         when (item.itemId) {
             R.id.current_orders -> {
                 // Handle the camera action
-                ClickHandler().OpenMyFragment(this,CurrentOrderFragment(),CurrentOrderFragment.TAG)
+                ClickHandler().openDialogFragment(this,CurrentOrderFragment(),CurrentOrderFragment.TAG)
             }
             R.id.dailyOrder -> {
-                Toast.makeText(this, "nav_gallery", Toast.LENGTH_SHORT).show()
+                ClickHandler().openDialogFragment(this, HistoryOrderFragment(),HistoryOrderFragment.TAG)
             }
             R.id.archiveOrders -> {
 
@@ -365,7 +357,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
             }
             R.id.logout -> {
-                ClickHandler().OpenMyFragment(this, NewOrderFragment(),NewOrderFragment.TAG)
+                ClickHandler().openDialogFragment(this, NewOrderFragment(),NewOrderFragment.TAG)
 
             }
 

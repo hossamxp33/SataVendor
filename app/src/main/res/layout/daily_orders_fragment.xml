@@ -8,7 +8,7 @@
 
         <variable
             name="data"
-            type="com.example.satadelivery.models.delivery_orders.DeliveryOrdersItem" />
+            type="com.example.satadelivery.models.current_orders.OrderDetail" />
 
         <variable
             name="Context"
@@ -38,7 +38,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/dimen_24"
-                android:text="@string/طلباتي"
+                android:text="@string/details"
                 android:textColor="@color/red2"
                 android:textSize="@dimen/dimen_32"
                 app:layout_constraintLeft_toLeftOf="parent"

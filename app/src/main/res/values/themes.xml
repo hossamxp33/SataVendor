@@ -202,7 +202,7 @@
 
 
     <style name="cartBlackNormalTextStyle">
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:gravity">center</item>
         <item name="android:textColorHint">@color/black</item>

@@ -2,9 +2,9 @@ package com.example.satadelivery.repository
 
 import com.example.satadelivery.models.auth.AuthModel
 import com.example.satadelivery.models.auth.User
-import com.example.satadelivery.models.current_orders.CurrentOrdersItem
-import com.example.satadelivery.models.daily_order.DailyOrderModelItem
-import com.example.satadelivery.models.delivery_orders.DeliveryOrdersItem
+import com.example.satadelivery.models.current_orders.DateModel
+import com.example.satadelivery.models.current_orders.OrdersItem
+
 import retrofit2.Response
 
 
@@ -17,8 +17,8 @@ interface DataSource {
 
     suspend fun getLoginResponse(loginModel: User): Response<AuthModel>
 
+    suspend fun getCurrentOrders(): ArrayList<OrdersItem>
 
-    suspend fun getDeliveryOrders(): ArrayList<DeliveryOrdersItem>
-    suspend fun getCurrentOrders(): ArrayList<CurrentOrdersItem>
+    suspend fun getDeliveryOrdersByDate(dateModel: DateModel?): ArrayList<OrdersItem>
 
 }

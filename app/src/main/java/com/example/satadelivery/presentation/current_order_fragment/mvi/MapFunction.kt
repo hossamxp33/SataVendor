@@ -3,8 +3,7 @@ package com.example.satadelivery.presentation.current_order_fragment.mvi
 
 
 import com.example.satadelivery.helper.UserError
-import com.example.satadelivery.models.current_orders.CurrentOrdersItem
-import com.example.satadelivery.models.delivery_orders.DeliveryOrdersItem
+import com.example.satadelivery.models.current_orders.OrdersItem
 import com.example.satadelivery.repository.DataRepo
 
 import kotlinx.coroutines.flow.Flow
@@ -17,7 +16,7 @@ import kotlinx.coroutines.flow.first
 suspend fun mapIntentToViewState(
     intent: MainIntent,
     Datarepo: DataRepo,
-    loadMainData: suspend () -> Flow<Result<ArrayList<CurrentOrdersItem>>> = { Datarepo.getCurrentOrders },
+    loadMainData: suspend () -> Flow<Result<ArrayList<OrdersItem>>> = { Datarepo.getOrders },
 ) = when (intent) {
     is MainIntent.Initialize -> proceedWithInitialize(loadMainData, intent)
     is MainIntent.ErrorDisplayed -> intent.viewState.copy(error = null)
@@ -25,7 +24,7 @@ suspend fun mapIntentToViewState(
 
 
 private suspend fun proceedWithInitialize(
-    loadCart: suspend () -> Flow<Result<ArrayList<CurrentOrdersItem>>>,
+    loadCart: suspend () -> Flow<Result<ArrayList<OrdersItem>>>,
     intent: MainIntent,
 ): MainViewState {
     val response = loadCart()

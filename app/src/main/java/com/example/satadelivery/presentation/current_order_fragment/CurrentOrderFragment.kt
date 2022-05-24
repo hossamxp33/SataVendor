@@ -13,15 +13,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.satadelivery.R
 import com.example.satadelivery.databinding.CurrentOrderFragmentBinding
-import com.example.satadelivery.databinding.DailyOrdersFragmentBinding
 import com.example.satadelivery.helper.BaseApplication
 import com.example.satadelivery.helper.UserError
 import com.example.satadelivery.presentation.current_order_fragment.adapter.CurrentOrdersAdapter
 import com.example.satadelivery.presentation.current_order_fragment.mvi.CurrentOrderViewModel
 import com.example.satadelivery.presentation.current_order_fragment.mvi.MainIntent
-import com.example.satadelivery.presentation.daily_order_fragment.adapter.DailyOrderAdapter
 
-import com.example.satadelivery.presentation.map_activity.MapActivity
 import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
@@ -31,6 +28,8 @@ class CurrentOrderFragment @Inject constructor() : DialogFragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     val viewModel by viewModels<CurrentOrderViewModel> { viewModelFactory }
+
+    var currentOrderViewModel: CurrentOrderViewModel? = null
 
     lateinit var currentOrdersAdapter: CurrentOrdersAdapter
 
@@ -59,7 +58,7 @@ class CurrentOrderFragment @Inject constructor() : DialogFragment() {
         return view.root
     }
     fun currentOrderRecycleView() {
-        currentOrdersAdapter = CurrentOrdersAdapter(viewModel.intents, requireContext())
+        currentOrdersAdapter = CurrentOrdersAdapter(viewModel.intents, requireContext(),this)
         view.dailyOrderRecycle.apply {
             adapter = currentOrdersAdapter
             isNestedScrollingEnabled = false

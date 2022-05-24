@@ -9,5 +9,5 @@ data class OrderDetail(
     var modified: String,
     var notes: String,
     var orderId: Int,
-    var total: Int
+    var total: String
 )

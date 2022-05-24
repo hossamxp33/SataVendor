@@ -8,7 +8,7 @@
 
         <variable
             name="data"
-            type="com.example.satadelivery.models.delivery_orders.DeliveryOrdersItem" />
+            type="com.example.satadelivery.models.current_orders.OrdersItem" />
 
         <variable
             name="Context"

@@ -3,7 +3,7 @@ package com.example.satadelivery.di
 import androidx.lifecycle.ViewModel
 import com.example.satadelivery.helper.ViewModelKey
 import com.example.satadelivery.presentation.current_order_fragment.mvi.CurrentOrderViewModel
-import com.example.satadelivery.presentation.daily_order_fragment.mvi.DailyOrderViewModel
+import com.example.satadelivery.presentation.history_order_fragment.mvi.HistoryOrderViewmodel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -22,8 +22,8 @@ interface MainModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(DailyOrderViewModel::class)
-    fun dailyOrderViewModel(mainViewModel: DailyOrderViewModel): ViewModel
+    @ViewModelKey(HistoryOrderViewmodel::class)
+    fun HistoryOrderViewModel(mainViewModel: HistoryOrderViewmodel): ViewModel
 
 
 }

@@ -1,3 +1,3 @@
 package com.example.satadelivery.models.current_orders
 
-class CurrentOrders : ArrayList<CurrentOrdersItem>()
+class CurrentOrders : ArrayList<OrdersItem>()
