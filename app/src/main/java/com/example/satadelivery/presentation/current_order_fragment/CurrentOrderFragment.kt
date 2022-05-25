@@ -29,18 +29,18 @@ import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
-class CurrentOrderFragment @Inject constructor() : DialogFragment() {
+class CurrentOrderFragment @Inject constructor(var viewModel:CurrentOrderViewModel) : DialogFragment() {
 
-    companion object {
-        const val TAG = "TownBottomSheetDialogFragment"
-    }
+    companion object { const val TAG = "TownBottomSheetDialogFragment" }
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    lateinit var viewModel: CurrentOrderViewModel
+
 
     private val appViewModel: CurrentOrderViewModel by viewModels()
+
+
 
 
     lateinit var currentOrdersAdapter: CurrentOrdersAdapter
@@ -54,15 +54,12 @@ class CurrentOrderFragment @Inject constructor() : DialogFragment() {
         setStyle(STYLE_NO_FRAME, R.style.colorPickerStyle);
 
     }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
         view = DataBindingUtil.inflate(inflater,
             R.layout.current_order_fragment, container, false)
 
-        //   view.listener = ClickHandler()
+     //   view.listener = ClickHandler()
         dialog!!.window!!.requestFeature(Window.FEATURE_NO_TITLE);
         dialog!!.setCanceledOnTouchOutside(true);
         viewModel.intents.trySend(MainIntent.Initialize(viewModel.state.value!!))
@@ -72,10 +69,8 @@ class CurrentOrderFragment @Inject constructor() : DialogFragment() {
         currentOrderRecycleView()
         return view.root
     }
-
     fun currentOrderRecycleView() {
-        currentOrdersAdapter =
-            CurrentOrdersAdapter(viewModel.intents, requireContext(), this, viewModel)
+        currentOrdersAdapter = CurrentOrdersAdapter(viewModel.intents, requireContext(),this,viewModel)
         view.dailyOrderRecycle.apply {
             adapter = currentOrdersAdapter
             isNestedScrollingEnabled = false
@@ -101,18 +96,18 @@ class CurrentOrderFragment @Inject constructor() : DialogFragment() {
                         viewModel.intents.send(MainIntent.ErrorDisplayed(it))
                     } else {
                         if (it.progress == true) {
-                            view.progress.isVisible = true
+                            view.progress.isVisible =  true
                         } else {
                             view.progress.visibility = View.GONE
-                            if (it.data != null) {
+                            if (it.data != null ) {
                                 currentOrdersAdapter.submitList(it.data)
 
 //                                var mp = MediaPlayer.create(requireContext(), R.raw.alarm);
 //                                mp.start();
 
-                            } else {
+                            }else{
 
-                                view.progress.isVisible = true
+                                view.progress.isVisible =  true
 
                                 viewModel.intents.send(MainIntent.Initialize(it))
 
@@ -127,6 +122,7 @@ class CurrentOrderFragment @Inject constructor() : DialogFragment() {
     }
 
 
+
     override fun onResume() {
         super.onResume()
         val params: ViewGroup.LayoutParams = dialog!!.window!!.attributes
@@ -135,6 +131,9 @@ class CurrentOrderFragment @Inject constructor() : DialogFragment() {
         dialog!!.window!!.setGravity(Gravity.CENTER_HORIZONTAL or Gravity.BOTTOM)
 
     }
+
+
+
 
 
 }
