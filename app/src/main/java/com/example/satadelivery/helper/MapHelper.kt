@@ -3,14 +3,20 @@ package com.example.satadelivery.helper
 import android.Manifest
 import android.app.Activity
 import android.content.Context
+import android.content.DialogInterface
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.location.Location
 import android.location.LocationManager
+import android.provider.Settings
 import android.util.Log
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.satadelivery.R
+import com.example.satadelivery.presentation.map_activity.MapActivity
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
@@ -96,6 +102,33 @@ class MapHelper  {
         return ContextCompat.checkSelfPermission(
           context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
      }
+
+    fun statusCheck(context: Context) {
+        val manager: LocationManager = context.getSystemService(AppCompatActivity.LOCATION_SERVICE) as LocationManager
+        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            buildAlertMessageNoGps(context)
+        }
+    }
+
+
+    val negativeButtonClick = { dialog: DialogInterface, which: Int ->
+        dialog.cancel()
+    }
+    fun gpsStatus(context: Context) {
+       val intent1 = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+       context.startActivity(intent1);
+    }
+    private fun buildAlertMessageNoGps(context: Context) {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(context)
+        builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
+            .setCancelable(false)
+        builder.setPositiveButton(android.R.string.yes,  DialogInterface.OnClickListener { dialogInterface, i ->
+            gpsStatus(context)
+        })
+        builder.setNegativeButton(android.R.string.no, negativeButtonClick)
+        val alert: AlertDialog = builder.create()
+        alert.show()
+    }
     fun isLocationEnabled(context: Context):Boolean{
         //this function will return to us the state of the location service
         //if the gps or the network provider is enabled then it will return true otherwise it will return false

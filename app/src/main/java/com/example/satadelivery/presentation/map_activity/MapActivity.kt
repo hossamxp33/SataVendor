@@ -3,15 +3,20 @@ package com.example.satadelivery.presentation.map_activity
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.DialogInterface
+import android.content.Intent
 import android.graphics.Color
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
+import android.location.LocationManager
 import android.os.Bundle
+import android.provider.Settings
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
@@ -83,6 +88,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
     //   var branchesList = ArrayList<BranchesModelListItem>()
     var addresses: List<Address>? = null
+    var intent1: Intent? = null
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -149,6 +155,8 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         map.clear();
         MapHelper().setPoiClick(map)
 //        MapHelper().setMapStyle(map, this)
+      statusCheck()
+
         getLocationPermission()
         val LatLongB = LatLngBounds.Builder()
 
@@ -164,7 +172,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
         //  map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(-34.0, 151.0), 16.0f))
 
-        getClientAddress()
+   //     getClientAddress()
 
         val options = PolylineOptions()
         options.color(Color.RED)
@@ -235,27 +243,29 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
     }
 
+
     @SuppressLint("MissingPermission")
     fun enableMyLocation(context: Context) {
         map.isMyLocationEnabled = true
         mFusedLocationClient!!.lastLocation.addOnCompleteListener { task ->
             val location: Location? = task.result
-            val result = FloatArray(10)
-            latitude = location?.latitude!!
-            longitude = location.longitude
-
-
-            Location.distanceBetween(latitude!!, longitude!!, -33.9320447, 151.1597271, result)
-            val s = String.format("%.1f", result[0] / 1000)
-
-            if (location == null) {
-                MapHelper().NewLocationData(context)
-            } else {
+            if (Pref.latitude != "" && Pref.longitude != "") {
+                latitude = Pref.latitude?.toDouble()
+                longitude = Pref.longitude?.toDouble()
                 val homeLatLng = LatLng(latitude!!, longitude!!)
                 val zoomLevel = 15f
                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(homeLatLng, zoomLevel))
                 map.addMarker(MarkerOptions().position(homeLatLng))
 
+            } else if (location == null) {
+                MapHelper().NewLocationData(context)
+            } else {
+                latitude = location.latitude
+                longitude = location.longitude
+                val homeLatLng = LatLng(latitude!!, longitude!!)
+                val zoomLevel = 15f
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(homeLatLng, zoomLevel))
+                map.addMarker(MarkerOptions().position(homeLatLng))
                 //   setMapLongClick(map)
                 map.mapType = GoogleMap.MAP_TYPE_TERRAIN
                 val googleOverlay = GroundOverlayOptions()
@@ -271,17 +281,23 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
     @SuppressLint("MissingPermission")
     private fun getLocationPermission() {
-        if (MapHelper().CheckPermission(this)
-        ) {
+        if (MapHelper().CheckPermission(this)) {
             mFusedLocationClient?.lastLocation?.addOnSuccessListener(this,
                 OnSuccessListener<Location?> { location ->
                     // Got last known location. In some rare situations this can be null.
                     if (location != null) {
-                        // Logic to handle location object
-                        latitude = location.latitude
-                        longitude = location.longitude
-                        goToAddress(latitude!!, longitude!!)
+                        if (Pref.latitude != "" && Pref.longitude != "") {
 
+                            // Logic to handle location object
+                            latitude = Pref.latitude?.toDouble()
+                            longitude = Pref.longitude?.toDouble()
+                            goToAddress(latitude!!, longitude!!)
+
+                        } else {
+                            latitude = location.latitude
+                            longitude = location.longitude
+                            goToAddress(latitude!!, longitude!!)
+                        }
                     }
                 })
         } else {
@@ -375,7 +391,32 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         return poly
     }
 
+    fun statusCheck() {
+        val manager: LocationManager = getSystemService(LOCATION_SERVICE) as LocationManager
+        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            buildAlertMessageNoGps()
+        }
+    }
 
+    val positiveButtonClick = { dialog: DialogInterface, which: Int ->
+        gpsStatus()
+    }
+    val negativeButtonClick = { dialog: DialogInterface, which: Int ->
+        dialog.cancel()
+    }
+    fun gpsStatus() {
+        intent1 = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+        startActivity(intent1);
+    }
+    private fun buildAlertMessageNoGps() {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+        builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
+            .setCancelable(false)
+        builder.setPositiveButton(android.R.string.yes, positiveButtonClick)
+        builder.setNegativeButton(android.R.string.no, negativeButtonClick)
+        val alert: AlertDialog = builder.create()
+        alert.show()
+    }
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.current_orders -> {

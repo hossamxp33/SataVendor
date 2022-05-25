@@ -1,10 +1,16 @@
 package com.example.satadelivery.presentation.current_order_fragment.adapter
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
@@ -48,9 +54,33 @@ class CurrentOrdersAdapter(
             LayoutInflater.from(p0.context),
             R.layout.current_orders_adapter, p0, false
         )
+        binding.call.setOnClickListener {
+            val number = currentList[0].billing_address.latitude
+            val intent = Intent(android.content.Intent.ACTION_DIAL)
+
+            intent.data = Uri.parse("tel:" + number)
+
+            if (Build.VERSION.SDK_INT > 23) {
+                context.startActivity(intent)
+            } else {
+                if (ActivityCompat.checkSelfPermission(context,
+                        Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED
+                ) {
+                    Toast.makeText(context, "Permission Not Granted ", Toast.LENGTH_SHORT).show()
+                } else {
+                    val PERMISSIONS_STORAGE = arrayOf(Manifest.permission.CALL_PHONE)
+                    ActivityCompat.requestPermissions(context as MapActivity, PERMISSIONS_STORAGE, 9)
+                    context.startActivity(intent)
+                }
+            }
+        }
+
+
 
         binding.mView.setOnClickListener {
+
             fragment.dismiss()
+
             ClickHandler().openDialogFragment(context, CurrentItemFragment(currentList[p1]), "")
 
             val lat = currentList[0].billing_address.latitude

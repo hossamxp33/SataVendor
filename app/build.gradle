@@ -210,6 +210,7 @@ dependencies {
 
     implementation 'com.github.yshrsmz:keyboardvisibilityevent:3.0.0-RC3'
 
+    implementation "org.jetbrains.anko:anko-commons:$anko_version"
 
     implementation 'com.github.f0ris.sweetalert:library:1.6.2'
     implementation  'com.github.nkzawa:socket.io-client:0.6.0'

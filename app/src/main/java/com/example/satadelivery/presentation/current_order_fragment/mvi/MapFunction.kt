@@ -20,7 +20,7 @@ suspend fun mapIntentToViewState(
 ) = when (intent) {
     is MainIntent.Initialize -> proceedWithInitialize(loadMainData, intent)
     is MainIntent.ErrorDisplayed -> intent.viewState.copy(error = null)
-    is MainIntent.getLatLong -> intent.viewState.copy()
+    is MainIntent.getLatLong -> intent.viewState.copy(cliendLatitude = null)
 }
 
 

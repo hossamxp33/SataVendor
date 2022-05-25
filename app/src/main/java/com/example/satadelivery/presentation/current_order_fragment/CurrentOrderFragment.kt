@@ -77,9 +77,8 @@ class CurrentOrderFragment @Inject constructor() : DialogFragment() {
             setHasFixedSize(true)
         }
     }
+
     private fun getAllData() {
-
-
         lifecycleScope.launchWhenStarted {
             viewModel.state.collect {
                 if (it != null) {
@@ -117,9 +116,7 @@ class CurrentOrderFragment @Inject constructor() : DialogFragment() {
                         }
 
                     }
-
                 }
-
             }
         }
     }

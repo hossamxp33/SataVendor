@@ -12,7 +12,22 @@ class PreferenceHelper(private val context: Context) {
         private var app_prefs: SharedPreferences? = null
         private  val app_ref = "userdetails"
         private  val IsActive = "IsActive"
+    var latitude : String?
+        get() = app_prefs!!.getString("latitude", "")
+        set(latitude) {
+            val edit = app_prefs!!.edit()
 
+            edit.putString("latitude", latitude)
+            edit.apply()
+        }
+    var longitude : String?
+        get() = app_prefs!!.getString("longitude", "")
+        set(longitude) {
+            val edit = app_prefs!!.edit()
+
+            edit.putString("longitude", longitude)
+            edit.apply()
+        }
     var cartResuturantId: Int
             get() = app_prefs!!.getInt("cartResuturantId", 0)
             set(cartResuturantId) {
