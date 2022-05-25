@@ -57,7 +57,7 @@ class CurrentOrdersAdapter(
             val long = currentList[0].billing_address.longitude
 
             viewModel.getLatLong(lat, long)
-            viewModel.intents.trySend(MainIntent.getLatLong(viewModel.state.value!!.copy(cliendLatitude = lat,cliendLongitude = long)))
+            viewModel.intents.trySend(MainIntent.getLatLong(viewModel.state.value!!.copy(cliendLatitude = lat,cliendLongitude = long,progress = true)))
 
         }
         return MenuViewHolder(binding)

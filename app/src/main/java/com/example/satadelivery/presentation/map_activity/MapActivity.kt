@@ -70,10 +70,10 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     var latitude: Double? = null //-33.867
     var longitude: Double? = null // 151.206
 
-    var end_latitude :Double ? = 29.895258
-    var end_longitude :Double ? =  31.2944066
+    var end_latitude: Double? = 29.895258
+    var end_longitude: Double? = 31.2944066
 
-    var desination :MarkerOptions?=null
+    var desination: MarkerOptions? = null
 
     val overlaySize = 100f
     var address = ""
@@ -88,7 +88,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
 
-    val viewModel by  viewModels<CurrentOrderViewModel> { viewModelFactory }
+    val viewModel by viewModels<CurrentOrderViewModel> { viewModelFactory }
 
     public override fun onCreate(icicle: Bundle?) {
         AndroidInjection.inject(this)
@@ -111,7 +111,6 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
         nav_view.setNavigationItemSelectedListener(this)
 
-        viewModel.intents.trySend(MainIntent.getLatLong(viewModel.state.value!!.copy(cliendLatitude = 19.0176,cliendLongitude = 72.8565)!!))
 
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
@@ -129,9 +128,8 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
         note.setOnClickListener {
             note.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.note_active));
-            ClickHandler().openDialogFragment(this,CurrentOrderFragment(),"")
+            ClickHandler().openDialogFragment(this, CurrentOrderFragment(), "")
         }
-
 
 
     }
@@ -292,7 +290,9 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     }
 
     private fun goToAddress(mlatitude: Double, mLogitude: Double) {
+        val homeLatLng = LatLng(mlatitude, mLogitude)
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(mlatitude, mLogitude), 16.0f))
+        map.addMarker(MarkerOptions().position(homeLatLng))
         map.setOnCameraIdleListener(GoogleMap.OnCameraIdleListener {
             latitude = map.cameraPosition.target.latitude
             longitude = map.cameraPosition.target.longitude
@@ -302,19 +302,22 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     }
 
 
-
-
     fun getClientAddress() {
         try {
             lifecycleScope.launchWhenStarted {
                 viewModel.state.collect {
                     if (it != null) {
-                        val    end_latitude = it.cliendLatitude
-                        val   end_longitude= it.cliendLatitude
-                        val homeLatLng = LatLng(end_latitude!!, end_longitude!!)
-                        map.addMarker(MarkerOptions().position(homeLatLng))
-                        map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(end_latitude, end_longitude), 16.0f))
-                    }else
+
+                        val end_latitude = it.cliendLatitude
+                        val end_longitude = it.cliendLatitude
+
+                        if (end_latitude != null && end_longitude != null)
+                            if (it.progress == true)
+                                goToAddress(end_latitude, end_longitude)
+                             else
+                                viewModel.intents.trySend(MainIntent.getLatLong(viewModel.state.value!!.copy(progress = true)))
+
+                    } else
                         Toast.makeText(
                             this@MapActivity,
                             "Please Turn on Your device Location",
@@ -326,6 +329,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
             e.printStackTrace()
         }
     }
+
     private fun getURL(from: LatLng, to: LatLng): String {
         val origin = "origin=" + from.latitude + "," + from.longitude
         val dest = "destination=" + to.latitude + "," + to.longitude
@@ -370,9 +374,6 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
         return poly
     }
-
-
-
 
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
