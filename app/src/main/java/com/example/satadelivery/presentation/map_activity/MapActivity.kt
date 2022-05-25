@@ -86,6 +86,8 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     var place_id = ""
     var mDrawerLayout: DrawerLayout? = null
 
+    var homeLatLng = LatLng(0.0,0.0)
+
     //   var branchesList = ArrayList<BranchesModelListItem>()
     var addresses: List<Address>? = null
     var intent1: Intent? = null
@@ -158,7 +160,6 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
       statusCheck()
 
         getLocationPermission()
-        val LatLongB = LatLngBounds.Builder()
         getClientAddress()
         // Add a marker in Sydney and move the camera
         //       val sydney = LatLng(-34.0, 151.0)
@@ -172,56 +173,6 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
         //  map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(-34.0, 151.0), 16.0f))
 
-
-        val options = PolylineOptions()
-        options.color(Color.RED)
-        options.width(5f)
-        val url = getURL(sydney, opera)
-//        try {
-//            async {
-//                // Connect to URL, download content and convert into string asynchronously
-//                val result = URL(url).readText()
-//                onUiThread {
-//                    // When API call is done, create parser and convert into JsonObjec
-//                    val parser: Parser = Parser()
-//                    val stringBuilder: StringBuilder = StringBuilder(result)
-//                    val json: com.beust.klaxon.JsonObject =
-//                        parser.parse(stringBuilder) as com.beust.klaxon.JsonObject
-//                    // get to the correct element in JsonObject
-//                    try {
-//
-//                        val routes = json.array<com.beust.klaxon.JsonObject>("routes")
-//
-//                        val points =
-//                            routes!!["legs"]["steps"][0] as com.beust.klaxon.JsonArray<com.beust.klaxon.JsonObject>
-//
-//                        // For every element in the JsonArray, decode the polyline string and pass all points to a List
-//
-//                        val polypts =
-//                            points.flatMap { decodePoly(it.obj("polyline")?.string("points")!!) }
-//                        // Add  points to polyline and bounds
-//
-//                        options.add(sydney)
-//                        LatLongB.include(sydney)
-//                        for (point in polypts) {
-//                            options.add(point)
-//                            LatLongB.include(point)
-//                        }
-//                        options.add(opera)
-//                        LatLongB.include(opera)
-//                        // build bounds
-//                        val bounds = LatLongB.build()
-//                        // add polyline to the map
-//                        map.addPolyline(options)
-//                        // show map with route centered
-//                        map.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100))
-//                    } catch (e: Exception) {
-//                    }
-//                }
-//            }
-//
-//        } catch (e: Exception) {
-//        }
         if (MapHelper().CheckPermission(this))
             if (MapHelper().isLocationEnabled(this)) {
                 enableMyLocation(this)
@@ -261,7 +212,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
             } else {
                 latitude = location.latitude
                 longitude = location.longitude
-                val homeLatLng = LatLng(latitude!!, longitude!!)
+                 homeLatLng = LatLng(latitude!!, longitude!!)
                 val zoomLevel = 15f
                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(homeLatLng, zoomLevel))
                 map.addMarker(MarkerOptions().position(homeLatLng))
@@ -325,10 +276,62 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
                         if (end_latitude != null && end_longitude != null)
                             if (it.progress == true){
-                                val homeLatLng = LatLng(end_latitude, end_longitude)
+                                val clientLatLng = LatLng(end_latitude, end_longitude)
                                 map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(end_latitude, end_longitude), 16.0f))
-                                map.addMarker(MarkerOptions().position(homeLatLng))
+                                map.addMarker(MarkerOptions().position(clientLatLng))
 
+
+                                val options = PolylineOptions()
+                                options.color(Color.RED)
+                                options.width(5f)
+                                val url = getURL(homeLatLng, clientLatLng)
+        try {
+            async {
+                // Connect to URL, download content and convert into string asynchronously
+                val result = URL(url).readText()
+                val LatLongB = LatLngBounds.Builder()
+
+                onUiThread {
+                    // When API call is done, create parser and convert into JsonObjec
+                    val parser: Parser = Parser()
+                    val stringBuilder: StringBuilder = StringBuilder(result)
+                    val json: com.beust.klaxon.JsonObject =
+                        parser.parse(stringBuilder) as com.beust.klaxon.JsonObject
+                    // get to the correct element in JsonObject
+                    try {
+
+                        val routes = json.array<com.beust.klaxon.JsonObject>("routes")
+
+                        val points =
+                            routes!!["legs"]["steps"][0] as com.beust.klaxon.JsonArray<com.beust.klaxon.JsonObject>
+
+                        // For every element in the JsonArray, decode the polyline string and pass all points to a List
+
+                        val polypts =
+                            points.flatMap { decodePoly(it.obj("polyline")?.string("points")!!) }
+                        // Add  points to polyline and bounds
+
+                        options.add(homeLatLng)
+                        LatLongB.include(homeLatLng)
+                        for (point in polypts) {
+                            options.add(point)
+                            LatLongB.include(point)
+                        }
+                        options.add(clientLatLng)
+                        LatLongB.include(clientLatLng)
+                        // build bounds
+                        val bounds = LatLongB.build()
+                        // add polyline to the map
+                        map.addPolyline(options)
+                        // show map with route centered
+                        map.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100))
+                    } catch (e: Exception) {
+                    }
+                }
+            }
+
+        } catch (e: Exception) {
+        }
                             }
 
                              else

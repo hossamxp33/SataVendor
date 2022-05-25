@@ -21,6 +21,8 @@ suspend fun mapIntentToViewState(
     is MainIntent.Initialize -> proceedWithInitialize(loadMainData, intent)
     is MainIntent.ErrorDisplayed -> intent.viewState.copy(error = null)
     is MainIntent.getLatLong -> intent.viewState.copy()
+
+
 }
 
 
