@@ -37,8 +37,6 @@ class CurrentOrderViewModel @Inject constructor(private val DateRepoCompnay: Dat
         job = viewModelScope.launch() {
             uiState.value = MainViewState().copy(progress = true)
             uiState.value = MainViewState().copy(noOrderYet = true)
-            uiState.value = MainViewState().copy(cliendLatitude = 29.895258)
-            uiState.value = MainViewState().copy(cliendLongitude = 31.2944066)
 
             intents.receiveAsFlow().collect {
                 uiState.value = (mapIntentToViewState(it, DateRepoCompnay))

@@ -154,12 +154,12 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         map = googleMap
         map.clear();
         MapHelper().setPoiClick(map)
-//        MapHelper().setMapStyle(map, this)
+      //MapHelper().setMapStyle(map, this)
       statusCheck()
 
         getLocationPermission()
         val LatLongB = LatLngBounds.Builder()
-
+        getClientAddress()
         // Add a marker in Sydney and move the camera
         //       val sydney = LatLng(-34.0, 151.0)
         val sydney = LatLng(29.895258, 31.2944066)
@@ -172,7 +172,6 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
         //  map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(-34.0, 151.0), 16.0f))
 
-       getClientAddress()
 
         val options = PolylineOptions()
         options.color(Color.RED)
@@ -312,8 +311,6 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         map.setOnCameraIdleListener(GoogleMap.OnCameraIdleListener {
             latitude = map.cameraPosition.target.latitude
             longitude = map.cameraPosition.target.longitude
-
-
         })
     }
 
@@ -323,13 +320,17 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
             lifecycleScope.launchWhenStarted {
                 viewModel.state.collect {
                     if (it != null) {
-
                         val end_latitude = it.cliendLatitude
                         val end_longitude = it.cliendLatitude
 
                         if (end_latitude != null && end_longitude != null)
-                            if (it.progress == true)
-                                goToAddress(end_latitude, end_longitude)
+                            if (it.progress == true){
+                                val homeLatLng = LatLng(end_latitude, end_longitude)
+                                map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(end_latitude, end_longitude), 16.0f))
+                                map.addMarker(MarkerOptions().position(homeLatLng))
+
+                            }
+
                              else
                                 viewModel.intents.trySend(MainIntent.getLatLong(viewModel.state.value!!.copy(progress = true)))
 
