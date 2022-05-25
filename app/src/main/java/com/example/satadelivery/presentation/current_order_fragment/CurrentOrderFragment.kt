@@ -1,23 +1,30 @@
 package com.example.satadelivery.presentation.current_order_fragment
 
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.location.Address
 import android.os.Bundle
 import android.view.*
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import com.example.satadelivery.R
 import com.example.satadelivery.databinding.CurrentOrderFragmentBinding
 import com.example.satadelivery.helper.BaseApplication
 import com.example.satadelivery.helper.UserError
+import com.example.satadelivery.helper.ViewModelFactory
 import com.example.satadelivery.presentation.current_order_fragment.adapter.CurrentOrdersAdapter
 import com.example.satadelivery.presentation.current_order_fragment.mvi.CurrentOrderViewModel
 import com.example.satadelivery.presentation.current_order_fragment.mvi.MainIntent
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 
 import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
@@ -25,11 +32,16 @@ import javax.inject.Inject
 class CurrentOrderFragment @Inject constructor() : DialogFragment() {
 
     companion object { const val TAG = "TownBottomSheetDialogFragment" }
+
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
+
     val viewModel by viewModels<CurrentOrderViewModel> { viewModelFactory }
 
-    var currentOrderViewModel: CurrentOrderViewModel? = null
+    private val appViewModel: CurrentOrderViewModel by viewModels()
+
+
+
 
     lateinit var currentOrdersAdapter: CurrentOrdersAdapter
 
@@ -58,7 +70,7 @@ class CurrentOrderFragment @Inject constructor() : DialogFragment() {
         return view.root
     }
     fun currentOrderRecycleView() {
-        currentOrdersAdapter = CurrentOrdersAdapter(viewModel.intents, requireContext(),this)
+        currentOrdersAdapter = CurrentOrdersAdapter(viewModel.intents, requireContext(),this,viewModel)
         view.dailyOrderRecycle.apply {
             adapter = currentOrdersAdapter
             isNestedScrollingEnabled = false
@@ -66,8 +78,9 @@ class CurrentOrderFragment @Inject constructor() : DialogFragment() {
         }
     }
     private fun getAllData() {
-        lifecycleScope.launchWhenStarted {
 
+
+        lifecycleScope.launchWhenStarted {
             viewModel.state.collect {
                 if (it != null) {
                     if (it.error != null) {
@@ -111,6 +124,8 @@ class CurrentOrderFragment @Inject constructor() : DialogFragment() {
         }
     }
 
+
+
     override fun onResume() {
         super.onResume()
         val params: ViewGroup.LayoutParams = dialog!!.window!!.attributes
@@ -119,7 +134,6 @@ class CurrentOrderFragment @Inject constructor() : DialogFragment() {
         dialog!!.window!!.setGravity(Gravity.CENTER_HORIZONTAL or Gravity.BOTTOM)
 
     }
-
 
 
 

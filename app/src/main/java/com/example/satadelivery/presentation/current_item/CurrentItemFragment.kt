@@ -37,8 +37,10 @@ class CurrentItemFragment @Inject constructor(var item: OrdersItem) : DialogFrag
         setStyle(STYLE_NO_FRAME, R.style.colorPickerStyle);
 
     }
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?,
+    ): View? {
         view = DataBindingUtil.inflate(inflater,
             R.layout.current_item, container, false)
 
@@ -54,6 +56,7 @@ class CurrentItemFragment @Inject constructor(var item: OrdersItem) : DialogFrag
             this.dismiss()
             ClickHandler().openDialogFragment(requireContext(),DetailsOrderFragment(item.order_details),"")
         }
+
 
         return view.root
     }

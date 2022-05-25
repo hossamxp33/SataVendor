@@ -4,8 +4,10 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -14,6 +16,7 @@ import com.example.satadelivery.databinding.CurrentOrdersAdapterBinding
 import com.example.satadelivery.helper.ClickHandler
 import com.example.satadelivery.models.current_orders.OrdersItem
 import com.example.satadelivery.presentation.current_item.CurrentItemFragment
+import com.example.satadelivery.presentation.current_order_fragment.mvi.CurrentOrderViewModel
 import com.example.satadelivery.presentation.current_order_fragment.mvi.MainIntent
 import com.example.satadelivery.presentation.current_order_fragment.mvi.MainViewState
 
@@ -22,14 +25,15 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collect
 
 class CurrentOrdersAdapter(
     var Intent: Channel<MainIntent>,
     var context: Context,
     var fragment: DialogFragment,
+    var viewModel: CurrentOrderViewModel,
 
-) : ListAdapter<OrdersItem, MenuViewHolder>(MenuDiffCallback()) {
-    lateinit var viewModel: MutableStateFlow<MainViewState?>
+    ) : ListAdapter<OrdersItem, MenuViewHolder>(MenuDiffCallback()) {
 
 
     val scope = CoroutineScope(Dispatchers.Main)
@@ -47,7 +51,14 @@ class CurrentOrdersAdapter(
 
         binding.mView.setOnClickListener {
             fragment.dismiss()
-        ClickHandler().openDialogFragment(context,CurrentItemFragment(currentList[p1]),"")
+            ClickHandler().openDialogFragment(context, CurrentItemFragment(currentList[p1]), "")
+
+            val lat = currentList[0].billing_address.latitude
+            val long = currentList[0].billing_address.longitude
+
+            viewModel.getLatLong(lat, long)
+            viewModel.intents.trySend(MainIntent.getLatLong(viewModel.state.value!!.copy(cliendLatitude = lat,cliendLongitude = long)))
+
         }
         return MenuViewHolder(binding)
     }

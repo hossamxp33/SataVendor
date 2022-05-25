@@ -1,6 +1,7 @@
 package com.example.satadelivery.presentation.current_order_fragment.mvi
 
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.satadelivery.helper.BaseViewModel
 import com.example.satadelivery.repository.DataRepo
@@ -23,17 +24,23 @@ class CurrentOrderViewModel @Inject constructor(private val DateRepoCompnay: Dat
 
     private var job: Job? = null
 
-
+    var mclientLatitude = MutableLiveData<Double>()
+    var  mclientLongitude = MutableLiveData<Double>()
 
     init {
 
         getIntent()
+        mclientLatitude = MutableLiveData()
+        mclientLatitude = MutableLiveData()
     }
     fun getIntent() {
 
         job = viewModelScope.launch() {
             uiState.value = MainViewState().copy(progress = true)
             uiState.value = MainViewState().copy(noOrderYet = true)
+            uiState.value = MainViewState().copy(cliendLatitude = 29.895258)
+            uiState.value = MainViewState().copy(cliendLongitude = 31.2944066)
+
 
             intents.receiveAsFlow().collect {
 
@@ -42,6 +49,15 @@ class CurrentOrderViewModel @Inject constructor(private val DateRepoCompnay: Dat
             }
         }
     }
+
+
+    fun getLatLong(latitude: Double?,longitude:Double?) {
+         mclientLatitude.postValue(latitude!!)
+        mclientLongitude.postValue(longitude!!)
+
+    }
+
+
     override fun onCleared() {
 
         super.onCleared()

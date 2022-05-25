@@ -11,9 +11,13 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.example.satadelivery.R
 import com.example.satadelivery.helper.BaseApplication
 import com.example.satadelivery.helper.ClickHandler
@@ -42,8 +46,19 @@ import com.google.android.gms.maps.model.PolylineOptions
 import java.io.IOException
 import java.util.*
 import javax.inject.Inject
+import com.beust.klaxon.*
+import org.jetbrains.anko.custom.onUiThread
+
+import org.jetbrains.anko.custom.async
+import java.net.URL
+import com.google.gson.JsonArray
+import com.google.gson.JsonObject
 import com.example.satadelivery.presentation.current_order_fragment.CurrentOrderFragment
+import com.example.satadelivery.presentation.current_order_fragment.mvi.CurrentOrderViewModel
+import com.example.satadelivery.presentation.current_order_fragment.mvi.MainIntent
 import com.example.satadelivery.presentation.history_order_fragment.HistoryOrderFragment
+import kotlinx.coroutines.flow.collect
+import org.jetbrains.anko.custom.async
 
 class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     NavigationView.OnNavigationItemSelectedListener {
@@ -54,6 +69,12 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     private lateinit var map: GoogleMap
     var latitude: Double? = null //-33.867
     var longitude: Double? = null // 151.206
+
+    var end_latitude :Double ? = 29.895258
+    var end_longitude :Double ? =  31.2944066
+
+    var desination :MarkerOptions?=null
+
     val overlaySize = 100f
     var address = ""
     var streetName: String? = null
@@ -63,11 +84,11 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     //   var branchesList = ArrayList<BranchesModelListItem>()
     var addresses: List<Address>? = null
 
-//    @Inject
-//    lateinit var viewModelFactory: ViewModelProvider.Factory
-//
-//
-//    val viewModel by  viewModels<MapViewModel> { viewModelFactory }
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+
+    val viewModel by  viewModels<CurrentOrderViewModel> { viewModelFactory }
 
     public override fun onCreate(icicle: Bundle?) {
         AndroidInjection.inject(this)
@@ -90,6 +111,8 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
         nav_view.setNavigationItemSelectedListener(this)
 
+        viewModel.intents.trySend(MainIntent.getLatLong(viewModel.state.value!!.copy(cliendLatitude = 19.0176,cliendLongitude = 72.8565)!!))
+
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
@@ -98,78 +121,31 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
         mapFragment?.getMapAsync(this)
 
-//        menu.setOnClickListener {
-//           openCloseNavigationDrawer()
-//        }
         siteDrawerMenuButton.setOnClickListener { view ->
             this.openCloseNavigationDrawer(view)
+            note.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.note));
 
         }
 
+        note.setOnClickListener {
+            note.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.note_active));
+            ClickHandler().openDialogFragment(this,CurrentOrderFragment(),"")
         }
 
 
 
-
-
-
-
-
-
-
-
+    }
 
 
     @Inject
     lateinit var androidInjector: DispatchingAndroidInjector<Any>
     override fun androidInjector(): AndroidInjector<Any> {
+
         return androidInjector
+
     }
 
 
-    private fun getURL(from : LatLng, to : LatLng) : String {
-        val origin = "origin=" + from.latitude + "," + from.longitude
-        val dest = "destination=" + to.latitude + "," + to.longitude
-        val sensor = "sensor=false"
-        val params = "$origin&$dest&$sensor"
-        return "https://maps.googleapis.com/maps/api/directions/json?$params&key=AIzaSyCjzzd4nbOiZJx3B53u9ZZAq0tcOsVUBdg"
-    }
-    private fun decodePoly(encoded: String): List<LatLng> {
-        val poly = ArrayList<LatLng>()
-        var index = 0
-        val len = encoded.length
-        var lat = 0
-        var lng = 0
-
-        while (index < len) {
-            var b: Int
-            var shift = 0
-            var result = 0
-            do {
-                b = encoded[index++].toInt() - 63
-                result = result or (b and 0x1f shl shift)
-                shift += 5
-            } while (b >= 0x20)
-            val dlat = if (result and 1 != 0) (result shr 1).inv() else result shr 1
-            lat += dlat
-
-            shift = 0
-            result = 0
-            do {
-                b = encoded[index++].toInt() - 63
-                result = result or (b and 0x1f shl shift)
-                shift += 5
-            } while (b >= 0x20)
-            val dlng = if (result and 1 != 0) (result shr 1).inv() else result shr 1
-            lng += dlng
-
-            val p = LatLng(lat.toDouble() / 1E5,
-                lng.toDouble() / 1E5)
-            poly.add(p)
-        }
-
-        return poly
-    }
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
         map.clear();
@@ -179,59 +155,71 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         val LatLongB = LatLngBounds.Builder()
 
         // Add a marker in Sydney and move the camera
-        val sydney = LatLng(-34.0, 151.0)
-        val opera = LatLng(-33.9320447,151.1597271)
-        map.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        map.addMarker(MarkerOptions().position(opera).title("Opera House"))
-    //    map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(-34.0, 151.0), 16.0f))
+        //       val sydney = LatLng(-34.0, 151.0)
+        val sydney = LatLng(29.895258, 31.2944066)
 
+        val opera = LatLng(-33.9320447, 151.1597271)
+
+        map.addMarker(MarkerOptions().position(sydney))
+
+        map.addMarker(MarkerOptions().position(opera))
+
+        //  map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(-34.0, 151.0), 16.0f))
+
+        getClientAddress()
 
         val options = PolylineOptions()
         options.color(Color.RED)
         options.width(5f)
         val url = getURL(sydney, opera)
-        try {
-//        async {
-//            // Connect to URL, download content and convert into string asynchronously
-//            val result = URL(url).readText()
-//            onUiThread {
-//                // When API call is done, create parser and convert into JsonObjec
-//                val parser: Parser = Parser()
-//                val stringBuilder: StringBuilder = StringBuilder(result)
-//                val json: com.beust.klaxon.JsonObject = parser.parse(stringBuilder) as com.beust.klaxon.JsonObject
-//                // get to the correct element in JsonObject
-//                try {
+//        try {
+//            async {
+//                // Connect to URL, download content and convert into string asynchronously
+//                val result = URL(url).readText()
+//                onUiThread {
+//                    // When API call is done, create parser and convert into JsonObjec
+//                    val parser: Parser = Parser()
+//                    val stringBuilder: StringBuilder = StringBuilder(result)
+//                    val json: com.beust.klaxon.JsonObject =
+//                        parser.parse(stringBuilder) as com.beust.klaxon.JsonObject
+//                    // get to the correct element in JsonObject
+//                    try {
 //
-//                val routes = json.array<com.beust.klaxon.JsonObject>("routes")
+//                        val routes = json.array<com.beust.klaxon.JsonObject>("routes")
 //
-//                val points = routes!!["legs"]["steps"][0] as com.beust.klaxon.JsonArray<com.beust.klaxon.JsonObject>
+//                        val points =
+//                            routes!!["legs"]["steps"][0] as com.beust.klaxon.JsonArray<com.beust.klaxon.JsonObject>
 //
-//                // For every element in the JsonArray, decode the polyline string and pass all points to a List
+//                        // For every element in the JsonArray, decode the polyline string and pass all points to a List
 //
-//                val polypts = points.flatMap { decodePoly(it.obj("polyline")?.string("points")!!)  }
-//                // Add  points to polyline and bounds
+//                        val polypts =
+//                            points.flatMap { decodePoly(it.obj("polyline")?.string("points")!!) }
+//                        // Add  points to polyline and bounds
 //
-//                options.add(sydney)
-//                LatLongB.include(sydney)
-//                for (point in polypts)  {
-//                    options.add(point)
-//                    LatLongB.include(point)
+//                        options.add(sydney)
+//                        LatLongB.include(sydney)
+//                        for (point in polypts) {
+//                            options.add(point)
+//                            LatLongB.include(point)
+//                        }
+//                        options.add(opera)
+//                        LatLongB.include(opera)
+//                        // build bounds
+//                        val bounds = LatLongB.build()
+//                        // add polyline to the map
+//                        map.addPolyline(options)
+//                        // show map with route centered
+//                        map.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100))
+//                    } catch (e: Exception) {
+//                    }
 //                }
-//                options.add(opera)
-//                LatLongB.include(opera)
-//                // build bounds
-//                val bounds = LatLongB.build()
-//                // add polyline to the map
-//                map.addPolyline(options)
-//                // show map with route centered
-//                map.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100))  }catch (e:Exception){}
 //            }
+//
+//        } catch (e: Exception) {
 //        }
-
-        }catch (e:Exception){}
         if (MapHelper().CheckPermission(this))
             if (MapHelper().isLocationEnabled(this)) {
-               enableMyLocation(this)
+                enableMyLocation(this)
             } else {
 
                 Toast.makeText(
@@ -254,8 +242,14 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         map.isMyLocationEnabled = true
         mFusedLocationClient!!.lastLocation.addOnCompleteListener { task ->
             val location: Location? = task.result
+            val result = FloatArray(10)
             latitude = location?.latitude!!
-            longitude = location.longitude!!
+            longitude = location.longitude
+
+
+            Location.distanceBetween(latitude!!, longitude!!, -33.9320447, 151.1597271, result)
+            val s = String.format("%.1f", result[0] / 1000)
+
             if (location == null) {
                 MapHelper().NewLocationData(context)
             } else {
@@ -263,6 +257,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                 val zoomLevel = 15f
                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(homeLatLng, zoomLevel))
                 map.addMarker(MarkerOptions().position(homeLatLng))
+
                 //   setMapLongClick(map)
                 map.mapType = GoogleMap.MAP_TYPE_TERRAIN
                 val googleOverlay = GroundOverlayOptions()
@@ -301,54 +296,97 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         map.setOnCameraIdleListener(GoogleMap.OnCameraIdleListener {
             latitude = map.cameraPosition.target.latitude
             longitude = map.cameraPosition.target.longitude
-            address = getLocationAddress().toString()
+
 
         })
     }
 
-    fun getLocationAddress(): String? {
-        val gcd = Geocoder(this, Locale.getDefault())
+
+
+
+    fun getClientAddress() {
         try {
-            val addresses: List<Address> = gcd.getFromLocation(latitude!!, longitude!!, 1)
-
-            if (addresses != null && addresses.isNotEmpty()) {
-                val locality = addresses[0].getAddressLine(0)
-                val country = addresses[0].countryName
-                val state = addresses[0].adminArea
-                val sub_admin = addresses[0].subAdminArea
-                val city = addresses[0].featureName
-                val pincode = addresses[0].postalCode
-                val locality_city = addresses[0].locality
-                val sub_localoty = addresses[0].subLocality
-                val streetName = addresses[0].thoroughfare
-
-
-                if (locality != null) {
-                    //     deliveryLocation.setText((if (streetName != null) "$streetName, " else "") + (if (locality_city != null) locality_city.toString() + ", " else "") + (if (sub_admin != null) sub_admin.toString() else "")  )
-
+            lifecycleScope.launchWhenStarted {
+                viewModel.state.collect {
+                    if (it != null) {
+                        val    end_latitude = it.cliendLatitude
+                        val   end_longitude= it.cliendLatitude
+                        val homeLatLng = LatLng(end_latitude!!, end_longitude!!)
+                        map.addMarker(MarkerOptions().position(homeLatLng))
+                        map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(end_latitude, end_longitude), 16.0f))
+                    }else
+                        Toast.makeText(
+                            this@MapActivity,
+                            "Please Turn on Your device Location",
+                            Toast.LENGTH_SHORT
+                        ).show()
                 }
-            } else {
-
-
             }
-
-
         } catch (e: IOException) {
             e.printStackTrace()
         }
-
-        return null
     }
+    private fun getURL(from: LatLng, to: LatLng): String {
+        val origin = "origin=" + from.latitude + "," + from.longitude
+        val dest = "destination=" + to.latitude + "," + to.longitude
+        val sensor = "sensor=false"
+        val params = "$origin&$dest&$sensor"
+        return "https://maps.googleapis.com/maps/api/directions/json?$params&key=AIzaSyCjzzd4nbOiZJx3B53u9ZZAq0tcOsVUBdg"
+    }
+
+    private fun decodePoly(encoded: String): List<LatLng> {
+        val poly = ArrayList<LatLng>()
+        var index = 0
+        val len = encoded.length
+        var lat = 0
+        var lng = 0
+
+        while (index < len) {
+            var b: Int
+            var shift = 0
+            var result = 0
+            do {
+                b = encoded[index++].toInt() - 63
+                result = result or (b and 0x1f shl shift)
+                shift += 5
+            } while (b >= 0x20)
+            val dlat = if (result and 1 != 0) (result shr 1).inv() else result shr 1
+            lat += dlat
+
+            shift = 0
+            result = 0
+            do {
+                b = encoded[index++].toInt() - 63
+                result = result or (b and 0x1f shl shift)
+                shift += 5
+            } while (b >= 0x20)
+            val dlng = if (result and 1 != 0) (result shr 1).inv() else result shr 1
+            lng += dlng
+
+            val p = LatLng(lat.toDouble() / 1E5,
+                lng.toDouble() / 1E5)
+            poly.add(p)
+        }
+
+        return poly
+    }
+
+
+
 
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.current_orders -> {
                 // Handle the camera action
-                ClickHandler().openDialogFragment(this,CurrentOrderFragment(),CurrentOrderFragment.TAG)
+                ClickHandler().openDialogFragment(this,
+                    CurrentOrderFragment(),
+                    CurrentOrderFragment.TAG)
             }
             R.id.dailyOrder -> {
-                ClickHandler().openDialogFragment(this, HistoryOrderFragment(),HistoryOrderFragment.TAG)
+                ClickHandler().openDialogFragment(this,
+                    HistoryOrderFragment(),
+                    HistoryOrderFragment.TAG)
             }
             R.id.archiveOrders -> {
 
@@ -357,7 +395,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
             }
             R.id.logout -> {
-                ClickHandler().openDialogFragment(this, NewOrderFragment(),NewOrderFragment.TAG)
+                ClickHandler().openDialogFragment(this, NewOrderFragment(), NewOrderFragment.TAG)
 
             }
 
@@ -374,5 +412,11 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
             mDrawerLayout!!.openDrawer(GravityCompat.END)
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        getLocationPermission()
+    }
+
 
 }
