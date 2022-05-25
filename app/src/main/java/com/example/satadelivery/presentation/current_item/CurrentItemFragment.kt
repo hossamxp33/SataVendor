@@ -16,6 +16,7 @@ import com.example.satadelivery.presentation.current_order_fragment.adapter.Curr
 import com.example.satadelivery.presentation.current_order_fragment.mvi.CurrentOrderViewModel
 import com.example.satadelivery.presentation.current_order_fragment.mvi.MainIntent
 import com.example.satadelivery.presentation.details_order_fragment.DetailsOrderFragment
+import com.example.satadelivery.presentation.map_activity.MapActivity
 
 import javax.inject.Inject
 
@@ -50,7 +51,8 @@ class CurrentItemFragment @Inject constructor(var item: OrdersItem) : DialogFrag
         viewModel.intents.trySend(MainIntent.Initialize(viewModel.state.value!!))
 
        view.data = item
-
+       view.listener= ClickHandler()
+        view.context = context as MapActivity
 
         view.detailsButton.setOnClickListener {
             this.dismiss()
