@@ -10,9 +10,9 @@
         <variable
             name="Context"
             type="com.example.satadelivery.presentation.map_activity.MapActivity" />
-        <!--    <variable-->
-        <!--        name="listener"-->
-        <!--        type="com.example.satafood.presentaion.ClickHandler"/>-->
+        <variable
+            name="listener"
+            type="com.example.satadelivery.helper.ClickHandler"/>
 
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -89,6 +89,8 @@
                 android:layout_marginTop="16dp"
                 android:scaleType="fitXY"
                 android:src="@drawable/telephone"
+                android:onClick="@{()->listener.callNumber(data.billing_address.phone,Context)}"
+
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/sort_recycle" />
 
@@ -201,6 +203,7 @@
                 android:padding="@dimen/dimen_12"
                 app:layout_constraintWidth_percent="0.45"
                 android:text="@string/report"
+                android:onClick="@{()->listener.callNumber(data.billing_address.phone,Context)}"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

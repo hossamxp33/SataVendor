@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
@@ -24,18 +25,24 @@ public class ClickHandler {
     var context: Context? = null
 
     fun callNumber(number: String, context: Context) {
-        val callIntent = Intent(Intent.ACTION_CALL)
-        callIntent.data = Uri.parse("tel:$number")
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(context as MapActivity,
-                    Manifest.permission.CALL_PHONE)) {
+
+        val intent = Intent(android.content.Intent.ACTION_DIAL)
+
+        intent.data = Uri.parse("tel:" + number)
+
+        if (Build.VERSION.SDK_INT > 23) {
+            context.startActivity(intent)
+        } else {
+            if (ActivityCompat.checkSelfPermission(context,
+                    Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED
+            ) {
+                Toast.makeText(context, "Permission Not Granted ", Toast.LENGTH_SHORT).show()
             } else {
-                ActivityCompat.requestPermissions(context,
-                    arrayOf(Manifest.permission.CALL_PHONE),
-                1)
+                val PERMISSIONS_STORAGE = arrayOf(Manifest.permission.CALL_PHONE)
+                ActivityCompat.requestPermissions(context as MapActivity, PERMISSIONS_STORAGE, 9)
+                context.startActivity(intent)
             }
         }
-        context.startActivity(callIntent)
     }
 
 

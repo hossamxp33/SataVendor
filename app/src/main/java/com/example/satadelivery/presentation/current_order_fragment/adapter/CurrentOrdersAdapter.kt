@@ -55,24 +55,7 @@ class CurrentOrdersAdapter(
             R.layout.current_orders_adapter, p0, false
         )
         binding.call.setOnClickListener {
-            val number = currentList[0].billing_address.latitude
-            val intent = Intent(android.content.Intent.ACTION_DIAL)
 
-            intent.data = Uri.parse("tel:" + number)
-
-            if (Build.VERSION.SDK_INT > 23) {
-                context.startActivity(intent)
-            } else {
-                if (ActivityCompat.checkSelfPermission(context,
-                        Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED
-                ) {
-                    Toast.makeText(context, "Permission Not Granted ", Toast.LENGTH_SHORT).show()
-                } else {
-                    val PERMISSIONS_STORAGE = arrayOf(Manifest.permission.CALL_PHONE)
-                    ActivityCompat.requestPermissions(context as MapActivity, PERMISSIONS_STORAGE, 9)
-                    context.startActivity(intent)
-                }
-            }
         }
 
 

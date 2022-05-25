@@ -70,6 +70,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="12dp"
                 android:scaleType="fitXY"
+                android:onClick="@{()->listener.callNumber(data.billing_address.phone,Context)}"
                 android:src="@drawable/telephone"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
