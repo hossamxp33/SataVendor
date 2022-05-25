@@ -29,14 +29,14 @@ import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
-class CurrentOrderFragment @Inject constructor() : DialogFragment() {
+class CurrentOrderFragment @Inject constructor(var viewModel:CurrentOrderViewModel) : DialogFragment() {
 
     companion object { const val TAG = "TownBottomSheetDialogFragment" }
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-  lateinit var  viewModel:CurrentOrderViewModel
+
 
     private val appViewModel: CurrentOrderViewModel by viewModels()
 

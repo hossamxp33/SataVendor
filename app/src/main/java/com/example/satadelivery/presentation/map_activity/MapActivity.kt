@@ -134,7 +134,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
         note.setOnClickListener {
             note.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.note_active));
-            ClickHandler().openDialogFragment(this, CurrentOrderFragment(), "")
+            ClickHandler().openDialogFragment(this, CurrentOrderFragment(viewModel), "")
         }
 
 
@@ -422,7 +422,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
             R.id.current_orders -> {
                 // Handle the camera action
                 ClickHandler().openDialogCurrentOrderFragment(this,
-                    CurrentOrderFragment(),
+                    CurrentOrderFragment(viewModel),
                     CurrentOrderFragment.TAG,viewModel)
             }
             R.id.dailyOrder -> {
