@@ -24,12 +24,11 @@ class CurrentOrderViewModel @Inject constructor(private val DateRepoCompnay: Dat
 
     private var job: Job? = null
 
-    var mclientLatitude = MutableLiveData<Double>()
+    var  mclientLatitude = MutableLiveData<Double>()
     var  mclientLongitude = MutableLiveData<Double>()
 
     init {
-
-        getIntent()
+         getIntent()
         mclientLatitude = MutableLiveData()
         mclientLatitude = MutableLiveData()
     }
@@ -41,15 +40,11 @@ class CurrentOrderViewModel @Inject constructor(private val DateRepoCompnay: Dat
             uiState.value = MainViewState().copy(cliendLatitude = 29.895258)
             uiState.value = MainViewState().copy(cliendLongitude = 31.2944066)
 
-
             intents.receiveAsFlow().collect {
-
                 uiState.value = (mapIntentToViewState(it, DateRepoCompnay))
-
             }
         }
     }
-
 
     fun getLatLong(latitude: Double?,longitude:Double?) {
          mclientLatitude.postValue(latitude!!)

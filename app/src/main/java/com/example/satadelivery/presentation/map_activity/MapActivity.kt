@@ -391,32 +391,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         return poly
     }
 
-    fun statusCheck() {
-        val manager: LocationManager = getSystemService(LOCATION_SERVICE) as LocationManager
-        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            buildAlertMessageNoGps()
-        }
-    }
 
-    val positiveButtonClick = { dialog: DialogInterface, which: Int ->
-        gpsStatus()
-    }
-    val negativeButtonClick = { dialog: DialogInterface, which: Int ->
-        dialog.cancel()
-    }
-    fun gpsStatus() {
-        intent1 = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-        startActivity(intent1);
-    }
-    private fun buildAlertMessageNoGps() {
-        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
-        builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
-            .setCancelable(false)
-        builder.setPositiveButton(android.R.string.yes, positiveButtonClick)
-        builder.setNegativeButton(android.R.string.no, negativeButtonClick)
-        val alert: AlertDialog = builder.create()
-        alert.show()
-    }
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.current_orders -> {
@@ -454,6 +429,39 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
             mDrawerLayout!!.openDrawer(GravityCompat.END)
         }
     }
+
+
+
+
+
+
+    fun statusCheck() {
+        val manager: LocationManager = getSystemService(LOCATION_SERVICE) as LocationManager
+        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            buildAlertMessageNoGps()
+        }
+    }
+
+    val positiveButtonClick = { dialog: DialogInterface, which: Int ->
+        gpsStatus()
+    }
+    val negativeButtonClick = { dialog: DialogInterface, which: Int ->
+        dialog.cancel()
+    }
+    fun gpsStatus() {
+        intent1 = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+        startActivity(intent1);
+    }
+    private fun buildAlertMessageNoGps() {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+        builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
+            .setCancelable(false)
+        builder.setPositiveButton(android.R.string.yes, positiveButtonClick)
+        builder.setNegativeButton(android.R.string.no, negativeButtonClick)
+        val alert: AlertDialog = builder.create()
+        alert.show()
+    }
+
 
     override fun onResume() {
         super.onResume()
