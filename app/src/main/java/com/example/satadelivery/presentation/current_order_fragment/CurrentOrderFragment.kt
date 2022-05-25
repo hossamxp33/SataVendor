@@ -36,7 +36,7 @@ class CurrentOrderFragment @Inject constructor() : DialogFragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    val viewModel by viewModels<CurrentOrderViewModel> { viewModelFactory }
+  lateinit var  viewModel:CurrentOrderViewModel
 
     private val appViewModel: CurrentOrderViewModel by viewModels()
 

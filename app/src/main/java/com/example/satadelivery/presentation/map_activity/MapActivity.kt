@@ -172,7 +172,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
         //  map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(-34.0, 151.0), 16.0f))
 
-   //     getClientAddress()
+       getClientAddress()
 
         val options = PolylineOptions()
         options.color(Color.RED)
@@ -421,9 +421,9 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         when (item.itemId) {
             R.id.current_orders -> {
                 // Handle the camera action
-                ClickHandler().openDialogFragment(this,
+                ClickHandler().openDialogCurrentOrderFragment(this,
                     CurrentOrderFragment(),
-                    CurrentOrderFragment.TAG)
+                    CurrentOrderFragment.TAG,viewModel)
             }
             R.id.dailyOrder -> {
                 ClickHandler().openDialogFragment(this,

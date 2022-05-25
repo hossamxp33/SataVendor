@@ -15,7 +15,8 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import com.example.satadelivery.R
-import com.example.satadelivery.di.DaggerAppComponent.factory
+import com.example.satadelivery.presentation.current_order_fragment.CurrentOrderFragment
+import com.example.satadelivery.presentation.current_order_fragment.mvi.CurrentOrderViewModel
 import com.example.satadelivery.presentation.map_activity.MapActivity
 
 
@@ -45,7 +46,13 @@ public class ClickHandler {
         }
     }
 
-
+    fun openDialogCurrentOrderFragment(context: Context, fragment: DialogFragment, tag:String,viewModel: CurrentOrderViewModel
+    ) {
+        fragment.apply {
+            ( fragment as CurrentOrderFragment).viewModel = viewModel
+            show((context as MapActivity).supportFragmentManager,tag)
+        }
+    }
 
 
     fun openDialogFragment(context: Context, fragment: DialogFragment, tag:String) {
