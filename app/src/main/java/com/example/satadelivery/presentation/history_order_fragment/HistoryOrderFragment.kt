@@ -82,6 +82,10 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
             getCurrentDate()
         }
 
+        view.dismissBtn.setOnClickListener {
+           this.dismiss()
+        }
+
         view.getData.setOnClickListener {
 
             viewModel.intents.trySend(MainIntent.Initialize(viewModel.state.value!!,dateInfo))

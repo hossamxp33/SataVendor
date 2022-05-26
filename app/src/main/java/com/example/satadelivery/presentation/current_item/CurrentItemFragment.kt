@@ -48,7 +48,6 @@ class CurrentItemFragment @Inject constructor(var item: OrdersItem) : DialogFrag
      //   view.listener = ClickHandler()
         dialog!!.window!!.requestFeature(Window.FEATURE_NO_TITLE);
         dialog!!.setCanceledOnTouchOutside(true);
-        viewModel.intents.trySend(MainIntent.Initialize(viewModel.state.value!!))
 
        view.data = item
        view.listener= ClickHandler()
@@ -57,7 +56,9 @@ class CurrentItemFragment @Inject constructor(var item: OrdersItem) : DialogFrag
         view.confirmButton.setOnClickListener {
 
             viewModel.changeOrderStatus(item.id,4)
+            view.mView.visibility = View.GONE
         }
+
 
         view.detailsButton.setOnClickListener {
             this.dismiss()
