@@ -162,14 +162,6 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         getLocationPermission()
         getClientAddress()
         // Add a marker in Sydney and move the camera
-        //       val sydney = LatLng(-34.0, 151.0)
-        val sydney = LatLng(29.895258, 31.2944066)
-
-        val opera = LatLng(-33.9320447, 151.1597271)
-
-        map.addMarker(MarkerOptions().position(sydney))
-
-        map.addMarker(MarkerOptions().position(opera))
 
         //  map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(-34.0, 151.0), 16.0f))
 
@@ -202,10 +194,6 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
             if (Pref.latitude != "" && Pref.longitude != "") {
                 latitude = Pref.latitude?.toDouble()
                 longitude = Pref.longitude?.toDouble()
-                val homeLatLng = LatLng(latitude!!, longitude!!)
-                val zoomLevel = 15f
-                map.moveCamera(CameraUpdateFactory.newLatLngZoom(homeLatLng, zoomLevel))
-                map.addMarker(MarkerOptions().position(homeLatLng))
 
             } else if (location == null) {
                 MapHelper().NewLocationData(context)
@@ -215,7 +203,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                  homeLatLng = LatLng(latitude!!, longitude!!)
                 val zoomLevel = 15f
                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(homeLatLng, zoomLevel))
-                map.addMarker(MarkerOptions().position(homeLatLng))
+                map.addMarker(MarkerOptions().position(homeLatLng).icon(BitmapDescriptorFactory.fromResource(R.drawable.mark_delivery)))
                 //   setMapLongClick(map)
                 map.mapType = GoogleMap.MAP_TYPE_TERRAIN
                 val googleOverlay = GroundOverlayOptions()
@@ -258,7 +246,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     private fun goToAddress(mlatitude: Double, mLogitude: Double) {
         val homeLatLng = LatLng(mlatitude, mLogitude)
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(mlatitude, mLogitude), 16.0f))
-        map.addMarker(MarkerOptions().position(homeLatLng))
+        map.addMarker(MarkerOptions().position(homeLatLng).icon(BitmapDescriptorFactory.fromResource(R.drawable.mark_delivery)))
         map.setOnCameraIdleListener(GoogleMap.OnCameraIdleListener {
             latitude = map.cameraPosition.target.latitude
             longitude = map.cameraPosition.target.longitude
@@ -272,7 +260,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                 viewModel.state.collect {
                     if (it != null) {
                         val end_latitude = it.cliendLatitude
-                        val end_longitude = it.cliendLatitude
+                        val end_longitude = it.cliendLongitude
 
                         if (end_latitude != null && end_longitude != null)
                             if (it.progress == true){
@@ -282,8 +270,8 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
 
                                 val options = PolylineOptions()
-                                options.color(Color.RED)
-                                options.width(5f)
+                                options.color(this@MapActivity.getColor(R.color.orange))
+                                options.width(10f)
                                 val url = getURL(homeLatLng, clientLatLng)
         try {
             async {
