@@ -27,20 +27,7 @@ open class BaseApplication : DaggerApplication() {
     override fun onCreate() {
         super.onCreate()
         try {
-            var Pref = PreferenceHelper(this)
-
 //creating socket instance
-            var change = ""
-            val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
-            val language = sharedPreferences.getString("language", "ar")
-            if (language == "Arabic") {
-                change="ar"
-            } else if (language=="English" ) {
-                change = "en"
-            }else {
-                change =""
-            }
-
 
             mSocket = IO.socket(Constants.SocketURL)
         } catch (e: URISyntaxException) {

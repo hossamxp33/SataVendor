@@ -52,6 +52,7 @@ import java.io.IOException
 import java.util.*
 import javax.inject.Inject
 import com.beust.klaxon.*
+import com.example.satadelivery.presentation.Permissions
 import org.jetbrains.anko.custom.onUiThread
 
 import org.jetbrains.anko.custom.async
@@ -63,6 +64,10 @@ import com.example.satadelivery.presentation.current_order_fragment.mvi.CurrentO
 import com.example.satadelivery.presentation.current_order_fragment.mvi.MainIntent
 import com.example.satadelivery.presentation.history_order_fragment.DailyOrdersFragment
 import com.example.satadelivery.presentation.history_order_fragment.HistoryOrderFragment
+import com.github.nkzawa.socketio.client.IO
+import com.github.nkzawa.socketio.client.Socket
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.flow.collect
 import org.jetbrains.anko.custom.async
 
@@ -76,22 +81,20 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     var latitude: Double? = null //-33.867
     var longitude: Double? = null // 151.206
 
-    var end_latitude: Double? = 29.895258
-    var end_longitude: Double? = 31.2944066
-
-    var desination: MarkerOptions? = null
-
     val overlaySize = 100f
     var address = ""
-    var streetName: String? = null
-    var place_id = ""
+
     var mDrawerLayout: DrawerLayout? = null
 
     var homeLatLng = LatLng(0.0,0.0)
 
     //   var branchesList = ArrayList<BranchesModelListItem>()
-    var addresses: List<Address>? = null
     var intent1: Intent? = null
+
+    public var mSocket: Socket? = null
+
+    @Inject
+    lateinit var socket: Socket
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -107,16 +110,19 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         setContentView(R.layout.map_activity)
         mDrawerLayout = findViewById(R.id.drawerLayout)
 
-//        val toggle = ActionBarDrawerToggle(
-//            this,
-//            mDrawerLayout,
-//            toolbar,
-//            R.string.navigation_drawer_open,
-//            R.string.navigation_drawer_close
-//        )
-//        mDrawerLayout?.addDrawerListener(toggle)
-//
-//        toggle.syncState()
+
+        val app: BaseApplication = application as BaseApplication
+        mSocket = app.getMSocket()
+//connecting socket
+        mSocket?.connect()
+        // mSocket?.emit("makeNewOrder",122)
+        val options = IO.Options()
+        options.reconnection = true //reconnection
+        options.forceNew = true
+        if (Permissions().CheckPermission(this)) {
+        } else {
+            Permissions().RequestPermission(this)
+        }
 
         nav_view.setNavigationItemSelectedListener(this)
 
@@ -151,6 +157,8 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         return androidInjector
 
     }
+
+
 
 
     override fun onMapReady(googleMap: GoogleMap) {
