@@ -22,6 +22,7 @@ import java.util.*
 import javax.inject.Inject
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.example.satadelivery.databinding.DailyOrdersFragmentBinding
 import com.example.satadelivery.helper.UserError
 import com.example.satadelivery.models.current_orders.DateModel
 import com.example.satadelivery.presentation.current_order_fragment.adapter.CurrentOrdersAdapter
@@ -31,8 +32,8 @@ import com.example.satadelivery.presentation.history_order_fragment.mvi.MainInte
 import kotlinx.coroutines.flow.collect
 
 
-class HistoryOrderFragment @Inject constructor() : DialogFragment(),
-    DatePickerDialog.OnDateSetListener {
+class DailyOrdersFragment @Inject constructor() : DialogFragment()
+  {
 
     companion object {
         const val TAG = "TownBottomSheetDialogFragment"
@@ -49,14 +50,9 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
     var sMonth: Int = 0
     var sYear: Int = 0
 
-    var myDay = 0
-    var myMonth: Int = 0
-    var myYear: Int = 0
-
     var end: String? = null
-    var selectionDate: String? = null
 
-    lateinit var view: HistoryOrdersFragmentBinding
+    lateinit var view: DailyOrdersFragmentBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         BaseApplication.appComponent.inject(this)
@@ -69,26 +65,21 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
         savedInstanceState: Bundle?,
     ): View? {
         view = DataBindingUtil.inflate(inflater,
-            R.layout.history_orders_fragment, container, false)
+            R.layout.daily_orders_fragment, container, false)
         //   view.listener = ClickHandler()
         view.context = context as MapActivity
 
+        val calendar: Calendar = Calendar.getInstance()
+        sDay = calendar.get(Calendar.DAY_OF_MONTH)
+        sMonth = calendar.get(Calendar.MONTH)
+        sYear = calendar.get(Calendar.YEAR)
 
-        view.startTime.setOnClickListener {
-            getCurrentDate()
-        }
 
-        view.endTime.setOnClickListener {
-            getCurrentDate()
-        }
+        dateInfo= DateModel(date_from = "$sDay-$sMonth-$sYear",date_to ="$sDay-$sMonth-$sYear")
 
-        view.getData.setOnClickListener {
+        viewModel.intents.trySend(MainIntent.Initialize(viewModel.state.value!!,dateInfo))
 
-            viewModel.intents.trySend(MainIntent.Initialize(viewModel.state.value!!,dateInfo))
-            view.getData.isVisible =false
 
-        }
-        //val dateInfo= DateModel(date_from = "2022-05-19",date_to = "2022-05-19")
 
 
 
@@ -99,20 +90,7 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
     }
 
 
-    fun getCurrentDate() {
-        val calendar: Calendar = Calendar.getInstance()
-        sDay = calendar.get(Calendar.DAY_OF_MONTH)
-        sMonth = calendar.get(Calendar.MONTH)
-        sYear = calendar.get(Calendar.YEAR)
 
-        val datePickerDialog =
-
-            DatePickerDialog(requireContext(),
-                AlertDialog.THEME_DEVICE_DEFAULT_DARK, this, sYear, sMonth, sDay)
-
-        datePickerDialog.show()
-
-    }
 
     private fun getAllData() {
         lifecycleScope.launchWhenStarted {
@@ -136,7 +114,7 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
                             view.progress.isVisible = true
                         } else {
                             view.progress.visibility = View.GONE
-                            if (it.data != null) {
+                            if (!it.data.isNullOrEmpty() ) {
                                 historyOrdersAdapter.submitList(it.data)
 
 //                                var mp = MediaPlayer.create(requireContext(), R.raw.alarm);
@@ -145,6 +123,7 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
                             } else {
 
                                 view.progress.isVisible = true
+                                   view.noOrderFound.isVisible = true
 
 
                             }
@@ -166,36 +145,7 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
             setHasFixedSize(true)
         }
     }
-    override fun onDateSet(p0: DatePicker?, p1: Int, p2: Int, p3: Int) {
 
-        myYear = p1
-        myMonth = p2+1
-        myDay = p3
-
-        when {
-            view.startTime.isEnabled -> {
-                view.endTime.isEnabled = true
-                view.startTime.text = "$myYear-$myMonth-$myDay"
-                view.startTime.isEnabled = false
-            }
-            view.endTime.isEnabled -> {
-                view.endTime.text = "$myYear-$myMonth-$myDay"
-                view.endTime.isEnabled = false
-                view.startTime.isEnabled = true
-                 dateInfo= DateModel(date_from = "$myYear-$myMonth-$myDay",date_to = "$myYear-$myMonth-$myDay")
-
-                view.getData.isVisible = true
-            }
-            else -> {
-                view.startTime.isEnabled = true
-            }
-        }
-
-
-
-        selectionDate = view.startTime.text.toString()
-
-    }
 
 
 

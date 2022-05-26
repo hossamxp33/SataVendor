@@ -40,4 +40,5 @@
     <string name="dailyOrders">طلبات اليوم</string>
     <string name="archiveOrders">أرشيف الطلبات</string>
     <string name="logout">خروج</string>
+    <string name="search">بحث</string>
 </resources>

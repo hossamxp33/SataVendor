@@ -61,6 +61,7 @@ import com.google.gson.JsonObject
 import com.example.satadelivery.presentation.current_order_fragment.CurrentOrderFragment
 import com.example.satadelivery.presentation.current_order_fragment.mvi.CurrentOrderViewModel
 import com.example.satadelivery.presentation.current_order_fragment.mvi.MainIntent
+import com.example.satadelivery.presentation.history_order_fragment.DailyOrdersFragment
 import com.example.satadelivery.presentation.history_order_fragment.HistoryOrderFragment
 import kotlinx.coroutines.flow.collect
 import org.jetbrains.anko.custom.async
@@ -394,10 +395,13 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
             }
             R.id.dailyOrder -> {
                 ClickHandler().openDialogFragment(this,
-                    HistoryOrderFragment(),
-                    HistoryOrderFragment.TAG)
+                    DailyOrdersFragment(),
+                    DailyOrdersFragment.TAG)
             }
             R.id.archiveOrders -> {
+                ClickHandler().openDialogFragment(this,
+                    HistoryOrderFragment(),
+                    HistoryOrderFragment.TAG)
 
             }
             R.id.nav_tools -> {

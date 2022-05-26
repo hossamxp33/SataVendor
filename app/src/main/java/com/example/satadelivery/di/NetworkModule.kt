@@ -12,6 +12,7 @@ import com.example.satadelivery.helper.ViewModelBuilderModule
 import com.example.satadelivery.presentation.current_item.CurrentItemFragment
 import com.example.satadelivery.presentation.details_order_fragment.DetailsOrderFragment
 import com.example.satadelivery.presentation.current_order_fragment.CurrentOrderFragment
+import com.example.satadelivery.presentation.history_order_fragment.DailyOrdersFragment
 import com.example.satadelivery.presentation.history_order_fragment.HistoryOrderFragment
 import com.example.satadelivery.presentation.map_activity.MapActivity
 import com.example.satadelivery.presentation.new_order_bottomfragment.NewOrderFragment
@@ -67,6 +68,8 @@ interface AppComponent : AndroidInjector<DaggerApplication> {
     fun inject(app: CurrentOrderFragment)
     fun inject(app: DetailsOrderFragment)
     fun inject(app: CurrentItemFragment)
+    fun inject(app: DailyOrdersFragment)
+
 
 }
 
