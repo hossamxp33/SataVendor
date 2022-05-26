@@ -404,9 +404,9 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                     HistoryOrderFragment.TAG)
 
             }
-            R.id.nav_tools -> {
-
-            }
+//            R.id.nav_tools -> {
+//
+//            }
             R.id.logout -> {
                 ClickHandler().openDialogFragment(this, NewOrderFragment(), NewOrderFragment.TAG)
 
