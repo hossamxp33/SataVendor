@@ -54,6 +54,11 @@ class CurrentItemFragment @Inject constructor(var item: OrdersItem) : DialogFrag
        view.listener= ClickHandler()
         view.context = context as MapActivity
 
+        view.confirmButton.setOnClickListener {
+
+            viewModel.changeOrderStatus(item.id,4)
+        }
+
         view.detailsButton.setOnClickListener {
             this.dismiss()
             ClickHandler().openDialogFragment(requireContext(),DetailsOrderFragment(item.order_details),"")

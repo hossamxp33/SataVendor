@@ -20,5 +20,6 @@ interface DataSource {
     suspend fun getCurrentOrders(): ArrayList<OrdersItem>
 
     suspend fun getDeliveryOrdersByDate(dateModel: DateModel?): ArrayList<OrdersItem>
+    suspend fun changeOrderStatus(Id:Int,statusId:Int) : OrdersItem
 
 }

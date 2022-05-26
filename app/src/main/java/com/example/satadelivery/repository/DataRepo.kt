@@ -42,7 +42,25 @@ class DataRepo @Inject constructor(
 
 
 
-    //dateModel: DateModel?
+    //changeOrderStatus
 
+    suspend  fun changeOrderStatus(Id:Int,statusId:Int): Flow<Result<OrdersItem>> =
+        flow {
+            emit(Datasources.changeOrderStatus(Id,statusId))
+        }
+            .map {
+
+                Result.success(it)
+            }
+            .retry(retries = 4) { t -> (t is IOException).also { if (it) {
+
+
+                delay(1000)
+
+            }}}
+            .catch {
+
+                    throwable ->  emit(Result.failure(throwable)) }
+            .flowOn(ioDispatcher)
 
 }

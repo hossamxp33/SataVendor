@@ -31,5 +31,9 @@ class RemoteDataSource @Inject constructor(private val ApiService: APIServices)
        runCatching { ApiService.getDeliveryOrdersByDate(dateModel) }
            .getOrElse { throw it }
 
+    override suspend fun changeOrderStatus(id:Int,statusId:Int): OrdersItem {
+        return ApiService.changeOrderStatus(id,statusId)
+    }
+
 
 }

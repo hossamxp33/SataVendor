@@ -6,10 +6,7 @@ import com.example.satadelivery.models.current_orders.DateModel
 
 import com.example.satadelivery.models.current_orders.OrdersItem
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.Headers
-import retrofit2.http.POST
+import retrofit2.http.*
 
 
 interface APIServices {
@@ -27,6 +24,9 @@ interface APIServices {
     //Delivery Orders By Date
     @POST("delivers/GetDliveryOrdersByDate")
     suspend fun getDeliveryOrdersByDate(@Body dateModel: DateModel?): ArrayList<OrdersItem>
+
+    @POST("orders/edit/{orderId}")
+    suspend fun changeOrderStatus(@Path("orderId") orderId: Int, @Field("order_status_id") status: Int): OrdersItem
 
 
 
