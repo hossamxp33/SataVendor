@@ -107,7 +107,8 @@ class CurrentOrderFragment @Inject constructor(var viewModel:CurrentOrderViewMod
 
                             }else{
 
-                                view.progress.isVisible =  true
+                                view.progress.isVisible = true
+                                view.noOrderFound.isVisible = true
 
                                 viewModel.intents.send(MainIntent.Initialize(it))
 

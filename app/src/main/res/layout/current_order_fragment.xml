@@ -33,7 +33,7 @@
         >
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/recent_location"
+        android:id="@+id/title"
         style="@style/topicTitleTextStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -64,7 +64,7 @@
         app:layout_constraintHeight_percent="0.9"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recent_location" />
+        app:layout_constraintTop_toBottomOf="@+id/title" />
 
 
 
@@ -115,7 +115,24 @@
             app:layout_constraintTop_toBottomOf="@id/product_notfound" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+        <FrameLayout
+            android:id="@+id/noOrderFound"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="gone"
+            android:background="@color/opacityOrange"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title">
 
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/not_found"
+                />
+        </FrameLayout>
     <FrameLayout
         android:id="@+id/progress"
         android:layout_width="0dp"

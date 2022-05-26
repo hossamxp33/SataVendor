@@ -20,6 +20,8 @@
     <color name="darkGray">#757575</color>
     <color name="yellow">#FFC369</color>
     <color name="lightOrange">#FF9800</color>
+    <color name="opacityOrange">#44FF9800</color>
+
     <color name="red">#FF0000</color>
     <color name="lightgreen">#70b824</color>
     <color name="red2">#e01f20</color>
