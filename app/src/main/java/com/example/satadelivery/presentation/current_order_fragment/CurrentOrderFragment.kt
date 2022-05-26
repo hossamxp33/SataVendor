@@ -99,8 +99,9 @@ class CurrentOrderFragment @Inject constructor(var viewModel:CurrentOrderViewMod
                             view.progress.isVisible =  true
                         } else {
                             view.progress.visibility = View.GONE
-                            if (it.data != null ) {
+                            if (!it.data.isNullOrEmpty()) {
                                 currentOrdersAdapter.submitList(it.data)
+                                view.noOrderFound.isVisible = false
 
 //                                var mp = MediaPlayer.create(requireContext(), R.raw.alarm);
 //                                mp.start();

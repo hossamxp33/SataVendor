@@ -115,6 +115,7 @@ class DailyOrdersFragment @Inject constructor() : DialogFragment()
                         } else {
                             view.progress.visibility = View.GONE
                             if (!it.data.isNullOrEmpty() ) {
+                                view.noOrderFound.isVisible = false
                                 historyOrdersAdapter.submitList(it.data)
 
 //                                var mp = MediaPlayer.create(requireContext(), R.raw.alarm);
