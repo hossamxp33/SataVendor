@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.DatePicker
+import android.widget.Toast
 import androidx.core.view.isVisible
 
 import androidx.databinding.DataBindingUtil
@@ -54,7 +55,6 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
     var myYear: Int = 0
 
     var end: String? = null
-    var selectionDate: String? = null
 
     lateinit var view: HistoryOrdersFragmentBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,6 +76,7 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
 
         view.startTime.setOnClickListener {
             getCurrentDate()
+
         }
 
         view.endTime.setOnClickListener {
@@ -181,6 +182,7 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
                 view.endTime.isEnabled = true
                 view.startTime.text = "$myYear-$myMonth-$myDay"
                 view.startTime.isEnabled = false
+
             }
             view.endTime.isEnabled -> {
                 view.endTime.text = "$myYear-$myMonth-$myDay"
@@ -197,7 +199,6 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
 
 
 
-        selectionDate = view.startTime.text.toString()
 
     }
 

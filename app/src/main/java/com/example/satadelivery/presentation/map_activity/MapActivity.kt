@@ -1,16 +1,19 @@
 package com.example.satadelivery.presentation.map_activity
 
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
+import android.os.Looper
 import android.provider.Settings
 import android.view.MenuItem
 import android.view.View
@@ -18,6 +21,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -30,8 +34,6 @@ import com.example.satadelivery.helper.MapHelper
 import com.example.satadelivery.helper.PreferenceHelper
 import com.example.satadelivery.presentation.new_order_bottomfragment.NewOrderFragment
 
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -66,6 +68,7 @@ import com.example.satadelivery.presentation.history_order_fragment.DailyOrdersF
 import com.example.satadelivery.presentation.history_order_fragment.HistoryOrderFragment
 import com.github.nkzawa.socketio.client.IO
 import com.github.nkzawa.socketio.client.Socket
+import com.google.android.gms.location.*
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.flow.collect
@@ -86,7 +89,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
     var mDrawerLayout: DrawerLayout? = null
 
-    var homeLatLng = LatLng(0.0,0.0)
+    var homeLatLng = LatLng(0.0, 0.0)
 
     //   var branchesList = ArrayList<BranchesModelListItem>()
     var intent1: Intent? = null
@@ -99,6 +102,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
+    var locationRequest: LocationRequest? = null
 
     val viewModel by viewModels<CurrentOrderViewModel> { viewModelFactory }
 
@@ -153,20 +157,16 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     @Inject
     lateinit var androidInjector: DispatchingAndroidInjector<Any>
     override fun androidInjector(): AndroidInjector<Any> {
-
         return androidInjector
-
     }
-
-
 
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
         map.clear();
         MapHelper().setPoiClick(map)
-      //MapHelper().setMapStyle(map, this)
-      statusCheck()
+        //MapHelper().setMapStyle(map, this)
+        statusCheck()
 
         getLocationPermission()
         getClientAddress()
@@ -186,12 +186,8 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                 ).show()
             }
         else {
-
             MapHelper().RequestPermission(this)
-
         }
-
-
     }
 
 
@@ -209,20 +205,61 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
             } else {
                 latitude = location.latitude
                 longitude = location.longitude
-                 homeLatLng = LatLng(latitude!!, longitude!!)
-                val zoomLevel = 15f
-                map.moveCamera(CameraUpdateFactory.newLatLngZoom(homeLatLng, zoomLevel))
-                map.addMarker(MarkerOptions().position(homeLatLng).icon(BitmapDescriptorFactory.fromResource(R.drawable.mark_delivery)))
+                homeLatLng = LatLng(latitude!!, longitude!!)
                 //   setMapLongClick(map)
                 map.mapType = GoogleMap.MAP_TYPE_TERRAIN
                 val googleOverlay = GroundOverlayOptions()
                     .image(BitmapDescriptorFactory.fromResource(R.drawable.android))
                     .position(homeLatLng, overlaySize)
                 map.addGroundOverlay(googleOverlay)
-
             }
-
         }
+
+    }
+
+        fun updateLocation(){
+        //Instantiating the Location request and setting the priority and the interval I need to update the location.
+        locationRequest = LocationRequest.create();
+        locationRequest?.setInterval(100);
+        locationRequest?.setFastestInterval(50);
+        locationRequest?.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+        //instantiating the LocationCallBack
+        //instantiating the LocationCallBack
+        val locationCallback: LocationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult) {
+                if (locationResult != null) {
+                    if (locationResult == null) {
+                        return
+                    }
+                    //Showing the latitude, longitude and accuracy on the home screen.
+                    //      for (location in locationResult.locations) {
+                    // map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng( locationResult.lastLocation.latitude, locationResult.lastLocation.longitude), 16.0f))
+                    latitude = locationResult.lastLocation.latitude
+                    longitude = locationResult.lastLocation.longitude
+
+
+                    //   }
+                }
+            }
+        }
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return
+        }
+        mFusedLocationClient?.requestLocationUpdates(locationRequest,
+            locationCallback,
+            Looper.getMainLooper())
 
     }
 
@@ -234,7 +271,6 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                     // Got last known location. In some rare situations this can be null.
                     if (location != null) {
                         if (Pref.latitude != "" && Pref.longitude != "") {
-
                             // Logic to handle location object
                             latitude = Pref.latitude?.toDouble()
                             longitude = Pref.longitude?.toDouble()
@@ -255,7 +291,8 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     private fun goToAddress(mlatitude: Double, mLogitude: Double) {
         val homeLatLng = LatLng(mlatitude, mLogitude)
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(mlatitude, mLogitude), 16.0f))
-        map.addMarker(MarkerOptions().position(homeLatLng).icon(BitmapDescriptorFactory.fromResource(R.drawable.mark_delivery)))
+        map.addMarker(MarkerOptions().position(homeLatLng)
+            .icon(BitmapDescriptorFactory.fromResource(R.drawable.mark_delivery)))
         map.setOnCameraIdleListener(GoogleMap.OnCameraIdleListener {
             latitude = map.cameraPosition.target.latitude
             longitude = map.cameraPosition.target.longitude
@@ -272,9 +309,12 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                         val end_longitude = it.cliendLongitude
 
                         if (end_latitude != null && end_longitude != null)
-                            if (it.progress == true){
+                            if (it.progress == true) {
                                 val clientLatLng = LatLng(end_latitude, end_longitude)
-                                map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(end_latitude, end_longitude), 16.0f))
+                                map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(
+                                    end_latitude,
+                                    end_longitude), 16.0f))
+
                                 map.addMarker(MarkerOptions().position(clientLatLng))
 
 
@@ -282,57 +322,60 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                                 options.color(this@MapActivity.getColor(R.color.orange))
                                 options.width(10f)
                                 val url = getURL(homeLatLng, clientLatLng)
-        try {
-            async {
-                // Connect to URL, download content and convert into string asynchronously
-                val result = URL(url).readText()
-                val LatLongB = LatLngBounds.Builder()
+                                try {
+                                    async {
+                                        // Connect to URL, download content and convert into string asynchronously
+                                        val result = URL(url).readText()
+                                        val LatLongB = LatLngBounds.Builder()
 
-                onUiThread {
-                    // When API call is done, create parser and convert into JsonObjec
-                    val parser: Parser = Parser()
-                    val stringBuilder: StringBuilder = StringBuilder(result)
-                    val json: com.beust.klaxon.JsonObject =
-                        parser.parse(stringBuilder) as com.beust.klaxon.JsonObject
-                    // get to the correct element in JsonObject
-                    try {
+                                        onUiThread {
+                                            // When API call is done, create parser and convert into JsonObjec
+                                            val parser: Parser = Parser()
+                                            val stringBuilder: StringBuilder = StringBuilder(result)
+                                            val json: com.beust.klaxon.JsonObject =
+                                                parser.parse(stringBuilder) as com.beust.klaxon.JsonObject
+                                            // get to the correct element in JsonObject
+                                            try {
 
-                        val routes = json.array<com.beust.klaxon.JsonObject>("routes")
+                                                val routes =
+                                                    json.array<com.beust.klaxon.JsonObject>("routes")
 
-                        val points =
-                            routes!!["legs"]["steps"][0] as com.beust.klaxon.JsonArray<com.beust.klaxon.JsonObject>
+                                                val points =
+                                                    routes!!["legs"]["steps"][0] as com.beust.klaxon.JsonArray<com.beust.klaxon.JsonObject>
 
-                        // For every element in the JsonArray, decode the polyline string and pass all points to a List
+                                                // For every element in the JsonArray, decode the polyline string and pass all points to a List
 
-                        val polypts =
-                            points.flatMap { decodePoly(it.obj("polyline")?.string("points")!!) }
-                        // Add  points to polyline and bounds
+                                                val polypts =
+                                                    points.flatMap {
+                                                        decodePoly(it.obj("polyline")
+                                                            ?.string("points")!!)
+                                                    }
+                                                // Add  points to polyline and bounds
 
-                        options.add(homeLatLng)
-                        LatLongB.include(homeLatLng)
-                        for (point in polypts) {
-                            options.add(point)
-                            LatLongB.include(point)
-                        }
-                        options.add(clientLatLng)
-                        LatLongB.include(clientLatLng)
-                        // build bounds
-                        val bounds = LatLongB.build()
-                        // add polyline to the map
-                        map.addPolyline(options)
-                        // show map with route centered
-                        map.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100))
-                    } catch (e: Exception) {
-                    }
-                }
-            }
+                                                options.add(homeLatLng)
+                                                LatLongB.include(homeLatLng)
+                                                for (point in polypts) {
+                                                    options.add(point)
+                                                    LatLongB.include(point)
+                                                }
+                                                options.add(clientLatLng)
+                                                LatLongB.include(clientLatLng)
+                                                // build bounds
+                                                val bounds = LatLongB.build()
+                                                // add polyline to the map
+                                                map.addPolyline(options)
+                                                // show map with route centered
+                                                map.moveCamera(CameraUpdateFactory.newLatLngBounds(
+                                                    bounds,
+                                                    100))
+                                            } catch (e: Exception) {
+                                            }
+                                        }
+                                    }
 
-        } catch (e: Exception) {
-        }
+                                } catch (e: Exception) {
+                                }
                             }
-
-                             else
-                                viewModel.intents.trySend(MainIntent.getLatLong(viewModel.state.value!!.copy(progress = true)))
 
                     } else
                         Toast.makeText(
@@ -353,6 +396,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         val sensor = "sensor=false"
         val params = "$origin&$dest&$sensor"
         return "https://maps.googleapis.com/maps/api/directions/json?$params&key=AIzaSyCjzzd4nbOiZJx3B53u9ZZAq0tcOsVUBdg"
+
     }
 
     private fun decodePoly(encoded: String): List<LatLng> {
@@ -399,7 +443,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                 // Handle the camera action
                 ClickHandler().openDialogCurrentOrderFragment(this,
                     CurrentOrderFragment(viewModel),
-                    CurrentOrderFragment.TAG,viewModel)
+                    CurrentOrderFragment.TAG, viewModel)
             }
             R.id.dailyOrder -> {
                 ClickHandler().openDialogFragment(this,
@@ -410,16 +454,13 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                 ClickHandler().openDialogFragment(this,
                     HistoryOrderFragment(),
                     HistoryOrderFragment.TAG)
-
             }
 //            R.id.nav_tools -> {
 //
 //            }
             R.id.logout -> {
                 ClickHandler().openDialogFragment(this, NewOrderFragment(), NewOrderFragment.TAG)
-
             }
-
         }
 
         mDrawerLayout?.closeDrawer(GravityCompat.END)
@@ -435,10 +476,6 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     }
 
 
-
-
-
-
     fun statusCheck() {
         val manager: LocationManager = getSystemService(LOCATION_SERVICE) as LocationManager
         if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
@@ -452,10 +489,12 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     val negativeButtonClick = { dialog: DialogInterface, which: Int ->
         dialog.cancel()
     }
+
     fun gpsStatus() {
         intent1 = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
         startActivity(intent1);
     }
+
     private fun buildAlertMessageNoGps() {
         val builder: AlertDialog.Builder = AlertDialog.Builder(this)
         builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
@@ -470,6 +509,8 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     override fun onResume() {
         super.onResume()
         getLocationPermission()
+        updateLocation()
+
     }
 
 

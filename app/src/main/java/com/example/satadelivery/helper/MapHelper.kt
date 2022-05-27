@@ -138,6 +138,8 @@ class MapHelper  {
 
 
     }
+
+
     fun CheckPermission(context: Context):Boolean{
         //this function will return a boolean
         //true: if we have permission
