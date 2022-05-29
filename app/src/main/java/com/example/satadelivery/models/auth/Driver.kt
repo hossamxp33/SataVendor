@@ -7,6 +7,7 @@ data class Driver(
     var modified: String,
     var name: String,
     var photo: String,
+    var room_id: String,
     var salary: Int,
     var user_id: Int
 )

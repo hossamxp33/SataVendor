@@ -2,6 +2,7 @@ package com.example.satadelivery.di
 
 import androidx.lifecycle.ViewModel
 import com.example.satadelivery.helper.ViewModelKey
+import com.example.satadelivery.presentation.auth.AuthViewModel
 import com.example.satadelivery.presentation.current_order_fragment.mvi.CurrentOrderViewModel
 import com.example.satadelivery.presentation.history_order_fragment.mvi.HistoryOrderViewmodel
 import dagger.Binds
@@ -24,6 +25,11 @@ interface MainModule {
     @IntoMap
     @ViewModelKey(HistoryOrderViewmodel::class)
     fun HistoryOrderViewModel(mainViewModel: HistoryOrderViewmodel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(AuthViewModel::class)
+    fun authViewModel(mainViewModel: AuthViewModel): ViewModel
 
 
 }

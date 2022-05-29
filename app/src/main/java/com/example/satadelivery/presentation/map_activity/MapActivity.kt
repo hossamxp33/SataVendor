@@ -12,9 +12,12 @@ import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
+import android.media.MediaPlayer
+import android.net.Uri
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
@@ -71,6 +74,7 @@ import com.github.nkzawa.socketio.client.Socket
 import com.google.android.gms.location.*
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.google.maps.android.SphericalUtil
 import kotlinx.coroutines.flow.collect
 import org.jetbrains.anko.custom.async
 
@@ -101,6 +105,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
+    var distance: Double? = null
 
     var locationRequest: LocationRequest? = null
 
@@ -123,9 +128,34 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         val options = IO.Options()
         options.reconnection = true //reconnection
         options.forceNew = true
-        if (Permissions().CheckPermission(this)) {
-        } else {
-            Permissions().RequestPermission(this)
+
+
+    //    mSocket?.emit("create_user", Pref.VendorId)
+
+        mSocket?.on("makeNewOrderToDelivery") {
+
+            var mp = MediaPlayer.create(this, R.raw.alarm);
+
+            mp.start();
+
+            runOnUiThread {
+
+//                val gson = Gson()
+//
+//                var json = it.first().toString()
+//
+//                val type = object : TypeToken<MyOrderModelItem?>() {}.type
+//
+//                var newitem = gson.fromJson<MyOrderModelItem>(json, type)
+//
+//                data!!.add(0, newitem)
+
+
+
+             //   Log.d("socket", json.toString())
+
+            }
+
         }
 
         nav_view.setNavigationItemSelectedListener(this)
@@ -172,6 +202,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         getClientAddress()
         // Add a marker in Sydney and move the camera
 
+
         //  map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(-34.0, 151.0), 16.0f))
 
         if (MapHelper().CheckPermission(this))
@@ -203,8 +234,10 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
             } else if (location == null) {
                 MapHelper().NewLocationData(context)
             } else {
+
                 latitude = location.latitude
                 longitude = location.longitude
+
                 homeLatLng = LatLng(latitude!!, longitude!!)
                 //   setMapLongClick(map)
                 map.mapType = GoogleMap.MAP_TYPE_TERRAIN
@@ -213,6 +246,8 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                     .position(homeLatLng, overlaySize)
                 map.addGroundOverlay(googleOverlay)
             }
+
+
         }
 
     }
@@ -282,6 +317,8 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                             goToAddress(latitude!!, longitude!!)
                         }
                     }
+                    Pref.latitude = latitude.toString()
+                    Pref.longitude= longitude.toString()
                 })
         } else {
             MapHelper().RequestPermission(this)
@@ -322,7 +359,13 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                                 options.color(this@MapActivity.getColor(R.color.orange))
                                 options.width(10f)
                                 val url = getURL(homeLatLng, clientLatLng)
+
                                 try {
+//                                    distance = SphericalUtil.computeDistanceBetween(homeLatLng, clientLatLng);
+//                                    Toast.makeText(this@MapActivity, "Distance between Sydney and Brisbane is \n " + String.format("%.2f", distance!! / 1000) + "km", Toast.LENGTH_SHORT).show();
+
+
+
                                     async {
                                         // Connect to URL, download content and convert into string asynchronously
                                         val result = URL(url).readText()

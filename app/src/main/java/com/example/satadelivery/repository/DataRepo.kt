@@ -49,14 +49,10 @@ class DataRepo @Inject constructor(
             emit(Datasources.changeOrderStatus(Id,statusId))
         }
             .map {
-
                 Result.success(it)
             }
             .retry(retries = 4) { t -> (t is IOException).also { if (it) {
-
-
                 delay(1000)
-
             }}}
             .catch {
 

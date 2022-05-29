@@ -1,5 +1,7 @@
 package com.example.satadelivery.presentation.current_item
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import androidx.databinding.DataBindingUtil
@@ -11,6 +13,7 @@ import com.example.satadelivery.databinding.CurrentItemBinding
 
 import com.example.satadelivery.helper.BaseApplication
 import com.example.satadelivery.helper.ClickHandler
+import com.example.satadelivery.helper.PreferenceHelper
 import com.example.satadelivery.models.current_orders.OrdersItem
 import com.example.satadelivery.presentation.current_order_fragment.adapter.CurrentOrdersAdapter
 import com.example.satadelivery.presentation.current_order_fragment.mvi.CurrentOrderViewModel
@@ -29,6 +32,8 @@ class CurrentItemFragment @Inject constructor(var item: OrdersItem) : DialogFrag
 
     lateinit var currentOrdersAdapter: CurrentOrdersAdapter
 
+    @Inject
+    lateinit var pref: PreferenceHelper
 
     lateinit var view: CurrentItemBinding
 
@@ -53,6 +58,10 @@ class CurrentItemFragment @Inject constructor(var item: OrdersItem) : DialogFrag
        view.listener= ClickHandler()
         view.context = context as MapActivity
 
+        val end_latitude = item.billing_address.latitude
+        val end_longitude =  item.billing_address.longitude
+
+
         view.confirmButton.setOnClickListener {
 
             viewModel.changeOrderStatus(item.id,4)
@@ -63,6 +72,14 @@ class CurrentItemFragment @Inject constructor(var item: OrdersItem) : DialogFrag
         view.detailsButton.setOnClickListener {
             this.dismiss()
             ClickHandler().openDialogFragment(requireContext(),DetailsOrderFragment(item.order_details),"")
+        }
+        view.googleMapsBtn.setOnClickListener {
+            this.dismiss()
+            val uri =
+                "http://maps.google.com/maps?saddr=" + pref.latitude.toString() + "," + pref.longitude.toString() + "&daddr=" + end_latitude.toString() + "," + end_longitude
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+            intent.setPackage("com.google.android.apps.maps")
+            startActivity(intent)
         }
 
 

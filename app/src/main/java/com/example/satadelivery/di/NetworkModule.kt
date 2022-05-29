@@ -9,6 +9,7 @@ import com.example.satadelivery.helper.Constants.Companion.SocketURL
 import com.example.satadelivery.helper.FragmentFactoryModule
 import com.example.satadelivery.helper.PreferenceHelper
 import com.example.satadelivery.helper.ViewModelBuilderModule
+import com.example.satadelivery.presentation.auth.LoginActivity
 import com.example.satadelivery.presentation.current_item.CurrentItemFragment
 import com.example.satadelivery.presentation.details_order_fragment.DetailsOrderFragment
 import com.example.satadelivery.presentation.current_order_fragment.CurrentOrderFragment
@@ -16,6 +17,7 @@ import com.example.satadelivery.presentation.history_order_fragment.DailyOrdersF
 import com.example.satadelivery.presentation.history_order_fragment.HistoryOrderFragment
 import com.example.satadelivery.presentation.map_activity.MapActivity
 import com.example.satadelivery.presentation.new_order_bottomfragment.NewOrderFragment
+import com.example.satadelivery.presentation.splashScreen.SplashScreen
 
 
 import com.github.nkzawa.socketio.client.IO
@@ -61,6 +63,9 @@ interface AppComponent : AndroidInjector<DaggerApplication> {
         fun create(@BindsInstance applicationContext: Context): AppComponent
     }
 
+    fun inject(app: SplashScreen)
+    fun inject(app: LoginActivity)
+
     fun inject(app: MapActivity)
     fun inject(app: MainActivity)
     fun inject(app: NewOrderFragment)
@@ -90,6 +95,7 @@ class APIModule constructor() {
                 builder.addHeader("Authorization", "Bearer " + Pref.token)
 
                 val newRequest = builder.build()
+
                 chain.proceed(newRequest)
             }
             .build()
