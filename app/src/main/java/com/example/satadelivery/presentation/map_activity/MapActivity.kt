@@ -122,7 +122,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
         val app: BaseApplication = application as BaseApplication
         mSocket = app.getMSocket()
-//connecting socket
+            //connecting socket
         mSocket?.connect()
         // mSocket?.emit("makeNewOrder",122)
         val options = IO.Options()
@@ -198,9 +198,10 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         //MapHelper().setMapStyle(map, this)
         statusCheck()
 
+
         getLocationPermission()
-        getClientAddress()
         // Add a marker in Sydney and move the camera
+        getClientAddress()
 
 
         //  map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(-34.0, 151.0), 16.0f))
@@ -227,24 +228,33 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         map.isMyLocationEnabled = true
         mFusedLocationClient!!.lastLocation.addOnCompleteListener { task ->
             val location: Location? = task.result
+             if (location == null) {
+
+            MapHelper().NewLocationData(context)
+
+        }
             if (Pref.latitude != "" && Pref.longitude != "") {
+
                 latitude = Pref.latitude?.toDouble()
+
                 longitude = Pref.longitude?.toDouble()
 
-            } else if (location == null) {
-                MapHelper().NewLocationData(context)
+                homeLatLng = LatLng(latitude!!, longitude!!)
+
             } else {
 
-                latitude = location.latitude
+                latitude = location!!.latitude
+
                 longitude = location.longitude
 
                 homeLatLng = LatLng(latitude!!, longitude!!)
-                //   setMapLongClick(map)
+
                 map.mapType = GoogleMap.MAP_TYPE_TERRAIN
                 val googleOverlay = GroundOverlayOptions()
                     .image(BitmapDescriptorFactory.fromResource(R.drawable.android))
                     .position(homeLatLng, overlaySize)
                 map.addGroundOverlay(googleOverlay)
+
             }
 
 
@@ -318,7 +328,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                         }
                     }
                     Pref.latitude = latitude.toString()
-                    Pref.longitude= longitude.toString()
+                    Pref.longitude = longitude.toString()
                 })
         } else {
             MapHelper().RequestPermission(this)
@@ -354,17 +364,10 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
                                 map.addMarker(MarkerOptions().position(clientLatLng))
 
-
                                 val options = PolylineOptions()
                                 options.color(this@MapActivity.getColor(R.color.orange))
                                 options.width(10f)
                                 val url = getURL(homeLatLng, clientLatLng)
-
-                                try {
-//                                    distance = SphericalUtil.computeDistanceBetween(homeLatLng, clientLatLng);
-//                                    Toast.makeText(this@MapActivity, "Distance between Sydney and Brisbane is \n " + String.format("%.2f", distance!! / 1000) + "km", Toast.LENGTH_SHORT).show();
-
-
 
                                     async {
                                         // Connect to URL, download content and convert into string asynchronously
@@ -416,8 +419,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                                         }
                                     }
 
-                                } catch (e: Exception) {
-                                }
+
                             }
 
                     } else

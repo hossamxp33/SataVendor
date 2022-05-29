@@ -10,14 +10,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.example.satadelivery.R
 import com.example.satadelivery.databinding.CurrentItemBinding
-
 import com.example.satadelivery.helper.BaseApplication
 import com.example.satadelivery.helper.ClickHandler
 import com.example.satadelivery.helper.PreferenceHelper
 import com.example.satadelivery.models.current_orders.OrdersItem
-import com.example.satadelivery.presentation.current_order_fragment.adapter.CurrentOrdersAdapter
 import com.example.satadelivery.presentation.current_order_fragment.mvi.CurrentOrderViewModel
-import com.example.satadelivery.presentation.current_order_fragment.mvi.MainIntent
 import com.example.satadelivery.presentation.details_order_fragment.DetailsOrderFragment
 import com.example.satadelivery.presentation.map_activity.MapActivity
 
@@ -30,7 +27,6 @@ class CurrentItemFragment @Inject constructor(var item: OrdersItem) : DialogFrag
     lateinit var viewModelFactory: ViewModelProvider.Factory
     val viewModel by viewModels<CurrentOrderViewModel> { viewModelFactory }
 
-    lateinit var currentOrdersAdapter: CurrentOrdersAdapter
 
     @Inject
     lateinit var pref: PreferenceHelper
@@ -40,19 +36,19 @@ class CurrentItemFragment @Inject constructor(var item: OrdersItem) : DialogFrag
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         BaseApplication.appComponent.inject(this)
-        setStyle(STYLE_NO_FRAME, R.style.colorPickerStyle);
+        setStyle(STYLE_NO_FRAME, R.style.colorPickerStyle)
 
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         view = DataBindingUtil.inflate(inflater,
             R.layout.current_item, container, false)
 
      //   view.listener = ClickHandler()
         dialog!!.window!!.requestFeature(Window.FEATURE_NO_TITLE);
-        dialog!!.setCanceledOnTouchOutside(true);
+        dialog!!.setCanceledOnTouchOutside(true)
 
        view.data = item
        view.listener= ClickHandler()
@@ -66,6 +62,7 @@ class CurrentItemFragment @Inject constructor(var item: OrdersItem) : DialogFrag
 
             viewModel.changeOrderStatus(item.id,4)
             view.mView.visibility = View.GONE
+
         }
 
 
