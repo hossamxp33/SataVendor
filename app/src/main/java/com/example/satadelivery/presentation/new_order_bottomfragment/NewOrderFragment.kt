@@ -19,6 +19,8 @@ import com.example.satadelivery.R
 import com.example.satadelivery.databinding.NeworderFragmentBinding
 import com.example.satadelivery.helper.BaseApplication
 import com.example.satadelivery.helper.ClickHandler
+import com.example.satadelivery.helper.Error_MotionToast
+import com.example.satadelivery.helper.SUCCESS_MotionToast
 import com.example.satadelivery.models.current_orders.OrdersItem
 import com.example.satadelivery.presentation.current_order_fragment.mvi.CurrentOrderViewModel
 import com.example.satadelivery.presentation.details_order_fragment.DetailsOrderFragment
@@ -52,9 +54,15 @@ class NewOrderFragment @Inject constructor(var item: OrdersItem) : DialogFragmen
 
         view.confirmButton.setOnClickListener {
             viewModel.changeOrderStatus(item.id,3)
+            dismiss()
+            SUCCESS_MotionToast(requireActivity().getString(R.string.success),
+                requireActivity())
         }
 
         view.cancelButton.setOnClickListener {
+            dismiss()
+            Error_MotionToast(requireActivity().getString(R.string.success),
+                requireActivity())
             viewModel.changeOrderStatus(item.id,5)
         }
 
