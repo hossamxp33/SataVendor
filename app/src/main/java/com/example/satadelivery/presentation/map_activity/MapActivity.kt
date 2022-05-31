@@ -332,6 +332,8 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                     }
                     Pref.latitude = latitude.toString()
                     Pref.longitude = longitude.toString()
+                    homeLatLng = LatLng(latitude!!, longitude!!)
+
                 })
         } else {
             MapHelper().RequestPermission(this)
@@ -357,6 +359,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                     if (it != null) {
                         val end_latitude = it.cliendLatitude
                         val end_longitude = it.cliendLongitude
+
 
                         if (end_latitude != null && end_longitude != null)
                             if (it.progress == true) {
