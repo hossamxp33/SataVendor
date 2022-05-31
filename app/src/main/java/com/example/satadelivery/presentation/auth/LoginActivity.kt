@@ -62,8 +62,7 @@ class LoginActivity : AppCompatActivity() {
 
             } else {
                 Pref.UserToken = it.token
-                retrieveDeliveryOrder(it.user.room_id!!)
-
+                Pref.room_id = it.user.room_id
 
                 val mainIntent = Intent(this, MapActivity::class.java)
                 startActivity(mainIntent)
@@ -81,14 +80,6 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
-    fun retrieveDeliveryOrder(room_id: String) {
-
-        mSocket?.emit("makeNewOrder", room_id)
-        val options = IO.Options()
-        options.reconnection = true //reconnection
-        options.forceNew = true
-
-    }
 
     fun loginRequest() {
         val loginInfo = User(

@@ -1,5 +1,6 @@
 package com.example.satadelivery.presentation.current_order_fragment
 
+import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -138,6 +139,22 @@ class CurrentOrderFragment @Inject constructor(var viewModel:CurrentOrderViewMod
 
     }
 
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val dialog = super.onCreateDialog(savedInstanceState)
+
+        if (savedInstanceState == null) {
+            dialog.window?.setWindowAnimations(
+                R.style.Animation_Design_BottomSheetDialog
+            )
+        } else {
+            dialog.window?.setWindowAnimations(
+                R.style.Animation_Design_BottomSheetDialog
+            )
+        }
+
+
+        return dialog
+    }
 
 
 

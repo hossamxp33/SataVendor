@@ -93,6 +93,13 @@ class PreferenceHelper(private val context: Context) {
             edit.putString("token",token)
             edit.apply()
         }
+    var room_id : String?
+        get() = app_prefs!!.getString("room_id","")
+        set(room_id) {
+            val edit = app_prefs!!.edit()
+            edit.putString("room_id",room_id)
+            edit.apply()
+        }
 
     var userLocation : String?
         get() = app_prefs!!.getString("userLocation","0")

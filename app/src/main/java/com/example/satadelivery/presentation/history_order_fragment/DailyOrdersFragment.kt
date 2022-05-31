@@ -2,6 +2,7 @@ package com.example.satadelivery.presentation.history_order_fragment
 
 import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.app.Dialog
 
 import android.os.Bundle
 import android.view.Gravity
@@ -49,7 +50,7 @@ class DailyOrdersFragment @Inject constructor() : DialogFragment()
     var sDay = 0
     var sMonth: Int = 0
     var sYear: Int = 0
-
+      var totalPrice = 0
     var end: String? = null
 
     lateinit var view: DailyOrdersFragmentBinding
@@ -80,16 +81,28 @@ class DailyOrdersFragment @Inject constructor() : DialogFragment()
         viewModel.intents.trySend(MainIntent.Initialize(viewModel.state.value!!,dateInfo))
 
 
-
-
-
-
         getAllData()
         historyOrderRecycleView()
         return view.root
     }
 
 
+      override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+          val dialog = super.onCreateDialog(savedInstanceState)
+
+          if (savedInstanceState == null) {
+              dialog.window?.setWindowAnimations(
+                  R.style.Animation_Design_BottomSheetDialog
+              )
+          } else {
+              dialog.window?.setWindowAnimations(
+                  R.style.Animation_Design_BottomSheetDialog
+              )
+          }
+
+
+          return dialog
+      }
 
 
     private fun getAllData() {
@@ -117,6 +130,13 @@ class DailyOrdersFragment @Inject constructor() : DialogFragment()
                             if (!it.data.isNullOrEmpty() ) {
                                 view.noOrderFound.isVisible = false
                                 historyOrdersAdapter.submitList(it.data)
+
+
+                                for (i in 0 until it.data!!.size) {
+                                    totalPrice += it.data!!.get(i).total
+                                }
+                                view.total.text = totalPrice.toString()
+
 
 //                                var mp = MediaPlayer.create(requireContext(), R.raw.alarm);
 //                                mp.start();

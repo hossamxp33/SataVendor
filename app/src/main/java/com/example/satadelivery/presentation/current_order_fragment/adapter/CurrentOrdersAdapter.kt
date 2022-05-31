@@ -27,6 +27,7 @@ import com.example.satadelivery.presentation.current_order_fragment.mvi.MainInte
 import com.example.satadelivery.presentation.current_order_fragment.mvi.MainViewState
 
 import com.example.satadelivery.presentation.map_activity.MapActivity
+import com.github.nkzawa.socketio.client.IO
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
@@ -77,6 +78,7 @@ class CurrentOrdersAdapter(
         return MenuViewHolder(binding)
     }
 }
+
 
 private class MenuDiffCallback : DiffUtil.ItemCallback<OrdersItem>() {
 

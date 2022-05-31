@@ -29,8 +29,6 @@ interface APIServices {
     @POST("orders/edit/{orderId}")
     suspend fun changeOrderStatus(@Path("orderId") orderId: Int, @Field("order_status_id") status: Int): OrdersItem
 
-
-
 }
 
 

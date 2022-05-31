@@ -1,5 +1,6 @@
 package com.example.satadelivery.presentation.current_item
 
+import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -95,6 +96,22 @@ class CurrentItemFragment @Inject constructor(var item: OrdersItem) : DialogFrag
     }
 
 
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val dialog = super.onCreateDialog(savedInstanceState)
+
+        if (savedInstanceState == null) {
+            dialog.window?.setWindowAnimations(
+                R.style.Animation_Design_BottomSheetDialog
+            )
+        } else {
+            dialog.window?.setWindowAnimations(
+                R.style.Animation_Design_BottomSheetDialog
+            )
+        }
+
+
+        return dialog
+    }
 
 
 

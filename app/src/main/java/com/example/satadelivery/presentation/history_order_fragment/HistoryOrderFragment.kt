@@ -2,6 +2,7 @@ package com.example.satadelivery.presentation.history_order_fragment
 
 import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.app.Dialog
 
 import android.os.Bundle
 import android.view.Gravity
@@ -53,6 +54,7 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
     var myDay = 0
     var myMonth: Int = 0
     var myYear: Int = 0
+    var totalPrice = 0
 
     var end: String? = null
 
@@ -139,13 +141,17 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
                     } else {
                         if (it.progress == true) {
                             view.progress.isVisible = true
+                            view.total.text ="0"
+
                         } else {
                             view.progress.visibility = View.GONE
                             if (it.data != null) {
                                 historyOrdersAdapter.submitList(it.data)
 
-//                                var mp = MediaPlayer.create(requireContext(), R.raw.alarm);
-//                                mp.start();
+                                for (i in 0 until it.data!!.size) {
+                                    totalPrice += it.data!!.get(i).total
+                                }
+                                view.total.text = totalPrice.toString()
 
                             } else {
 
@@ -188,7 +194,8 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
                 view.endTime.text = "$myYear-$myMonth-$myDay"
                 view.endTime.isEnabled = false
                 view.startTime.isEnabled = true
-                 dateInfo= DateModel(date_from = "$myYear-$myMonth-$myDay",date_to = "$myYear-$myMonth-$myDay")
+
+                 dateInfo= DateModel(date_from = view.startTime.text.toString(),date_to = view.endTime.text.toString())
 
                 view.getData.isVisible = true
             }
@@ -213,5 +220,21 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
 
     }
 
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val dialog = super.onCreateDialog(savedInstanceState)
+
+        if (savedInstanceState == null) {
+            dialog.window?.setWindowAnimations(
+                R.style.Animation_Design_BottomSheetDialog
+            )
+        } else {
+            dialog.window?.setWindowAnimations(
+                R.style.Animation_Design_BottomSheetDialog
+            )
+        }
+
+
+        return dialog
+    }
 
 }

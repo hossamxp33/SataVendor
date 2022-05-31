@@ -57,7 +57,10 @@ import java.io.IOException
 import java.util.*
 import javax.inject.Inject
 import com.beust.klaxon.*
+import com.example.satadelivery.models.current_orders.OrderDetail
+import com.example.satadelivery.models.current_orders.OrdersItem
 import com.example.satadelivery.presentation.Permissions
+import com.example.satadelivery.presentation.auth.LoginActivity
 import org.jetbrains.anko.custom.onUiThread
 
 import org.jetbrains.anko.custom.async
@@ -67,6 +70,7 @@ import com.google.gson.JsonObject
 import com.example.satadelivery.presentation.current_order_fragment.CurrentOrderFragment
 import com.example.satadelivery.presentation.current_order_fragment.mvi.CurrentOrderViewModel
 import com.example.satadelivery.presentation.current_order_fragment.mvi.MainIntent
+import com.example.satadelivery.presentation.details_order_fragment.DetailsOrderFragment
 import com.example.satadelivery.presentation.history_order_fragment.DailyOrdersFragment
 import com.example.satadelivery.presentation.history_order_fragment.HistoryOrderFragment
 import com.github.nkzawa.socketio.client.IO
@@ -98,7 +102,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     //   var branchesList = ArrayList<BranchesModelListItem>()
     var intent1: Intent? = null
 
-    public var mSocket: Socket? = null
+     var mSocket: Socket? = null
 
     @Inject
     lateinit var socket: Socket
@@ -121,18 +125,19 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
 
         val app: BaseApplication = application as BaseApplication
+
         mSocket = app.getMSocket()
             //connecting socket
         mSocket?.connect()
+        mSocket?.emit("CreateDeliveryRoom", Pref.room_id!!)
+
         // mSocket?.emit("makeNewOrder",122)
         val options = IO.Options()
         options.reconnection = true //reconnection
         options.forceNew = true
 
 
-    //    mSocket?.emit("create_user", Pref.VendorId)
-
-        mSocket?.on("makeNewOrderToDelivery") {
+        mSocket?.on("RetriveDeliveryOrder") {
 
             var mp = MediaPlayer.create(this, R.raw.alarm);
 
@@ -140,17 +145,15 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
             runOnUiThread {
 
-//                val gson = Gson()
-//
-//                var json = it.first().toString()
-//
-//                val type = object : TypeToken<MyOrderModelItem?>() {}.type
-//
-//                var newitem = gson.fromJson<MyOrderModelItem>(json, type)
-//
-//                data!!.add(0, newitem)
+                val gson = Gson()
 
+                var json = it.first().toString()
 
+                val type = object : TypeToken<OrdersItem?>() {}.type
+
+                var newitem = gson.fromJson<OrdersItem>(json, type)
+
+                ClickHandler().openDialogFragment(this, NewOrderFragment(newitem!!),"")
 
              //   Log.d("socket", json.toString())
 
@@ -504,7 +507,9 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 //
 //            }
             R.id.logout -> {
-                ClickHandler().openDialogFragment(this, NewOrderFragment(), NewOrderFragment.TAG)
+                val mainIntent = Intent(this, LoginActivity::class.java)
+                startActivity(mainIntent)
+                finish()
             }
         }
 
