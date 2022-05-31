@@ -25,6 +25,10 @@ interface APIServices {
     @POST("delivers/GetDliveryOrdersByDate")
     suspend fun getDeliveryOrdersByDate(@Body dateModel: DateModel?): ArrayList<OrdersItem>
 
+// order_status_id
+    // قبول 3
+    // تسليم 4
+    // رفض 5
     @FormUrlEncoded
     @POST("orders/edit/{orderId}")
     suspend fun changeOrderStatus(@Path("orderId") orderId: Int, @Field("order_status_id") status: Int): OrdersItem
