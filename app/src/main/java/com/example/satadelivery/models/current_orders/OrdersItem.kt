@@ -8,6 +8,7 @@ data class OrdersItem(
     var coupon_id: Int,
     var created: String,
     var delivery_id: Int,
+    var delivery_serivce: Int,
     var discount: Int,
     var id: Int,
     var modified: String,
