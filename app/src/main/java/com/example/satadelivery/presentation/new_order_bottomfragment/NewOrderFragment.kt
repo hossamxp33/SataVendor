@@ -23,16 +23,16 @@ import com.example.satadelivery.helper.Error_MotionToast
 import com.example.satadelivery.helper.SUCCESS_MotionToast
 import com.example.satadelivery.models.current_orders.OrdersItem
 import com.example.satadelivery.presentation.current_order_fragment.mvi.CurrentOrderViewModel
+import com.example.satadelivery.presentation.current_order_fragment.mvi.MainIntent
 import com.example.satadelivery.presentation.details_order_fragment.DetailsOrderFragment
 import com.example.satadelivery.presentation.map_activity.MapActivity
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import javax.inject.Inject
 
-class NewOrderFragment @Inject constructor(var item: OrdersItem) : DialogFragment() {
+class NewOrderFragment @Inject constructor(var item: OrdersItem,var viewModel:CurrentOrderViewModel) : DialogFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    val viewModel by viewModels<CurrentOrderViewModel> { viewModelFactory }
 
     lateinit var view: NeworderFragmentBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,6 +52,12 @@ class NewOrderFragment @Inject constructor(var item: OrdersItem) : DialogFragmen
         view.context = context as MapActivity
         view.data = item
 
+        view.listener = ClickHandler()
+        var  lat = item.billing_address.latitude
+        var long = item.billing_address.longitude
+
+        viewModel.intents.trySend(MainIntent.getLatLong(viewModel.state.value!!.copy(cliendLatitude = lat,cliendLongitude =  long,progress = true)))
+
         view.confirmButton.setOnClickListener {
             viewModel.changeOrderStatus(item.id,3)
             dismiss()
@@ -61,7 +67,8 @@ class NewOrderFragment @Inject constructor(var item: OrdersItem) : DialogFragmen
 
         view.cancelButton.setOnClickListener {
             dismiss()
-            Error_MotionToast(requireActivity().getString(R.string.success),
+
+            Error_MotionToast(requireActivity().getString(R.string.cancel2),
                 requireActivity())
             viewModel.changeOrderStatus(item.id,5)
         }

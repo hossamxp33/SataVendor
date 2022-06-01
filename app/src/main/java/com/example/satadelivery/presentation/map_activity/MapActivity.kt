@@ -153,7 +153,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
                 var newitem = gson.fromJson<OrdersItem>(json, type)
 
-                ClickHandler().openDialogFragment(this, NewOrderFragment(newitem!!),"")
+                ClickHandler().openDialogFragment(this, NewOrderFragment(newitem!!,viewModel),"")
 
              //   Log.d("socket", json.toString())
 
@@ -442,10 +442,15 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     }
 
     private fun getURL(from: LatLng, to: LatLng): String {
+
         val origin = "origin=" + from.latitude + "," + from.longitude
+
         val dest = "destination=" + to.latitude + "," + to.longitude
+
         val sensor = "sensor=false"
+
         val params = "$origin&$dest&$sensor"
+
         return "https://maps.googleapis.com/maps/api/directions/json?$params&key=AIzaSyCjzzd4nbOiZJx3B53u9ZZAq0tcOsVUBdg"
 
     }

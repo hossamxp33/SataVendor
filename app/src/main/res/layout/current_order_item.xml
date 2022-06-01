@@ -88,12 +88,13 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/address"
                 style="@style/grayTopicTitleTextStyle"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:text="@{data.billing_address.address}"
+                app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintBottom_toBottomOf="@+id/cardView"
-                app:layout_constraintEnd_toStartOf="@+id/cardView"
+                app:layout_constraintRight_toLeftOf="@+id/cardView"
                 app:layout_constraintTop_toBottomOf="@+id/name" />
 
 
@@ -108,7 +109,7 @@
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cardView"
                 app:layout_constraintWidth_percent="0.35" />
 
