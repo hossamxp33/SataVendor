@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
             name="data"
             type="com.example.satadelivery.models.current_orders.OrdersItem" />
@@ -10,15 +12,16 @@
         <variable
             name="Context"
             type="com.example.satadelivery.presentation.map_activity.MapActivity" />
+
         <variable
             name="listener"
-            type="com.example.satadelivery.helper.ClickHandler"/>
+            type="com.example.satadelivery.helper.ClickHandler" />
 
     </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -29,8 +32,8 @@
             android:layout_marginEnd="16dp"
             android:background="@drawable/shadow_back_g"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent">
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView"
@@ -79,9 +82,12 @@
                 style="@style/grayTopicTitleTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="parent"
+
+                android:layout_margin="@dimen/dimen_8"
+
                 android:text="@{data.billing_address.address}"
                 app:layout_constraintBottom_toBottomOf="@+id/cardView"
+                app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@+id/cardView"
                 app:layout_constraintTop_toBottomOf="@+id/name" />
 
@@ -128,8 +134,8 @@
                 style="@style/grayTopicTitleTextStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/totalText"
                 android:layout_marginEnd="32dp"
+                android:text="@string/totalText"
                 app:layout_constraintRight_toLeftOf="@+id/orderNumber"
                 app:layout_constraintRight_toRightOf="@+id/cardView"
                 app:layout_constraintTop_toBottomOf="@+id/deliveryTimeText" />
