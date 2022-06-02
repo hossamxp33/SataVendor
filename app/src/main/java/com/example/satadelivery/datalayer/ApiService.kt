@@ -1,6 +1,7 @@
 package com.example.satadelivery.datalayer
 
 import com.example.satadelivery.models.auth.AuthModel
+import com.example.satadelivery.models.auth.Driver
 import com.example.satadelivery.models.auth.User
 import com.example.satadelivery.models.current_orders.DateModel
 
@@ -33,6 +34,11 @@ interface APIServices {
     @POST("orders/edit/{orderId}")
     suspend fun changeOrderStatus(@Path("orderId") orderId: Int, @Field("order_status_id") status: Int): OrdersItem
 
+
+
+    @Headers("Content-Type: application/json")
+    @POST("delivers/edit/1")
+    suspend fun editDeliveryData(@Path("id") id: Int,@Body body: Driver) : Driver
 }
 
 

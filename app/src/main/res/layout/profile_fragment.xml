@@ -18,6 +18,10 @@
             name="listener"
             type="com.example.satadelivery.helper.ClickHandler" />
 
+        <variable
+            name="pref"
+            type="com.example.satadelivery.helper.PreferenceHelper" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -39,6 +43,7 @@
             android:layout_height="65dp"
             android:layout_margin="16dp"
             android:src="@drawable/test"
+            app:imageResource="@{pref.photo}"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -78,13 +83,13 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/middle_line" />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/deliveryName"
             style="@style/blackNormalTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/dimen_8"
-            android:text="@string/name"
+            android:text="@{pref.userName}"
             android:textSize="20dp"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appCompatTextView"/>
@@ -118,7 +123,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/dimen_8"
-            android:text="@string/name"
+            android:text="@{pref.restaurantName}"
             android:textSize="20dp"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/storeNameText" />
@@ -147,20 +152,40 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/line" />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/mobileNumber"
             style="@style/blackNormalTextStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/dimen_8"
-            android:text="@string/phone"
+            android:text="@{pref.userPhone}"
             android:gravity="right"
             android:drawableLeft="@drawable/ic_left_arrow"
             android:textSize="20dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/mobileText" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/editBtn"
+                style="@style/blackNormalTextStyle"
+                android:layout_width="0dp"
+                app:layout_constraintWidth_percent="0.5"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:background="@drawable/orange_border_shape"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:text="تعديل"
+                android:textSize="20dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/mobileNumber" />
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

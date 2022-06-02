@@ -1,6 +1,8 @@
 package com.example.satadelivery.repository
 
 import com.example.satadelivery.di.IoDispatcher
+import com.example.satadelivery.models.auth.Driver
+import com.example.satadelivery.models.auth.User
 import com.example.satadelivery.models.current_orders.DateModel
 import com.example.satadelivery.models.current_orders.OrdersItem
 import kotlinx.coroutines.CoroutineDispatcher
@@ -57,6 +59,25 @@ class DataRepo @Inject constructor(
             .catch {
 
                     throwable ->  emit(Result.failure(throwable)) }
+
             .flowOn(ioDispatcher)
+
+
+    //editDeliveryData
+    suspend  fun editDeliveryData(id:Int,requestBody: Driver): Flow<Result<Driver>> =
+        flow {
+            emit(Datasources.editDeliveryData(id,requestBody))
+        }
+            .map {
+                Result.success(it)
+            }
+            .retry(retries = 4) { t -> (t is IOException).also { if (it) {
+                delay(1000)
+            }}}
+            .catch {
+
+                    throwable ->  emit(Result.failure(throwable)) }
+            .flowOn(ioDispatcher)
+
 
 }

@@ -67,7 +67,6 @@ interface AppComponent : AndroidInjector<DaggerApplication> {
     fun inject(app: SplashScreen)
     fun inject(app: LoginActivity)
     fun inject(app: ProfileFragment)
-
     fun inject(app: MapActivity)
     fun inject(app: MainActivity)
     fun inject(app: NewOrderFragment)

@@ -1,6 +1,7 @@
 package com.example.satadelivery.repository
 
 import com.example.satadelivery.models.auth.AuthModel
+import com.example.satadelivery.models.auth.Driver
 import com.example.satadelivery.models.auth.User
 import com.example.satadelivery.models.current_orders.DateModel
 import com.example.satadelivery.models.current_orders.OrdersItem
@@ -21,5 +22,7 @@ interface DataSource {
 
     suspend fun getDeliveryOrdersByDate(dateModel: DateModel?): ArrayList<OrdersItem>
     suspend fun changeOrderStatus(Id:Int,statusId:Int) : OrdersItem
+
+    suspend fun editDeliveryData(id:Int?,requestBody: Driver?) : Driver
 
 }

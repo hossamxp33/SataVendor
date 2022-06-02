@@ -3,6 +3,7 @@ package com.example.satadelivery.repository
 
 import com.example.satadelivery.datalayer.APIServices
 import com.example.satadelivery.models.auth.AuthModel
+import com.example.satadelivery.models.auth.Driver
 import com.example.satadelivery.models.auth.User
 import com.example.satadelivery.models.current_orders.DateModel
 import com.example.satadelivery.models.current_orders.OrdersItem
@@ -34,6 +35,12 @@ class RemoteDataSource @Inject constructor(private val ApiService: APIServices)
     override suspend fun changeOrderStatus(id:Int,statusId:Int): OrdersItem {
         return ApiService.changeOrderStatus(id,statusId)
     }
+
+    override suspend fun editDeliveryData(id: Int?, requestBody: Driver?): Driver {
+        return ApiService.editDeliveryData(id!!,requestBody!!)
+    }
+
+
 
 
 }

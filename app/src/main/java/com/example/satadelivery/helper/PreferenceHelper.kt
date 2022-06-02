@@ -71,12 +71,11 @@ class PreferenceHelper(private val context: Context) {
             edit.putString("userName", userName)
             edit.apply()
         }
-    var CityTileName : String?
-        get() = app_prefs!!.getString("CityTileName", "قم بالضغط لتحديد المنطقة")
-        set(CityTileName) {
+    var photo : String?
+        get() = app_prefs!!.getString("photo", "")
+        set(photo) {
             val edit = app_prefs!!.edit()
-
-            edit.putString("CityTileName", CityTileName)
+            edit.putString("photo", photo)
             edit.apply()
         }
     var userAddress : String?
@@ -132,11 +131,11 @@ class PreferenceHelper(private val context: Context) {
             edit.apply()
         }
 
-    var token : String?
-        get() = app_prefs!!.getString("Token", "")
-        set(token) {
+    var restaurantName : String?
+        get() = app_prefs!!.getString("restaurantName", "")
+        set(restaurantName) {
             val edit = app_prefs!!.edit()
-            edit.putString("Token", token)
+            edit.putString("restaurantName", restaurantName)
             edit.apply()
         }
     var lang : String?

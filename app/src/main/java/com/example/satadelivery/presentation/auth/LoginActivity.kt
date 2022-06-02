@@ -61,7 +61,12 @@ class LoginActivity : AppCompatActivity() {
                 Toast.makeText(this, "خطأ في كلمة المرور او كلمة السر", Toast.LENGTH_SHORT).show()
 
             } else {
+
                 Pref.UserToken = it.token
+                Pref.restaurantName = it.user.name
+                Pref.userName = it.user.driver!!.name
+                Pref.userPhone = it.user.driver!!.mobile
+                Pref.photo = it.user.driver!!.photo
                 Pref.room_id = it.user.room_id
 
                 val mainIntent = Intent(this, MapActivity::class.java)

@@ -1,13 +1,14 @@
 package com.example.satadelivery.models.auth
 
 data class Driver(
-    var branch_id: Int,
-    var created: String,
-    var id: Int,
-    var modified: String,
-    var name: String,
-    var photo: String,
-    var room_id: String,
-    var salary: Int,
-    var user_id: Int
+    var branch_id: Int?=null,
+    var created: String?=null,
+    var id: Int?=null,
+    var modified: String?=null,
+    var name: String?=null,
+    var photo: String?=null,
+    var mobile: String?=null,
+    var room_id: String?=null,
+    var salary: Int?=null,
+    var user_id: Int?=null
 )

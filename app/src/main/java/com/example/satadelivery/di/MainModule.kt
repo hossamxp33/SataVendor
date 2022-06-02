@@ -5,6 +5,7 @@ import com.example.satadelivery.helper.ViewModelKey
 import com.example.satadelivery.presentation.auth.AuthViewModel
 import com.example.satadelivery.presentation.current_order_fragment.mvi.CurrentOrderViewModel
 import com.example.satadelivery.presentation.history_order_fragment.mvi.HistoryOrderViewmodel
+import com.example.satadelivery.presentation.profile_fragment.viewmodel.ProfileViewmodel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -30,6 +31,11 @@ interface MainModule {
     @IntoMap
     @ViewModelKey(AuthViewModel::class)
     fun authViewModel(mainViewModel: AuthViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ProfileViewmodel::class)
+    fun profileViewmodel(mainViewModel: ProfileViewmodel): ViewModel
 
 
 }

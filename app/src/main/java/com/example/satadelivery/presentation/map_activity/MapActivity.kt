@@ -32,10 +32,6 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.satadelivery.R
-import com.example.satadelivery.helper.BaseApplication
-import com.example.satadelivery.helper.ClickHandler
-import com.example.satadelivery.helper.MapHelper
-import com.example.satadelivery.helper.PreferenceHelper
 import com.example.satadelivery.presentation.new_order_bottomfragment.NewOrderFragment
 
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -87,7 +83,9 @@ import org.jetbrains.anko.custom.async
 
 
 import android.widget.TextView
+import com.example.satadelivery.helper.*
 import junit.runner.Version.id
+import kotlinx.android.synthetic.main.nav_header_main.view.*
 
 
 class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
@@ -175,6 +173,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
             ClickHandler().switchBetweenFragments(this, ProfileFragment())
 
         }
+        nav_view.getHeaderView(0).userName.text = Pref.userName
 
         nav_view.setNavigationItemSelectedListener(this)
 
