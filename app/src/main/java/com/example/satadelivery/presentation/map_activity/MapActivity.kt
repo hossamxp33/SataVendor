@@ -110,7 +110,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     //   var branchesList = ArrayList<BranchesModelListItem>()
     var intent1: Intent? = null
 
-     var mSocket: Socket? = null
+    var mSocket: Socket? = null
 
     @Inject
     lateinit var socket: Socket
@@ -135,7 +135,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         val app: BaseApplication = application as BaseApplication
 
         mSocket = app.getMSocket()
-            //connecting socket
+        //connecting socket
         mSocket?.connect()
         mSocket?.emit("CreateDeliveryRoom", Pref.room_id!!)
 
@@ -161,16 +161,20 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
                 var newitem = gson.fromJson<OrdersItem>(json, type)
 
-                ClickHandler().openDialogFragment(this, NewOrderFragment(newitem!!,viewModel),"")
+                ClickHandler().openDialogFragment(this, NewOrderFragment(newitem!!, viewModel), "")
 
-             //   Log.d("socket", json.toString())
+                //   Log.d("socket", json.toString())
 
             }
 
         }
 
-nav_view.getHeaderView(0).setOnClickListener {
-ClickHandler().switchBetweenFragments(this,ProfileFragment())  }
+        nav_view.getHeaderView(0).setOnClickListener {
+            mDrawerLayout?.closeDrawer(GravityCompat.END)
+
+            ClickHandler().switchBetweenFragments(this, ProfileFragment())
+
+        }
 
         nav_view.setNavigationItemSelectedListener(this)
 
@@ -240,11 +244,11 @@ ClickHandler().switchBetweenFragments(this,ProfileFragment())  }
         map.isMyLocationEnabled = true
         mFusedLocationClient!!.lastLocation.addOnCompleteListener { task ->
             val location: Location? = task.result
-             if (location == null) {
+            if (location == null) {
 
-            MapHelper().NewLocationData(context)
+                MapHelper().NewLocationData(context)
 
-        }
+            }
             if (Pref.latitude != "" && Pref.longitude != "") {
 
                 latitude = Pref.latitude?.toDouble()
@@ -274,7 +278,7 @@ ClickHandler().switchBetweenFragments(this,ProfileFragment())  }
 
     }
 
-        fun updateLocation(){
+    fun updateLocation() {
         //Instantiating the Location request and setting the priority and the interval I need to update the location.
         locationRequest = LocationRequest.create();
         locationRequest?.setInterval(100);
@@ -384,55 +388,55 @@ ClickHandler().switchBetweenFragments(this,ProfileFragment())  }
                                 options.width(10f)
                                 val url = getURL(homeLatLng, clientLatLng)
 
-                                    async {
-                                        // Connect to URL, download content and convert into string asynchronously
-                                        val result = URL(url).readText()
-                                        val LatLongB = LatLngBounds.Builder()
+                                async {
+                                    // Connect to URL, download content and convert into string asynchronously
+                                    val result = URL(url).readText()
+                                    val LatLongB = LatLngBounds.Builder()
 
-                                        onUiThread {
-                                            // When API call is done, create parser and convert into JsonObjec
-                                            val parser: Parser = Parser()
-                                            val stringBuilder: StringBuilder = StringBuilder(result)
-                                            val json: com.beust.klaxon.JsonObject =
-                                                parser.parse(stringBuilder) as com.beust.klaxon.JsonObject
-                                            // get to the correct element in JsonObject
-                                            try {
+                                    onUiThread {
+                                        // When API call is done, create parser and convert into JsonObjec
+                                        val parser: Parser = Parser()
+                                        val stringBuilder: StringBuilder = StringBuilder(result)
+                                        val json: com.beust.klaxon.JsonObject =
+                                            parser.parse(stringBuilder) as com.beust.klaxon.JsonObject
+                                        // get to the correct element in JsonObject
+                                        try {
 
-                                                val routes =
-                                                    json.array<com.beust.klaxon.JsonObject>("routes")
+                                            val routes =
+                                                json.array<com.beust.klaxon.JsonObject>("routes")
 
-                                                val points =
-                                                    routes!!["legs"]["steps"][0] as com.beust.klaxon.JsonArray<com.beust.klaxon.JsonObject>
+                                            val points =
+                                                routes!!["legs"]["steps"][0] as com.beust.klaxon.JsonArray<com.beust.klaxon.JsonObject>
 
-                                                // For every element in the JsonArray, decode the polyline string and pass all points to a List
+                                            // For every element in the JsonArray, decode the polyline string and pass all points to a List
 
-                                                val polypts =
-                                                    points.flatMap {
-                                                        decodePoly(it.obj("polyline")
-                                                            ?.string("points")!!)
-                                                    }
-                                                // Add  points to polyline and bounds
-
-                                                options.add(homeLatLng)
-                                                LatLongB.include(homeLatLng)
-                                                for (point in polypts) {
-                                                    options.add(point)
-                                                    LatLongB.include(point)
+                                            val polypts =
+                                                points.flatMap {
+                                                    decodePoly(it.obj("polyline")
+                                                        ?.string("points")!!)
                                                 }
-                                                options.add(clientLatLng)
-                                                LatLongB.include(clientLatLng)
-                                                // build bounds
-                                                val bounds = LatLongB.build()
-                                                // add polyline to the map
-                                                map.addPolyline(options)
-                                                // show map with route centered
-                                                map.moveCamera(CameraUpdateFactory.newLatLngBounds(
-                                                    bounds,
-                                                    100))
-                                            } catch (e: Exception) {
+                                            // Add  points to polyline and bounds
+
+                                            options.add(homeLatLng)
+                                            LatLongB.include(homeLatLng)
+                                            for (point in polypts) {
+                                                options.add(point)
+                                                LatLongB.include(point)
                                             }
+                                            options.add(clientLatLng)
+                                            LatLongB.include(clientLatLng)
+                                            // build bounds
+                                            val bounds = LatLongB.build()
+                                            // add polyline to the map
+                                            map.addPolyline(options)
+                                            // show map with route centered
+                                            map.moveCamera(CameraUpdateFactory.newLatLngBounds(
+                                                bounds,
+                                                100))
+                                        } catch (e: Exception) {
                                         }
                                     }
+                                }
 
 
                             }

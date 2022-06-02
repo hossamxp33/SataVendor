@@ -47,7 +47,7 @@
             style="@style/LoginTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_arrow"
+            android:drawableLeft="@drawable/ic_left_arrow"
             android:text="@string/editProfile"
             app:layout_constraintLeft_toLeftOf="parent"
 
@@ -155,7 +155,7 @@
             android:layout_margin="@dimen/dimen_8"
             android:text="@string/phone"
             android:gravity="right"
-            android:drawableLeft="@drawable/ic_arrow"
+            android:drawableLeft="@drawable/ic_left_arrow"
             android:textSize="20dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
