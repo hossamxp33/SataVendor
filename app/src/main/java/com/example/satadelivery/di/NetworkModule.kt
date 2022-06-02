@@ -17,6 +17,7 @@ import com.example.satadelivery.presentation.history_order_fragment.DailyOrdersF
 import com.example.satadelivery.presentation.history_order_fragment.HistoryOrderFragment
 import com.example.satadelivery.presentation.map_activity.MapActivity
 import com.example.satadelivery.presentation.new_order_bottomfragment.NewOrderFragment
+import com.example.satadelivery.presentation.profile_fragment.ProfileFragment
 import com.example.satadelivery.presentation.splashScreen.SplashScreen
 
 
@@ -65,6 +66,7 @@ interface AppComponent : AndroidInjector<DaggerApplication> {
 
     fun inject(app: SplashScreen)
     fun inject(app: LoginActivity)
+    fun inject(app: ProfileFragment)
 
     fun inject(app: MapActivity)
     fun inject(app: MainActivity)
@@ -92,7 +94,7 @@ class APIModule constructor() {
                 val builder = originalRequest.newBuilder()
          //       builder.addHeader("Accept", "application/json")
                 builder.addHeader("Content-Type", "application/json")
-                builder.addHeader("Authorization", "Bearer " + Pref.token)
+                builder.addHeader("Authorization", "Bearer " + Pref.UserToken)
 
                 val newRequest = builder.build()
 

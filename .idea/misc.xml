@@ -18,9 +18,9 @@
         <entry key="..\:/SataDelivery/app/src/main/res/layout/activity_main.xml" value="0.15104166666666666" />
         <entry key="..\:/SataDelivery/app/src/main/res/layout/activity_splash.xml" value="0.3" />
         <entry key="..\:/SataDelivery/app/src/main/res/layout/app_bar_main.xml" value="0.2601851851851852" />
-        <entry key="..\:/SataDelivery/app/src/main/res/layout/current_item.xml" value="0.25" />
+        <entry key="..\:/SataDelivery/app/src/main/res/layout/current_item.xml" value="0.16" />
         <entry key="..\:/SataDelivery/app/src/main/res/layout/current_order_fragment.xml" value="0.18055555555555555" />
-        <entry key="..\:/SataDelivery/app/src/main/res/layout/current_order_item.xml" value="0.21388888888888888" />
+        <entry key="..\:/SataDelivery/app/src/main/res/layout/current_order_item.xml" value="0.15" />
         <entry key="..\:/SataDelivery/app/src/main/res/layout/current_orders_adapter.xml" value="0.2" />
         <entry key="..\:/SataDelivery/app/src/main/res/layout/daily_orders_adapter.xml" value="0.3814814814814815" />
         <entry key="..\:/SataDelivery/app/src/main/res/layout/daily_orders_fragment.xml" value="0.15" />
@@ -32,8 +32,9 @@
         <entry key="..\:/SataDelivery/app/src/main/res/layout/main_frame_content.xml" value="0.17864583333333334" />
         <entry key="..\:/SataDelivery/app/src/main/res/layout/map_activity.xml" value="0.1705282669138091" />
         <entry key="..\:/SataDelivery/app/src/main/res/layout/nav_header_main.xml" value="0.178125" />
-        <entry key="..\:/SataDelivery/app/src/main/res/layout/neworder_fragment.xml" value="0.2" />
+        <entry key="..\:/SataDelivery/app/src/main/res/layout/neworder_fragment.xml" value="0.16" />
         <entry key="..\:/SataDelivery/app/src/main/res/layout/orders_fragment.xml" value="0.18055555555555555" />
+        <entry key="..\:/SataDelivery/app/src/main/res/layout/profile_fragment.xml" value="0.2" />
         <entry key="..\:/SataDelivery/app/src/main/res/menu/activity_main_drawer.xml" value="0.178125" />
         <entry key="..\:/SataDelivery/app/src/main/res/menu/bottom_menu.xml" value="0.2601851851851852" />
         <entry key="..\:/SataDelivery/app/src/main/res/menu/popup_menu.xml" value="0.2601851851851852" />

@@ -72,15 +72,17 @@ class DailyOrdersFragment @Inject constructor() : DialogFragment()
 
         val calendar: Calendar = Calendar.getInstance()
         sDay = calendar.get(Calendar.DAY_OF_MONTH)
-        sMonth = calendar.get(Calendar.MONTH)
+        sMonth = calendar.get(Calendar.MONTH) + 1
         sYear = calendar.get(Calendar.YEAR)
 
 
-        dateInfo= DateModel(date_from = "$sDay-$sMonth-$sYear",date_to ="$sDay-$sMonth-$sYear")
+        dateInfo= DateModel(date_from = "$sYear-$sMonth-$sDay",date_to ="$sYear-$sMonth-$sDay")
 
         viewModel.intents.trySend(MainIntent.Initialize(viewModel.state.value!!,dateInfo))
 
-
+        view.dismissBtn.setOnClickListener {
+            this.dismiss()
+        }
         getAllData()
         historyOrderRecycleView()
         return view.root

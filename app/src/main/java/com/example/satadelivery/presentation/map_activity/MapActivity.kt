@@ -20,6 +20,7 @@ import android.provider.Settings
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
@@ -73,14 +74,21 @@ import com.example.satadelivery.presentation.current_order_fragment.mvi.MainInte
 import com.example.satadelivery.presentation.details_order_fragment.DetailsOrderFragment
 import com.example.satadelivery.presentation.history_order_fragment.DailyOrdersFragment
 import com.example.satadelivery.presentation.history_order_fragment.HistoryOrderFragment
+import com.example.satadelivery.presentation.profile_fragment.ProfileFragment
 import com.github.nkzawa.socketio.client.IO
 import com.github.nkzawa.socketio.client.Socket
 import com.google.android.gms.location.*
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.google.maps.android.SphericalUtil
+import kotlinx.android.synthetic.main.nav_header_main.*
 import kotlinx.coroutines.flow.collect
 import org.jetbrains.anko.custom.async
+
+
+import android.widget.TextView
+import junit.runner.Version.id
+
 
 class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     NavigationView.OnNavigationItemSelectedListener {
@@ -161,9 +169,10 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
         }
 
+nav_view.getHeaderView(0).setOnClickListener {
+ClickHandler().switchBetweenFragments(this,ProfileFragment())  }
+
         nav_view.setNavigationItemSelectedListener(this)
-
-
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 

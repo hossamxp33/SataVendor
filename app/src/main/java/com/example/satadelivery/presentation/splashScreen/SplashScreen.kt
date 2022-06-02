@@ -33,7 +33,7 @@ class SplashScreen : AppCompatActivity() , HasAndroidInjector {
         setContentView(R.layout.activity_splash)
 
         Handler().postDelayed({
-             if (Pref.token != "")
+             if (!Pref.UserToken.isNullOrEmpty())
              {
                  val mainIntent = Intent(this, MapActivity::class.java)
                  startActivity(mainIntent)

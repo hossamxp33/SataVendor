@@ -15,9 +15,10 @@
         android:gravity="bottom">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/navHeader"
         android:layout_width="80dp"
         android:layout_height="80dp"
+
         android:layout_gravity="right"
         android:contentDescription="@string/app_name"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
@@ -36,7 +37,7 @@
         android:layout_marginRight="@dimen/dimen_16"
         android:textAppearance="@style/topicTitleTextStyle"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/imageView"
+        app:layout_constraintRight_toLeftOf="@+id/navHeader"
         app:layout_constraintTop_toTopOf="parent" />
 
 

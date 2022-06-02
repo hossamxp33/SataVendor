@@ -31,9 +31,9 @@
             android:id="@+id/guid2"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintHeight_percent="0.45"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -44,8 +44,8 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:background="@drawable/shadow_back_g"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/guid2">
 
             <androidx.cardview.widget.CardView
@@ -63,7 +63,7 @@
                 android:shape="ring"
                 app:cardCornerRadius="75dp"
                 app:cardElevation="@dimen/dimen_4"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/call">
 
                 <com.google.android.material.imageview.ShapeableImageView
@@ -73,7 +73,7 @@
                     android:padding="12dp"
                     android:scaleType="fitXY"
                     android:src="@drawable/test"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/call"
                     app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent.normal"
                     app:strokeWidth="0dp" />
@@ -89,7 +89,7 @@
                 android:scaleType="fitXY"
                 android:src="@drawable/telephone"
 
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/sort_recycle" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -100,7 +100,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 android:text="@{data.billing_address.first_name+` `+data.billing_address.last_name}"
-                app:layout_constraintEnd_toStartOf="@+id/cardView"
+                app:layout_constraintRight_toLeftOf="@+id/cardView"
                 app:layout_constraintTop_toTopOf="@+id/cardView" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -110,7 +110,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:text="@{data.billing_address.address}"
-                app:layout_constraintEnd_toStartOf="@+id/cardView"
+                app:layout_constraintRight_toLeftOf="@+id/cardView"
                 app:layout_constraintTop_toBottomOf="@+id/name" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -121,7 +121,7 @@
                 android:layout_marginEnd="16dp"
                 android:text="@{`الدور`+` : `+ data.billing_address.floor_number }"
                 android:textColor="@color/red2"
-                app:layout_constraintEnd_toStartOf="@+id/cardView"
+                app:layout_constraintRight_toLeftOf="@+id/cardView"
                 app:layout_constraintTop_toBottomOf="@+id/address" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -146,7 +146,7 @@
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cardView"
                 app:layout_constraintWidth_percent="0.35" />
 
@@ -167,7 +167,18 @@
                 android:text="@{data.order_details.get(0).total + ` ` + `ج.م`}"
                 android:textColor="@color/red2"
                 app:layout_constraintBottom_toBottomOf="@+id/details_button"
-                app:layout_constraintEnd_toEndOf="@+id/cardView"
+                app:layout_constraintRight_toRightOf="@+id/cardView"
+                app:layout_constraintTop_toTopOf="@+id/details_button" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/paymentWay"
+                style="@style/grayTopicTitleTextStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{data.paymenttype.name}"
+                android:layout_marginRight="@dimen/dimen_8"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/price"
                 app:layout_constraintTop_toTopOf="@+id/details_button" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -180,8 +191,8 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:background="@android:color/transparent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/sort_recycle">
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -195,7 +206,7 @@
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintWidth_percent="0.46" />
 
@@ -211,7 +222,7 @@
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintWidth_percent="0.46" />
 
@@ -224,8 +235,8 @@
             android:layout_height="0dp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <ProgressBar

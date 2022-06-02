@@ -30,40 +30,16 @@
         android:background="@drawable/shadow_back_g">
 
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guidlinevertical1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.05" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guidlinehorizental5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_begin="139dp" />
+            app:layout_constraintGuide_begin="160dp" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guidlinevertical3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_begin="16dp" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guidlinevertical2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.95" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guidlinevertical4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.92" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardforimage"
@@ -81,6 +57,7 @@
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:src="@drawable/test"
+                app:imageResource="@{data.menu_categories_items.photo}"
                 android:layout_gravity="center_horizontal"
                 android:scaleType="fitXY"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -95,13 +72,11 @@
             android:id="@+id/item_price"
             style="@style/TabLayoutTextStyle"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
+            android:layout_height="0dp"
             android:gravity="center"
-            android:lines="2"
             android:text="@{data.menu_categories_items.price + ` ` + `ج.م`}"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/guidlinevertical2"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/view3"
             app:layout_constraintTop_toBottomOf="@+id/middle_line" />
 
@@ -109,15 +84,13 @@
             android:id="@+id/quantity"
             style="@style/TabLayoutTextStyle"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
+            android:layout_height="0dp"
             android:gravity="center"
-            android:lines="2"
+            android:text="@{` ` + `الكمية المطلوبة`  +` ` + data.amount  }"
             android:textColor="@color/red2"
-            android:text="@{data.amount + ` ` + `الكمية المطلوبة`}"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@+id/view3"
-            app:layout_constraintLeft_toLeftOf="@+id/guidlinevertical1"
             app:layout_constraintTop_toBottomOf="@+id/middle_line" />
 
         <View
@@ -137,7 +110,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/dimen_8"
             app:layout_constraintRight_toLeftOf="@+id/cardforimage"
-            app:layout_constraintLeft_toLeftOf="@+id/guidlinevertical1"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="@+id/cardforimage">
 
             <TextView
@@ -145,7 +118,7 @@
                 style="@style/cartBlackNormalTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
                 android:text="@{data.menu_categories_items.name}"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -157,15 +130,22 @@
                 style="@style/grayTopicTitleTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:ellipsize="start"
-                android:gravity="start"
-                android:lines="2"
                 android:text="@{data.menu_categories_items.descriptions}"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/item_name" />
+
+            <TextView
+                android:id="@+id/notes"
+                style="@style/grayTopicTitleTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@{data.notes}"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/item_description" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -174,9 +154,8 @@
             android:id="@+id/middle_line"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="16dp"
             android:background="@color/hint_gray"
-            app:layout_constraintTop_toBottomOf="@+id/cardforimage"
+            app:layout_constraintTop_toBottomOf="@+id/plus_layout"
             tools:layout_editor_absoluteX="1dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

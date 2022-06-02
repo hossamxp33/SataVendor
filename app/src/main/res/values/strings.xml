@@ -3,7 +3,7 @@
     <string name="confirm">قبول</string>
     <string name="cancel">رفض</string>
     <string name="cancel2">تم رفض الطلب</string>
-    <string name="name">علي عبد السلام</string>
+    <string name="name">الاسم </string>
     <string name="address">مساكن شيراتون الحي الثامن مدينة نصر</string>
     <string name="details">تفاصيل الطلب</string>
     <string name="report">ابلاغ عن مشكلة</string>
@@ -11,7 +11,7 @@
     <string name="price">239 ج.م</string>
     <string name="طلباتي">طلباتي</string>
     <string name="quantity">الكمية المطلوبة</string>
-    <string name="orderDetails">تفاصيل الطلب رقم 102</string>
+    <string name="orderDetails">تفاصيل الطلب رقم </string>
     <string name="archive">أرشيف الطلبات</string>
     <string name="orderNumberText"> رقم الطلب : </string>
     <string name="paymentWayText">طريقة الدفع : </string>
@@ -46,4 +46,7 @@
     <string name="customerName">اسم المستخدم</string>
     <string name="password">كلمة المرور</string>
     <string name="success">تم قبول الاوردر تابع في الطلبات الحالية</string>
+    <string name="editProfile">تعديل صوره الملف الشخصي</string>
+    <string name="phone">رقم الموبايل</string>
+    <string name="storeName">أسم المتجر</string>
 </resources>
