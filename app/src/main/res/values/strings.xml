@@ -49,4 +49,5 @@
     <string name="editProfile">تعديل صوره الملف الشخصي</string>
     <string name="phone">رقم الموبايل</string>
     <string name="storeName">أسم المتجر</string>
+    <string name="deliveryTotalText"> مجموع خدمة التوصيل :  </string>
 </resources>

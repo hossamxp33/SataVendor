@@ -72,7 +72,6 @@ class CurrentItemFragment @Inject constructor(var item: OrdersItem) : DialogFrag
             ClickHandler().openDialogFragment(requireContext(),DetailsOrderFragment(item.order_details),"")
         }
         view.googleMapsBtn.setOnClickListener {
-            this.dismiss()
             val uri =
                 "http://maps.google.com/maps?saddr=" + pref.latitude.toString() + "," + pref.longitude.toString() + "&daddr=" + end_latitude.toString() + "," + end_longitude
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))

@@ -137,21 +137,46 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:text="@string/totalText"
-                android:textSize="@dimen/dimen_24"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toRightOf="parent" />
+                android:textSize="@dimen/dimen_12"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/deliveryTotalText"
+                style="@style/topicTitleTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="@string/deliveryTotalText"
+                android:textSize="@dimen/dimen_12"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/totalText" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/total"
                 style="@style/topicTitleTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
                 android:text="0"
                 android:textColor="@color/red2"
-                android:textSize="@dimen/dimen_24"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent" />
+                android:textSize="@dimen/dimen_16"
+                android:layout_marginLeft="@dimen/dimen_16"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/deliveryTotal"
+                style="@style/topicTitleTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textColor="@color/red2"
+                android:textSize="@dimen/dimen_16"
+                android:layout_marginLeft="@dimen/dimen_16"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/total" />
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <FrameLayout

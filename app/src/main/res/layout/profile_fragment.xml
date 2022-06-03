@@ -39,11 +39,11 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/appCompatImageView2"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_margin="16dp"
+            android:scaleType="fitXY"
             android:src="@drawable/test"
-            app:imageResource="@{pref.photo}"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -55,7 +55,6 @@
             android:drawableLeft="@drawable/ic_left_arrow"
             android:text="@string/editProfile"
             app:layout_constraintLeft_toLeftOf="parent"
-
             app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView2"
             app:layout_constraintTop_toTopOf="@+id/appCompatImageView2" />
 
@@ -91,6 +90,7 @@
             android:layout_margin="@dimen/dimen_8"
             android:text="@{pref.userName}"
             android:textSize="20dp"
+            android:gravity="right"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appCompatTextView"/>
         <View
@@ -166,12 +166,12 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/mobileText" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/editBtn"
                 style="@style/blackNormalTextStyle"
                 android:layout_width="0dp"
                 app:layout_constraintWidth_percent="0.5"
-                android:layout_height="wrap_content"
+                android:layout_height="45dp"
                 android:layout_marginTop="32dp"
                 android:background="@drawable/orange_border_shape"
                 android:gravity="center"

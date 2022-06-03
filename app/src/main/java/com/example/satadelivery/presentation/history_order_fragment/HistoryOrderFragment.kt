@@ -55,7 +55,7 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
     var myMonth: Int = 0
     var myYear: Int = 0
     var totalPrice = 0
-
+    var totalDeliveryCost= 0
     var end: String? = null
 
     lateinit var view: HistoryOrdersFragmentBinding
@@ -96,7 +96,6 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
 
         }
         //val dateInfo= DateModel(date_from = "2022-05-19",date_to = "2022-05-19")
-
 
 
 
@@ -149,9 +148,17 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
                                 historyOrdersAdapter.submitList(it.data)
 
                                 for (i in 0 until it.data!!.size) {
-                                    totalPrice += it.data!!.get(i).delivery_serivce
+                                    totalPrice += it.data!!.get(i).total
                                 }
+
+                                for (i in 0 until it.data!!.size) {
+                                     totalDeliveryCost = it.data!!.get(i).delivery_serivce
+                                }
+                                view.deliveryTotal.text = totalDeliveryCost.toString()
+
                                 view.total.text = totalPrice.toString()
+                                view.deliveryTotal.text = totalDeliveryCost.toString()
+
 
                             } else {
 

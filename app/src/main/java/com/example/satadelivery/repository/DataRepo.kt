@@ -8,6 +8,7 @@ import com.example.satadelivery.models.current_orders.OrdersItem
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
+import okhttp3.MultipartBody
 import java.io.IOException
 import javax.inject.Inject
 
@@ -64,9 +65,9 @@ class DataRepo @Inject constructor(
 
 
     //editDeliveryData
-    suspend  fun editDeliveryData(id:Int,requestBody: Driver): Flow<Result<Driver>> =
+    suspend  fun editDeliveryData( file: MultipartBody.Part?, name : String?, phone:String? ,id: Int?,): Flow<Result<Driver>> =
         flow {
-            emit(Datasources.editDeliveryData(id,requestBody))
+            emit(Datasources.editDeliveryData(file,name,phone,id!!))
         }
             .map {
                 Result.success(it)

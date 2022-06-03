@@ -6,6 +6,7 @@ import com.example.satadelivery.models.auth.User
 import com.example.satadelivery.models.current_orders.DateModel
 
 import com.example.satadelivery.models.current_orders.OrdersItem
+import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -35,10 +36,15 @@ interface APIServices {
     suspend fun changeOrderStatus(@Path("orderId") orderId: Int, @Field("order_status_id") status: Int): OrdersItem
 
 
-
+    @Multipart
     @Headers("Content-Type: application/json")
     @POST("delivers/edit/{id}")
-    suspend fun editDeliveryData(@Path("id") id: Int,@Body body: Driver) : Driver
+    suspend fun editDeliveryData(
+        @Part img: MultipartBody.Part,
+        @Part( "name")name: String,
+        @Part( "phone")phone: String,
+        @Path("id") id: Int,
+        ) : Driver
 }
 
 

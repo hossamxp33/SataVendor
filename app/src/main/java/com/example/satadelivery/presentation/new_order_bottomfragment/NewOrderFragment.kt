@@ -67,7 +67,6 @@ class NewOrderFragment @Inject constructor(var item: OrdersItem,var viewModel:Cu
 
         view.cancelButton.setOnClickListener {
             dismiss()
-
             Error_MotionToast(requireActivity().getString(R.string.cancel2),
                 requireActivity())
             viewModel.changeOrderStatus(item.id,5)

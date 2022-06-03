@@ -14,6 +14,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.receiveAsFlow
+import okhttp3.MultipartBody
 import javax.inject.Inject
 
 class ProfileViewmodel @Inject constructor(private val DateRepoCompnay: DataRepo) :
@@ -34,9 +35,9 @@ class ProfileViewmodel @Inject constructor(private val DateRepoCompnay: DataRepo
 
     }
 
-    fun editDeliveryData(id:Int,requestBody: Driver) {
+    fun editDeliveryData(id: Int?, file: MultipartBody.Part?, name : String?, phone:String? ) {
         job = CoroutineScope(Dispatchers.IO).launch {
-            val response = DateRepoCompnay.editDeliveryData(id,requestBody)
+            val response = DateRepoCompnay.editDeliveryData(file,name,phone,id)
             withContext(Dispatchers.Main) {
                 (response.collect {
                     runCatching {

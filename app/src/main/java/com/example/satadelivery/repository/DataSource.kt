@@ -5,6 +5,7 @@ import com.example.satadelivery.models.auth.Driver
 import com.example.satadelivery.models.auth.User
 import com.example.satadelivery.models.current_orders.DateModel
 import com.example.satadelivery.models.current_orders.OrdersItem
+import okhttp3.MultipartBody
 
 import retrofit2.Response
 
@@ -23,6 +24,6 @@ interface DataSource {
     suspend fun getDeliveryOrdersByDate(dateModel: DateModel?): ArrayList<OrdersItem>
     suspend fun changeOrderStatus(Id:Int,statusId:Int) : OrdersItem
 
-    suspend fun editDeliveryData(id:Int?,requestBody: Driver?) : Driver
+    suspend fun editDeliveryData(img: MultipartBody.Part?, name : String?, phone:String?,id :Int?) : Driver
 
 }

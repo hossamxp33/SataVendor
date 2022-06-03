@@ -52,6 +52,7 @@ class DailyOrdersFragment @Inject constructor() : DialogFragment()
     var sYear: Int = 0
       var totalPrice = 0
     var end: String? = null
+      var totalDeliveryCost= 0
 
     lateinit var view: DailyOrdersFragmentBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -138,6 +139,10 @@ class DailyOrdersFragment @Inject constructor() : DialogFragment()
                                     totalPrice += it.data!!.get(i).total
                                 }
                                 view.total.text = totalPrice.toString()
+                                for (i in 0 until it.data!!.size) {
+                                    totalDeliveryCost = it.data!!.get(i).delivery_serivce
+                                }
+                                view.deliveryTotal.text = totalDeliveryCost.toString()
 
 
 //                                var mp = MediaPlayer.create(requireContext(), R.raw.alarm);
