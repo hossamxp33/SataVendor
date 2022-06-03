@@ -16,6 +16,7 @@ import com.example.satadelivery.databinding.ProfileFragmentBinding
 import com.example.satadelivery.helper.BaseApplication
 import com.example.satadelivery.helper.ClickHandler
 import com.example.satadelivery.helper.PreferenceHelper
+import com.example.satadelivery.helper.SUCCESS_MotionToast
 import com.example.satadelivery.models.auth.Driver
 import com.example.satadelivery.models.auth.User
 import com.example.satadelivery.models.current_orders.OrdersItem
@@ -65,14 +66,19 @@ class ProfileFragment @Inject constructor() : Fragment() {
         view.pref = (context as MapActivity).Pref
 
 
-
+        view.editBtn.setOnClickListener {
+            editRequest()
+            SUCCESS_MotionToast("تم التعديل",requireActivity())
+        }
         return view.root
     }
 
     fun editRequest() {
         val deliveryInfo = Driver(
-          photo = "",  name = username.text.toString(), mobile = mobileNumber.text.toString())
-        viewModel.editDeliveryData(1,deliveryInfo)
+            photo = "",
+            name = view.deliveryName.text.toString(),
+            mobile = view.mobileNumber.text.toString())
+        viewModel.editDeliveryData(1, deliveryInfo)
     }
 
 

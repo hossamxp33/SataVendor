@@ -115,7 +115,7 @@ class PreferenceHelper(private val context: Context) {
             edit.apply()
         }
     var userPhone : String?
-        get() = app_prefs!!.getString("userPhone","userPhone")
+        get() = app_prefs!!.getString("userPhone","0")
         set(userPhone) {
             val edit = app_prefs!!.edit()
             edit.putString("userPhone",userPhone)

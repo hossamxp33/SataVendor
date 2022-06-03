@@ -37,7 +37,7 @@ interface APIServices {
 
 
     @Headers("Content-Type: application/json")
-    @POST("delivers/edit/1")
+    @POST("delivers/edit/{id}")
     suspend fun editDeliveryData(@Path("id") id: Int,@Body body: Driver) : Driver
 }
 
