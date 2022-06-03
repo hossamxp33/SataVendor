@@ -169,10 +169,13 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
         viewModel.getDeliversStatus(Pref.deliveryId)
         viewModel.deliveryItemLD!!.observe(this,{
-            if (it[0].is_online == 1)
+            if (it[0].is_online == 1){
                 nav_view.getHeaderView(0).switch1.isChecked = true
-            else
+            SUCCESS_MotionToast("متصل",this)}
+            else{
                 nav_view.getHeaderView(0).switch1.isChecked = false
+            WARN_MotionToast("غير متصل",this)
+            }
         })
 
         nav_view.getHeaderView(0).setOnClickListener {
