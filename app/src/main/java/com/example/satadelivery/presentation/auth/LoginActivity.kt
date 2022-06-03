@@ -63,6 +63,7 @@ class LoginActivity : AppCompatActivity() {
             } else {
 
                 Pref.UserToken = it.token
+                Pref.deliveryId = it.user.driver!!.id!!
                 Pref.restaurantName = it.user.name
                 Pref.userName = it.user.driver!!.name
                 Pref.userPhone = it.user.driver!!.mobile

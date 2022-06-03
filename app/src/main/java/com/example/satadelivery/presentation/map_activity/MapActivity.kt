@@ -21,6 +21,7 @@ import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
+import android.widget.Switch
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
@@ -86,6 +87,8 @@ import android.widget.TextView
 import com.example.satadelivery.helper.*
 import junit.runner.Version.id
 import kotlinx.android.synthetic.main.nav_header_main.view.*
+import android.widget.CompoundButton
+import androidx.core.view.isVisible
 
 
 class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
@@ -125,19 +128,16 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         AndroidInjection.inject(this)
         super.onCreate(icicle)
         BaseApplication.appComponent.inject(this)
-
         setContentView(R.layout.map_activity)
         mDrawerLayout = findViewById(R.id.drawerLayout)
-
+        PreferenceHelper(this)
 
         val app: BaseApplication = application as BaseApplication
-
         mSocket = app.getMSocket()
         //connecting socket
         mSocket?.connect()
         mSocket?.emit("CreateDeliveryRoom", Pref.room_id!!)
 
-        // mSocket?.emit("makeNewOrder",122)
         val options = IO.Options()
         options.reconnection = true //reconnection
         options.forceNew = true
@@ -167,15 +167,36 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
         }
 
+        viewModel.getDeliversStatus(Pref.deliveryId)
+        viewModel.deliveryItemLD!!.observe(this,{
+            if (it[0].is_online == 1)
+                nav_view.getHeaderView(0).switch1.isChecked = true
+            else
+                nav_view.getHeaderView(0).switch1.isChecked = false
+        })
+
         nav_view.getHeaderView(0).setOnClickListener {
             mDrawerLayout?.closeDrawer(GravityCompat.END)
 
             ClickHandler().switchBetweenFragments(this, ProfileFragment())
 
         }
-        nav_view.getHeaderView(0).userName.text = Pref.userName
+        nav_view.getHeaderView(0).userName.text = Pref.userName?.replace("\"", "");
 
         nav_view.setNavigationItemSelectedListener(this)
+
+        nav_view.getHeaderView(0).switch1
+            ?.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                // The switch enabled
+                switch1.text = "متصل"
+
+            } else {
+                // The switch disabled
+                switch1.text = "غير متصل"
+
+            }
+        }
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
@@ -204,6 +225,8 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     override fun androidInjector(): AndroidInjector<Any> {
         return androidInjector
     }
+
+
 
 
     override fun onMapReady(googleMap: GoogleMap) {

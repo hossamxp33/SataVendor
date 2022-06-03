@@ -6,6 +6,8 @@ import com.example.satadelivery.models.auth.User
 import com.example.satadelivery.models.current_orders.DateModel
 
 import com.example.satadelivery.models.current_orders.OrdersItem
+import com.example.satadelivery.models.delivery.Delivery
+import com.example.satadelivery.models.delivery.DeliveryItem
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.*
@@ -23,6 +25,9 @@ interface APIServices {
     @GET("delivers/GetDliveryCurentOrders")
     suspend fun getCurrentOrders(): ArrayList<OrdersItem>
 
+    @GET("delivers/view/{id}")
+    suspend fun getDeliversStatus(@Path("id") id: Int): Response<Delivery>
+
     //Delivery Orders By Date
     @POST("delivers/GetDliveryOrdersByDate")
     suspend fun getDeliveryOrdersByDate(@Body dateModel: DateModel?): ArrayList<OrdersItem>
@@ -37,12 +42,11 @@ interface APIServices {
 
 
     @Multipart
-    @Headers("Content-Type: application/json")
     @POST("delivers/edit/{id}")
     suspend fun editDeliveryData(
         @Part img: MultipartBody.Part,
         @Part( "name")name: String,
-        @Part( "phone")phone: String,
+        @Part( "mobile")phone: String,
         @Path("id") id: Int,
         ) : Driver
 }

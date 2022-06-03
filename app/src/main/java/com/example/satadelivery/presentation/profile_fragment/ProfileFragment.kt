@@ -66,7 +66,7 @@ class ProfileFragment @Inject constructor() : Fragment() {
     private var postPath: String? = null
     private val CAMERA_PIC_REQUEST = 1111
     private val mImageFileLocation = ""
-     var fileUri: Uri? = null
+    var fileUri: Uri? = null
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -93,10 +93,11 @@ class ProfileFragment @Inject constructor() : Fragment() {
             R.layout.profile_fragment, container, false
         )
 
-
         view.listener = ClickHandler()
         view.context = context as MapActivity
         view.pref = (context as MapActivity).Pref
+
+          view.deliveryName.setText(pref.userName)
 
         view.appCompatImageView2.setImageURI(fileUri)
 
@@ -117,12 +118,11 @@ class ProfileFragment @Inject constructor() : Fragment() {
         ImagePicker.with(this)
             .compress(1024)         //Final image size will be less than 1 MB(Optional)
             .maxResultSize(1080, 1080)
-            .crop()	//Final image resolution will be less than 1080 x 1080(Optional)
+            .crop()    //Final image resolution will be less than 1080 x 1080(Optional)
             .createIntent { intent ->
                 startForProfileImageResult.launch(intent)
             }
     }
-
 
 
     private fun prepareFilePart(name: String, fileUri: Uri): MultipartBody.Part {
@@ -135,8 +135,11 @@ class ProfileFragment @Inject constructor() : Fragment() {
             file!!
         )
 
+        pref.photo = file.name
+
         return MultipartBody.Part.createFormData(name, file.name, requestFile)
     }
+
     private val startForProfileImageResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             val resultCode = result.resultCode
@@ -146,18 +149,26 @@ class ProfileFragment @Inject constructor() : Fragment() {
                 //Image Uri will not be null for RESULT_OK
                 fileUri = data?.data!!
 
-              //  mProfileUri = fileUri
+                //  mProfileUri = fileUri
                 view.appCompatImageView2.setImageURI(fileUri)
-                val photo_part = prepareFilePart("Img", fileUri!!)
-                viewModel.editDeliveryData(1, photo_part,"Hossam","0110014587")
 
             } else if (resultCode == ImagePicker.RESULT_ERROR) {
-                Toast.makeText(requireContext(), ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), ImagePicker.getError(data), Toast.LENGTH_SHORT)
+                    .show()
             } else {
                 Toast.makeText(requireContext(), "Task Cancelled", Toast.LENGTH_SHORT).show()
             }
         }
-    fun  editRequest() {
+
+    fun editRequest() {
+        val name = view.deliveryName.text.toString().replace("\"", "");
+        val mobile = view.mobileNumber.text.toString().replace("\"", "");
+        if (fileUri!=null){
+        val photo_part = prepareFilePart("img", fileUri!!)
+            viewModel.editDeliveryData(pref.deliveryId, photo_part, name, mobile)
+        }
+         pref.userName = name.replace("\"", "");
+         pref.userPhone = mobile.replace("\"", "");
 
     }
 

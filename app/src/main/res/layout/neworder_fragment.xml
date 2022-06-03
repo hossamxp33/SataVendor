@@ -61,8 +61,8 @@
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/appCompatImageView"
-                android:layout_width="95dp"
-                android:layout_height="95dp"
+                android:layout_width="85dp"
+                android:layout_height="85dp"
                 android:padding="12dp"
                 android:scaleType="fitXY"
                 android:src="@drawable/test"
@@ -99,15 +99,13 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/address"
             style="@style/grayTopicTitleTextStyle"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginRight="16dp"
             android:layout_marginBottom="8dp"
             android:text="@{data.billing_address.address}"
             app:layout_constraintBottom_toBottomOf="@+id/cardView"
             app:layout_constraintRight_toLeftOf="@+id/cardView"
-            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/name" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -115,6 +113,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/blackNormalTextStyle"
+            android:layout_marginRight="16dp"
             android:text="@string/paymentWayText"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cardView" />
@@ -157,7 +156,7 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/confirm_button"
             android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_height="45dp"
             android:layout_margin="@dimen/dimen_4"
             android:background="@drawable/accpet_btn_bg"
             android:gravity="center"
@@ -173,7 +172,7 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/cancel_button"
             android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_height="45dp"
             android:layout_margin="@dimen/dimen_4"
             android:background="@drawable/cancel_btn_bg"
             android:text="@string/cancel"

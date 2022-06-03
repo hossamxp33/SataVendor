@@ -5,6 +5,8 @@ import com.example.satadelivery.models.auth.Driver
 import com.example.satadelivery.models.auth.User
 import com.example.satadelivery.models.current_orders.DateModel
 import com.example.satadelivery.models.current_orders.OrdersItem
+import com.example.satadelivery.models.delivery.Delivery
+import com.example.satadelivery.models.delivery.DeliveryItem
 import okhttp3.MultipartBody
 
 import retrofit2.Response
@@ -25,5 +27,6 @@ interface DataSource {
     suspend fun changeOrderStatus(Id:Int,statusId:Int) : OrdersItem
 
     suspend fun editDeliveryData(img: MultipartBody.Part?, name : String?, phone:String?,id :Int?) : Driver
+    suspend fun getDeliversStatus(id :Int?) : Response<Delivery>
 
 }

@@ -37,7 +37,7 @@ class ProfileViewmodel @Inject constructor(private val DateRepoCompnay: DataRepo
 
     fun editDeliveryData(id: Int?, file: MultipartBody.Part?, name : String?, phone:String? ) {
         job = CoroutineScope(Dispatchers.IO).launch {
-            val response = DateRepoCompnay.editDeliveryData(file,name,phone,id)
+            val response = DateRepoCompnay.editDeliveryData(file,name,phone,id,)
             withContext(Dispatchers.Main) {
                 (response.collect {
                     runCatching {

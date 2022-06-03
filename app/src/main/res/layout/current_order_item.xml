@@ -51,8 +51,8 @@
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/appCompatImageView"
-                    android:layout_width="95dp"
-                    android:layout_height="95dp"
+                    android:layout_width="85dp"
+                    android:layout_height="85dp"
                     android:padding="12dp"
                     android:scaleType="fitXY"
                     android:src="@drawable/test"

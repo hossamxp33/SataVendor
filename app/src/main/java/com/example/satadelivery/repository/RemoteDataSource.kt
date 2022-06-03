@@ -7,6 +7,8 @@ import com.example.satadelivery.models.auth.Driver
 import com.example.satadelivery.models.auth.User
 import com.example.satadelivery.models.current_orders.DateModel
 import com.example.satadelivery.models.current_orders.OrdersItem
+import com.example.satadelivery.models.delivery.Delivery
+import com.example.satadelivery.models.delivery.DeliveryItem
 import okhttp3.MultipartBody
 
 import retrofit2.Response
@@ -41,7 +43,9 @@ class RemoteDataSource @Inject constructor(private val ApiService: APIServices)
         return ApiService.editDeliveryData(file!!,name!!,phone!!,id!!)
     }
 
-
+    override suspend fun getDeliversStatus(id: Int?): Response<Delivery>  {
+        return ApiService.getDeliversStatus(id!!)
+    }
 
 
 }

@@ -2,7 +2,7 @@ package com.example.satadelivery.helper
 
 class Constants {
     companion object {
-        const val BASE_URL = "http://192.168.1.12:3000/api/"
+        const val BASE_URL = "http://satafood.codesroots.com:3000/api/"
         const val IMAGE_URL = "http://satafood.codesroots.com:3000/"
         const val WebView_URL = "http://satawebsite.codesroots.com/"
         const val SocketURL = "http://satafood.codesroots.com:5000"

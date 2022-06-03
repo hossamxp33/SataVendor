@@ -4,8 +4,13 @@ package com.example.satadelivery.presentation.current_order_fragment.mvi
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.satadelivery.helper.BaseViewModel
+import com.example.satadelivery.models.auth.AuthModel
+import com.example.satadelivery.models.auth.User
 import com.example.satadelivery.models.current_orders.OrdersItem
+import com.example.satadelivery.models.delivery.Delivery
+import com.example.satadelivery.models.delivery.DeliveryItem
 import com.example.satadelivery.repository.DataRepo
+import com.example.satadelivery.repository.RemoteDataSource
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,7 +18,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.receiveAsFlow
 import javax.inject.Inject
 
-class CurrentOrderViewModel @Inject constructor(private val DateRepoCompnay: DataRepo) :
+class CurrentOrderViewModel @Inject constructor(private val DateRepoCompnay: DataRepo, private val Datasources: RemoteDataSource,) :
     BaseViewModel<MainViewState>() {
 
     val intents : Channel<MainIntent> = Channel<MainIntent>(Channel.UNLIMITED)
@@ -31,10 +36,17 @@ class CurrentOrderViewModel @Inject constructor(private val DateRepoCompnay: Dat
 
     val OrderState: MutableStateFlow<OrdersItem>? get() = ChangeStatusuiState
 
+    var deliveryItemLD: MutableLiveData<Delivery>? = null
+
+    protected val getStatusState : MutableStateFlow<DeliveryItem>? = null
+
+    val deliveryState: MutableStateFlow<DeliveryItem>? get() = getStatusState
+
     init {
          getIntent()
         mclientLatitude = MutableLiveData()
         mclientLatitude = MutableLiveData()
+        deliveryItemLD = MutableLiveData()
     }
     fun getIntent() {
 
@@ -70,6 +82,25 @@ class CurrentOrderViewModel @Inject constructor(private val DateRepoCompnay: Dat
         }
 
     }
+
+
+    fun getDeliversStatus(Id:Int) {
+        job = CoroutineScope(Dispatchers.IO).launch {
+            val response = Datasources.getDeliversStatus(Id)
+            withContext(Dispatchers.Main) {
+                if (response.isSuccessful) {
+                    deliveryItemLD?.postValue(response.body())
+
+                } else {
+                    onError("Error : ${response.message()} ")
+                }
+            }
+        }
+
+    }
+
+
+
     private fun onError(message: String) {
 //        errorMessage.value = message
 //        loading.value = false
