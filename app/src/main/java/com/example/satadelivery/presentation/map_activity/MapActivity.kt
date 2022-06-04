@@ -98,6 +98,9 @@ import com.example.satadelivery.databinding.MapActivityBinding
 import com.example.satadelivery.databinding.NavHeaderMainBinding
 
 
+
+
+
 class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     NavigationView.OnNavigationItemSelectedListener {
 
@@ -135,9 +138,14 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         AndroidInjection.inject(this)
         super.onCreate(icicle)
         BaseApplication.appComponent.inject(this)
-        setContentView(R.layout.map_activity)
-        mDrawerLayout = findViewById(R.id.drawerLayout)
         PreferenceHelper(this)
+
+        val binding: MapActivityBinding = DataBindingUtil.setContentView(this,R.layout.map_activity)
+
+        mDrawerLayout = binding.drawerLayout
+
+        val headerBinding: NavHeaderMainBinding =
+            NavHeaderMainBinding.bind(binding.navView.getHeaderView(0))
 
         val app: BaseApplication = application as BaseApplication
         mSocket = app.getMSocket()
@@ -178,7 +186,8 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         try {
             viewModel.deliveryItemLD!!.observe(this, {
                    if (it!=null){
-                nav_view.getHeaderView(0).userName.text = it[0].name?.replace("\"", "");
+                       headerBinding.data  = it[0]
+                           nav_view.getHeaderView(0).userName.text = it[0].name?.replace("\"", "");
                 if (it[0].is_online == 1) {
 
                     nav_view.getHeaderView(0).switch1.isChecked = true
