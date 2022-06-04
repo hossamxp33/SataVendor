@@ -8,18 +8,18 @@
 
         <import type="android.graphics.Color" />
 
-<!--        <variable-->
-<!--            name="data"-->
-<!--            type="com.satafood.core.entities.restaurantdetails.RestaurantDetailsModel" />-->
+        <!--        <variable-->
+        <!--            name="data"-->
+        <!--            type="com.satafood.core.entities.restaurantdetails.RestaurantDetailsModel" />-->
 
 
         <variable
             name="Context"
             type="com.example.satadelivery.presentation.map_activity.MapActivity" />
 
-<!--        <variable-->
-<!--            name="listener"-->
-<!--            type="com.example.satafood.presentaion.ClickHandler" />-->
+        <!--        <variable-->
+        <!--            name="listener"-->
+        <!--            type="com.example.satafood.presentaion.ClickHandler" />-->
 
     </data>
 
@@ -27,97 +27,133 @@
         android:id="@+id/drawerLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        tools:openDrawer="right"
-        android:orientation="vertical"
         android:layout_gravity="right"
+        android:fitsSystemWindows="true"
         android:layoutDirection="rtl"
+        android:orientation="vertical"
         android:textDirection="rtl"
-        >
+        tools:openDrawer="right">
 
 
+        <!--            <androidx.appcompat.widget.AppCompatEditText-->
+        <!--                android:id="@+id/editText"-->
+        <!--                android:layout_width="248dp"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_weight="0.5"-->
+        <!--                android:hint="Search Location"-->
+        <!--                android:inputType="textPersonName"-->
+        <!--                app:layout_constraintRight_toRightOf="parent"-->
+        <!--                app:layout_constraintLeft_toLeftOf="parent"-->
+        <!--                app:layout_constraintTop_toTopOf="parent" />-->
 
-            <!--            <androidx.appcompat.widget.AppCompatEditText-->
-            <!--                android:id="@+id/editText"-->
-            <!--                android:layout_width="248dp"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_weight="0.5"-->
-            <!--                android:hint="Search Location"-->
-            <!--                android:inputType="textPersonName"-->
-            <!--                app:layout_constraintRight_toRightOf="parent"-->
-            <!--                app:layout_constraintLeft_toLeftOf="parent"-->
-            <!--                app:layout_constraintTop_toTopOf="parent" />-->
+        <!--            <Button-->
+        <!--                android:id="@+id/button"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_weight="0.5"-->
+        <!--                android:text="Search"-->
+        <!--                app:layout_constraintRight_toRightOf="parent"-->
+        <!--                app:layout_constraintLeft_toLeftOf="parent"-->
+        <!--                app:layout_constraintTop_toBottomOf="@+id/editText" />-->
 
-            <!--            <Button-->
-            <!--                android:id="@+id/button"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_weight="0.5"-->
-            <!--                android:text="Search"-->
-            <!--                app:layout_constraintRight_toRightOf="parent"-->
-            <!--                app:layout_constraintLeft_toLeftOf="parent"-->
-            <!--                app:layout_constraintTop_toBottomOf="@+id/editText" />-->
-
-                <include
-                    layout="@layout/app_bar_main"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+        <include
+            layout="@layout/app_bar_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
 
-                <!--NavHostFragment HERE-->
+        <!--NavHostFragment HERE-->
 
-                <!--NavigationView HERE-->
+        <!--NavigationView HERE-->
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/mapLayout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:background="@drawable/map_border"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/siteDrawerMenuButton"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/white_circle_bk"
+                android:padding="@dimen/dimen_8"
+                android:src="@drawable/menu"
+                android:translationZ="3dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/note"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/white_circle_bk"
+                android:padding="@dimen/dimen_8"
+                android:src="@drawable/note"
+                android:translationZ="3dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/mapLayout"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                android:background="@drawable/map_border"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+               android:id="@+id/statusLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shadow_back_g"
+                android:translationZ="3dp"
+                app:layout_constraintLeft_toRightOf="@+id/siteDrawerMenuButton"
+                app:layout_constraintRight_toLeftOf="@+id/note"
+                app:layout_constraintTop_toTopOf="@+id/note">
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/siteDrawerMenuButton"
-                    android:layout_width="55dp"
-                    android:layout_height="55dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:background="@drawable/white_circle_bk"
-                    android:padding="@dimen/dimen_8"
-                    android:src="@drawable/menu"
-                    android:translationZ="3dp"
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="متصل"
+                    android:layout_marginBottom="@dimen/dimen_4"
+                    android:layout_marginLeft="@dimen/dimen_8"
+                    android:layout_marginRight="8dp"
+                    android:textColor="@color/black"
+                    app:layout_constraintRight_toLeftOf="@+id/statusIcon"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/note"
-                    android:layout_width="55dp"
-                    android:layout_height="55dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:background="@drawable/white_circle_bk"
-                    android:padding="@dimen/dimen_8"
-                    android:src="@drawable/note"
-                    android:translationZ="3dp"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <fragment
-                    android:id="@+id/map"
-                    android:name="com.google.android.gms.maps.SupportMapFragment"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="1dp"
+                    android:id="@+id/statusIcon"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                     android:src="@drawable/online_ic"
+                    android:layout_marginRight="8dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <fragment
+                android:id="@+id/map"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="1dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <include layout="@layout/main_frame_content" />
 
@@ -128,10 +164,10 @@
             android:layout_gravity="left"
             android:background="@color/white"
             android:fitsSystemWindows="true"
+            app:headerLayout="@layout/nav_header_main"
             app:itemIconTint="@color/green"
             app:itemTextColor="@color/green"
-            app:headerLayout="@layout/nav_header_main"
-            app:menu="@menu/activity_main_drawer"/>
+            app:menu="@menu/activity_main_drawer" />
 
 
     </androidx.drawerlayout.widget.DrawerLayout>

@@ -170,20 +170,26 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         viewModel.getDeliversStatus(Pref.deliveryId)
         viewModel.deliveryItemLD!!.observe(this,{
             if (it[0].is_online == 1){
-                nav_view.getHeaderView(0).switch1.isChecked = true
-            SUCCESS_MotionToast("متصل",this)}
+
+            nav_view.getHeaderView(0).switch1.isChecked = true
+            SUCCESS_MotionToast("متصل",this)
+            status.text = "متصل"
+                statusIcon.setImageResource(R.drawable.online_ic)
+            }
             else{
                 nav_view.getHeaderView(0).switch1.isChecked = false
             WARN_MotionToast("غير متصل",this)
+                status.text = "غير متصل"
+                statusIcon.setImageResource(R.drawable.offline_ic)
+
             }
         })
 
         nav_view.getHeaderView(0).setOnClickListener {
             mDrawerLayout?.closeDrawer(GravityCompat.END)
-
             ClickHandler().switchBetweenFragments(this, ProfileFragment())
-
         }
+
         nav_view.getHeaderView(0).userName.text = Pref.userName?.replace("\"", "");
 
         nav_view.setNavigationItemSelectedListener(this)
@@ -193,10 +199,14 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
             if (isChecked) {
                 // The switch enabled
                 switch1.text = "متصل"
+              viewModel.changeDeliversStatus(Pref.deliveryId,1)
+                statusIcon.setImageResource(R.drawable.online_ic)
 
             } else {
                 // The switch disabled
                 switch1.text = "غير متصل"
+                viewModel.changeDeliversStatus(Pref.deliveryId,0)
+                statusIcon.setImageResource(R.drawable.offline_ic)
 
             }
         }

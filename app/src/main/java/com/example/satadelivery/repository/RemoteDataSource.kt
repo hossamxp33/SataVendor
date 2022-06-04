@@ -39,6 +39,12 @@ class RemoteDataSource @Inject constructor(private val ApiService: APIServices)
         return ApiService.changeOrderStatus(id,statusId)
     }
 
+    override suspend fun changeDeliveryStatus(id:Int?,statusId:Int): OrdersItem {
+        return ApiService.changeDeliveryStatus(id!!,statusId)
+    }
+
+
+    //changeDeliveryStatus
     override suspend fun editDeliveryData(file: MultipartBody.Part?,name : String?,phone:String? ,id: Int?): Driver {
         return ApiService.editDeliveryData(file!!,name!!,phone!!,id!!)
     }

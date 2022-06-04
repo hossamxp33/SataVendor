@@ -65,6 +65,26 @@ class DataRepo @Inject constructor(
             .flowOn(ioDispatcher)
 
 
+
+    //changeDeliveryStatus
+    suspend  fun changeDeliveryStatus(Id:Int,statusId:Int): Flow<Result<OrdersItem>> =
+        flow {
+            emit(Datasources.changeDeliveryStatus(Id,statusId))
+        }
+            .map {
+                Result.success(it)
+            }
+            .retry(retries = 4) { t -> (t is IOException).also { if (it) {
+                delay(1000)
+            }}}
+            .catch {
+
+                    throwable ->  emit(Result.failure(throwable)) }
+
+            .flowOn(ioDispatcher)
+
+
+
     //editDeliveryData
     suspend  fun editDeliveryData( file: MultipartBody.Part?, name : String?, phone:String? ,id: Int?,): Flow<Result<Driver>> =
         flow {

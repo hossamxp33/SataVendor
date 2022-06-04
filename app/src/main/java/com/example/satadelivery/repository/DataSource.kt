@@ -27,6 +27,9 @@ interface DataSource {
     suspend fun changeOrderStatus(Id:Int,statusId:Int) : OrdersItem
 
     suspend fun editDeliveryData(img: MultipartBody.Part?, name : String?, phone:String?,id :Int?) : Driver
+
     suspend fun getDeliversStatus(id :Int?) : Response<Delivery>
+
+    suspend fun changeDeliveryStatus(id :Int?,statusId:Int) : OrdersItem
 
 }

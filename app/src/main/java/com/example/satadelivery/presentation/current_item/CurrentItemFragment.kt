@@ -60,7 +60,6 @@ class CurrentItemFragment @Inject constructor(var item: OrdersItem) : DialogFrag
 
 
         view.confirmButton.setOnClickListener {
-
             viewModel.changeOrderStatus(item.id,4)
             view.mView.visibility = View.GONE
 

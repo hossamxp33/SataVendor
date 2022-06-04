@@ -40,6 +40,10 @@ interface APIServices {
     @POST("orders/edit/{orderId}")
     suspend fun changeOrderStatus(@Path("orderId") orderId: Int, @Field("order_status_id") status: Int): OrdersItem
 
+    @FormUrlEncoded
+    @POST("delivers/edit/{id}")
+    suspend fun changeDeliveryStatus(@Path("id") id: Int, @Field("is_online") status: Int): OrdersItem
+
 
     @Multipart
     @POST("delivers/edit/{id}")

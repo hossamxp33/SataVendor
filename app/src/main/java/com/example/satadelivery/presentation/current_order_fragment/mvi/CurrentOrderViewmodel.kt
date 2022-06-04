@@ -82,7 +82,23 @@ class CurrentOrderViewModel @Inject constructor(private val DateRepoCompnay: Dat
         }
 
     }
+//changeDeliveryStatus
+fun changeDeliversStatus(Id:Int,statusId:Int) {
+    job = CoroutineScope(Dispatchers.IO).launch {
+        val response = DateRepoCompnay.changeDeliveryStatus(Id, statusId)
+        withContext(Dispatchers.Main) {
+            (response.collect {
+                runCatching {
+                    OrderState?.value = it.getOrNull()!!
 
+                }.getOrElse {
+                    onError("Error : ${it.message} ")
+
+                }
+            })
+        }
+    }
+}
 
     fun getDeliversStatus(Id:Int) {
         job = CoroutineScope(Dispatchers.IO).launch {
