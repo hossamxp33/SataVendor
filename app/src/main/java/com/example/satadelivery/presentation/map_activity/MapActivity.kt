@@ -220,12 +220,16 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                 if (isChecked) {
                     // The switch enabled
                     switch1.text = "متصل"
+                    status.text = "متصل"
+
                     viewModel.changeDeliversStatus(Pref.deliveryId, 1)
                     statusIcon.setImageResource(R.drawable.online_ic)
 
                 } else {
                     // The switch disabled
                     switch1.text = "غير متصل"
+                    status.text = " غير متصل"
+
                     viewModel.changeDeliversStatus(Pref.deliveryId, 0)
                     statusIcon.setImageResource(R.drawable.offline_ic)
 
