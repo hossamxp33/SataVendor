@@ -69,6 +69,16 @@ fun setImageResource(imageView: AppCompatImageView, resource: String?) {
         .into(imageView)
 }
 
+fun SetImageResource(imageView: AppCompatImageView, resource: String?) {
+    val requestOptions = RequestOptions()
+    requestOptions.error(R.drawable.note)
+    Glide.with(imageView.context)
+        .load((Constants.IMAGE_URL + resource))
+        .transition(DrawableTransitionOptions.withCrossFade())
+        .apply(requestOptions)
+        .into(imageView)
+}
+
 @BindingAdapter("text_color")
 /////// set Stock image statue /////
 fun setTextStock(text: TextView, color: String?) {

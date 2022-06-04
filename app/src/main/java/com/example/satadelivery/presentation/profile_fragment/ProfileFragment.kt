@@ -97,9 +97,6 @@ class ProfileFragment @Inject constructor() : Fragment() {
         view.context = context as MapActivity
         view.pref = (context as MapActivity).Pref
 
-        view.deliveryName.setText(pref.userName)
-
-
 
         view.appCompatImageView2.setOnClickListener {
             addimage()

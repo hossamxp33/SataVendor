@@ -88,7 +88,14 @@ import com.example.satadelivery.helper.*
 import junit.runner.Version.id
 import kotlinx.android.synthetic.main.nav_header_main.view.*
 import android.widget.CompoundButton
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.view.isVisible
+import androidx.databinding.DataBindingUtil
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.RequestOptions
+import com.example.satadelivery.databinding.MapActivityBinding
+import com.example.satadelivery.databinding.NavHeaderMainBinding
 
 
 class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
@@ -139,9 +146,9 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         mSocket?.emit("CreateDeliveryRoom", Pref.room_id!!)
 
         val options = IO.Options()
+
         options.reconnection = true //reconnection
         options.forceNew = true
-
 
         mSocket?.on("RetriveDeliveryOrder") {
 
@@ -166,27 +173,31 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
             }
 
         }
-
         viewModel.getDeliversStatus(Pref.deliveryId)
-        viewModel.deliveryItemLD!!.observe(this,{
-            if (it[0].is_online == 1){
 
-            nav_view.getHeaderView(0).switch1.isChecked = true
-            SUCCESS_MotionToast("متصل",this)
-            status.text = "متصل"
-                statusIcon.setImageResource(R.drawable.online_ic)
+        try {
+            viewModel.deliveryItemLD!!.observe(this, {
+                   if (it!=null){
                 nav_view.getHeaderView(0).userName.text = it[0].name?.replace("\"", "");
+                if (it[0].is_online == 1) {
 
-            }
-            else{
-                nav_view.getHeaderView(0).switch1.isChecked = false
-            WARN_MotionToast("غير متصل",this)
-                status.text = "غير متصل"
-                statusIcon.setImageResource(R.drawable.offline_ic)
+                    nav_view.getHeaderView(0).switch1.isChecked = true
+                    SUCCESS_MotionToast("متصل", this)
+                    status.text = "متصل"
+                    statusIcon.setImageResource(R.drawable.online_ic)
+                } else {
+                    nav_view.getHeaderView(0).switch1.isChecked = false
+                    WARN_MotionToast("غير متصل", this)
+                    status.text = "غير متصل"
+                    statusIcon.setImageResource(R.drawable.offline_ic)
 
-            }
-        })
+                }}
+                else
+                       WARN_MotionToast("غير متصل", this)
 
+            })
+        } catch (e: java.lang.Exception) {
+        }
         nav_view.getHeaderView(0).setOnClickListener {
             mDrawerLayout?.closeDrawer(GravityCompat.END)
             ClickHandler().switchBetweenFragments(this, ProfileFragment())
@@ -197,20 +208,20 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
         nav_view.getHeaderView(0).switch1
             ?.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked) {
-                // The switch enabled
-                switch1.text = "متصل"
-              viewModel.changeDeliversStatus(Pref.deliveryId,1)
-                statusIcon.setImageResource(R.drawable.online_ic)
+                if (isChecked) {
+                    // The switch enabled
+                    switch1.text = "متصل"
+                    viewModel.changeDeliversStatus(Pref.deliveryId, 1)
+                    statusIcon.setImageResource(R.drawable.online_ic)
 
-            } else {
-                // The switch disabled
-                switch1.text = "غير متصل"
-                viewModel.changeDeliversStatus(Pref.deliveryId,0)
-                statusIcon.setImageResource(R.drawable.offline_ic)
+                } else {
+                    // The switch disabled
+                    switch1.text = "غير متصل"
+                    viewModel.changeDeliversStatus(Pref.deliveryId, 0)
+                    statusIcon.setImageResource(R.drawable.offline_ic)
 
+                }
             }
-        }
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
@@ -239,8 +250,6 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     override fun androidInjector(): AndroidInjector<Any> {
         return androidInjector
     }
-
-
 
 
     override fun onMapReady(googleMap: GoogleMap) {
