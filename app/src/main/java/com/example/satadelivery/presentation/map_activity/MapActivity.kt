@@ -175,6 +175,8 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
             SUCCESS_MotionToast("متصل",this)
             status.text = "متصل"
                 statusIcon.setImageResource(R.drawable.online_ic)
+                nav_view.getHeaderView(0).userName.text = it[0].name?.replace("\"", "");
+
             }
             else{
                 nav_view.getHeaderView(0).switch1.isChecked = false
@@ -190,7 +192,6 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
             ClickHandler().switchBetweenFragments(this, ProfileFragment())
         }
 
-        nav_view.getHeaderView(0).userName.text = Pref.userName?.replace("\"", "");
 
         nav_view.setNavigationItemSelectedListener(this)
 

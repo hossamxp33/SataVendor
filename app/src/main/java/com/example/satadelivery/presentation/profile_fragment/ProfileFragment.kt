@@ -97,14 +97,18 @@ class ProfileFragment @Inject constructor() : Fragment() {
         view.context = context as MapActivity
         view.pref = (context as MapActivity).Pref
 
-          view.deliveryName.setText(pref.userName)
+        view.deliveryName.setText(pref.userName)
 
 
 
         view.appCompatImageView2.setOnClickListener {
             addimage()
         }
+        viewModel.getDeliversStatus(pref.deliveryId)
+        viewModel.deliveryItemLD!!.observe(requireActivity(), {
+            view.data = it[0]
 
+        })
         view.editBtn.setOnClickListener {
             editRequest()
             SUCCESS_MotionToast("تم التعديل", requireActivity())
@@ -135,7 +139,6 @@ class ProfileFragment @Inject constructor() : Fragment() {
             file!!
         )
 
-        pref.photo = file.name
 
         return MultipartBody.Part.createFormData(name, file.name, requestFile)
     }
@@ -163,12 +166,10 @@ class ProfileFragment @Inject constructor() : Fragment() {
     fun editRequest() {
         val name = view.deliveryName.text.toString().replace("\"", "");
         val mobile = view.mobileNumber.text.toString().replace("\"", "");
-        if (fileUri!=null){
-        val photo_part = prepareFilePart("img", fileUri!!)
+        if (fileUri != null) {
+            val photo_part = prepareFilePart("img", fileUri!!)
             viewModel.editDeliveryData(pref.deliveryId, photo_part, name, mobile)
         }
-         pref.userName = name.replace("\"", "");
-         pref.userPhone = mobile.replace("\"", "");
 
     }
 
