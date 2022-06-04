@@ -99,7 +99,7 @@ class ProfileFragment @Inject constructor() : Fragment() {
 
           view.deliveryName.setText(pref.userName)
 
-        view.appCompatImageView2.setImageURI(fileUri)
+
 
         view.appCompatImageView2.setOnClickListener {
             addimage()
