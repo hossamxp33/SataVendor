@@ -124,7 +124,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/dimen_8"
-            android:text="@{pref.restaurantName}"
+            android:text="@{data.branches.name}"
             android:textSize="20dp"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/storeNameText" />

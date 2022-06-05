@@ -2,6 +2,7 @@ package com.example.satadelivery.models.delivery
 
 data class DeliveryItem(
     var branch_id: Int,
+    var branches: Branches,
     var created: String,
     var id: Int,
     var is_online: Int,
