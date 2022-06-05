@@ -132,18 +132,20 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     var locationRequest: LocationRequest? = null
 
     val viewModel by viewModels<CurrentOrderViewModel> { viewModelFactory }
-    private var locationCallback: LocationCallback = object : LocationCallback() {
+    val locationCallback: LocationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
-            val locationList = locationResult.locations
-            if (locationList.isNotEmpty()) {
-                //The last location in the list is the newest
-                val location = locationList.last()
-                Toast.makeText(
-                    this@MapActivity,
-                    "Got Location: " + location.toString(),
-                    Toast.LENGTH_LONG
-                )
-                    .show()
+            if (locationResult != null) {
+                if (locationResult == null) {
+                    return
+                }
+                //Showing the latitude, longitude and accuracy on the home screen.
+                //      for (location in locationResult.locations) {
+                // map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng( locationResult.lastLocation.latitude, locationResult.lastLocation.longitude), 16.0f))
+                latitude = locationResult.lastLocation.latitude
+                longitude = locationResult.lastLocation.longitude
+
+
+                //   }
             }
         }
     }
@@ -478,23 +480,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
         //instantiating the LocationCallBack
         //instantiating the LocationCallBack
-        val locationCallback: LocationCallback = object : LocationCallback() {
-            override fun onLocationResult(locationResult: LocationResult) {
-                if (locationResult != null) {
-                    if (locationResult == null) {
-                        return
-                    }
-                    //Showing the latitude, longitude and accuracy on the home screen.
-                    //      for (location in locationResult.locations) {
-                    // map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng( locationResult.lastLocation.latitude, locationResult.lastLocation.longitude), 16.0f))
-                    latitude = locationResult.lastLocation.latitude
-                    longitude = locationResult.lastLocation.longitude
 
-
-                    //   }
-                }
-            }
-        }
         if (ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
                 this,
