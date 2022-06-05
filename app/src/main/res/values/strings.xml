@@ -50,4 +50,5 @@
     <string name="phone">رقم الموبايل</string>
     <string name="storeName">أسم المتجر</string>
     <string name="deliveryTotalText"> مجموع خدمة التوصيل :  </string>
+    <string name="required">مطلوب</string>
 </resources>

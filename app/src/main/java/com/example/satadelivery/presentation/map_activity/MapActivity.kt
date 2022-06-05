@@ -220,7 +220,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         } catch (e: java.lang.Exception) {
         }
         nav_view.getHeaderView(0).setOnClickListener {
-            mDrawerLayout?.closeDrawer(GravityCompat.END)
+            mDrawerLayout?.closeDrawer(GravityCompat.START)
             ClickHandler().switchBetweenFragments(this, ProfileFragment())
         }
 

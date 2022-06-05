@@ -6,12 +6,13 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.satadelivery.R
-import com.example.satadelivery.helper.BaseApplication
-import com.example.satadelivery.helper.MapHelper
-import com.example.satadelivery.helper.PreferenceHelper
+import com.example.satadelivery.databinding.DeliveryLoginFragmentBinding
+import com.example.satadelivery.databinding.MapActivityBinding
+import com.example.satadelivery.helper.*
 import com.example.satadelivery.models.auth.User
 import com.example.satadelivery.presentation.map_activity.MapActivity
 import com.github.nkzawa.socketio.client.IO
@@ -37,6 +38,7 @@ class LoginActivity : AppCompatActivity() {
 
     @Inject
     lateinit var Pref: PreferenceHelper
+    var isAllFieldsChecked = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -45,16 +47,19 @@ class LoginActivity : AppCompatActivity() {
         PreferenceHelper(this)
 
         setContentView(R.layout.delivery_login_fragment)
-
+        val binding: DeliveryLoginFragmentBinding =
+            DataBindingUtil.setContentView(this, R.layout.delivery_login_fragment)
         val app: BaseApplication = application as BaseApplication
         mSocket = app.getMSocket()
         mSocket?.connect()
 
         login.setOnClickListener {
-
-
-            loginRequest()
-      progress.isVisible = true
+            isAllFieldsChecked = Validation().checkAllFields(binding,this);
+            if (isAllFieldsChecked) {
+                loginRequest()
+                progress.isVisible = true
+            }else
+                Error_MotionToast("أكمل البيانات", this)
         }
 
 //         if (Pref.VendorId != 0)
