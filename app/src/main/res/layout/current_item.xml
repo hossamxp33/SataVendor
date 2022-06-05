@@ -217,7 +217,7 @@
                 android:layout_margin="@dimen/dimen_4"
                 android:background="@drawable/cancel_btn_bg"
                 android:gravity="center"
-                android:onClick="@{()->listener.callNumber(data.billing_address.phone,Context)}"
+                android:onClick="@{()->listener.callNumber(data.phone,Context)}"
                 android:text="@string/report"
                 android:textColor="@color/white"
                 android:textSize="16sp"

@@ -710,15 +710,15 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
             }
         }
 
-        mDrawerLayout?.closeDrawer(GravityCompat.END)
+        mDrawerLayout?.closeDrawer(GravityCompat.START)
         return true
     }
 
     fun openCloseNavigationDrawer(view: View) {
-        if (mDrawerLayout!!.isDrawerOpen(GravityCompat.END)) {
-            mDrawerLayout!!.closeDrawer(GravityCompat.END)
+        if (mDrawerLayout!!.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout!!.closeDrawer(GravityCompat.START)
         } else {
-            mDrawerLayout!!.openDrawer(GravityCompat.END)
+            mDrawerLayout!!.openDrawer(GravityCompat.START)
         }
     }
 

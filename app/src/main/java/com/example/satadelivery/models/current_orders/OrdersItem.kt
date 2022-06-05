@@ -3,6 +3,7 @@ package com.example.satadelivery.models.current_orders
 data class OrdersItem(
     var billing_address: BillingAddress? = null,
     var billing_address_id: Int? = null,
+    var phone: String? = null,
     var branch_id: Int? = null,
     var commission: Int? = null,
     var coupon_id: Int? = null,
@@ -21,5 +22,5 @@ data class OrdersItem(
     var paymenttype: Paymenttype? = null,
     var paymenttype_id: Int? = null,
     var taxes: Int? = null,
-    var total: Int? = null
+    var total: Int? = null,
 )
