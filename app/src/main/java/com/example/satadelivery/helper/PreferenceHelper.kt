@@ -85,10 +85,10 @@ class PreferenceHelper(private val context: Context) {
             edit.apply()
         }
     var UserToken: String?
-        get() = app_prefs!!.getString("token", "0")
-        set(token) {
+        get() = app_prefs!!.getString("UserToken", "")
+        set(UserToken) {
             val edit = app_prefs!!.edit()
-            edit.putString("token", token)
+            edit.putString("UserToken", UserToken)
             edit.apply()
         }
     var room_id: String?

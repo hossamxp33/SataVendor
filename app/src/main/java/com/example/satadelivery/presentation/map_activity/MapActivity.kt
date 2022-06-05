@@ -3,6 +3,7 @@ package com.example.satadelivery.presentation.map_activity
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
@@ -14,6 +15,7 @@ import android.location.Location
 import android.location.LocationManager
 import android.media.MediaPlayer
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
@@ -98,9 +100,6 @@ import com.example.satadelivery.databinding.MapActivityBinding
 import com.example.satadelivery.databinding.NavHeaderMainBinding
 
 
-
-
-
 class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     NavigationView.OnNavigationItemSelectedListener {
 
@@ -133,6 +132,21 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     var locationRequest: LocationRequest? = null
 
     val viewModel by viewModels<CurrentOrderViewModel> { viewModelFactory }
+    private var locationCallback: LocationCallback = object : LocationCallback() {
+        override fun onLocationResult(locationResult: LocationResult) {
+            val locationList = locationResult.locations
+            if (locationList.isNotEmpty()) {
+                //The last location in the list is the newest
+                val location = locationList.last()
+                Toast.makeText(
+                    this@MapActivity,
+                    "Got Location: " + location.toString(),
+                    Toast.LENGTH_LONG
+                )
+                    .show()
+            }
+        }
+    }
 
     public override fun onCreate(icicle: Bundle?) {
         AndroidInjection.inject(this)
@@ -140,9 +154,15 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         BaseApplication.appComponent.inject(this)
         PreferenceHelper(this)
 
-        val binding: MapActivityBinding = DataBindingUtil.setContentView(this,R.layout.map_activity)
+        val binding: MapActivityBinding =
+            DataBindingUtil.setContentView(this, R.layout.map_activity)
+        // Get the SupportMapFragment and request notification when the map is ready to be used.
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
+
+        mapFragment?.getMapAsync(this)
 
         mDrawerLayout = binding.drawerLayout
+
 
         val headerBinding: NavHeaderMainBinding =
             NavHeaderMainBinding.bind(binding.navView.getHeaderView(0))
@@ -185,24 +205,25 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
         try {
             viewModel.deliveryItemLD!!.observe(this, {
-                   if (it!=null){
-                       headerBinding.data  = it[0]
-                           nav_view.getHeaderView(0).userName.text = it[0].name?.replace("\"", "");
-                if (it[0].is_online == 1) {
 
-                    nav_view.getHeaderView(0).switch1.isChecked = true
-                    SUCCESS_MotionToast("متصل", this)
-                    status.text = "متصل"
-                    statusIcon.setImageResource(R.drawable.online_ic)
-                } else {
-                    nav_view.getHeaderView(0).switch1.isChecked = false
+                if (!it.isNullOrEmpty()) {
+                    headerBinding.data = it[0]
+                    nav_view.getHeaderView(0).userName.text = it[0].name?.replace("\"", "");
+                    if (it[0].is_online == 1) {
+
+                        nav_view.getHeaderView(0).switch1.isChecked = true
+                        SUCCESS_MotionToast("متصل", this)
+                        status.text = "متصل"
+                        statusIcon.setImageResource(R.drawable.online_ic)
+                    } else {
+                        nav_view.getHeaderView(0).switch1.isChecked = false
+                        WARN_MotionToast("غير متصل", this)
+                        status.text = "غير متصل"
+                        statusIcon.setImageResource(R.drawable.offline_ic)
+
+                    }
+                } else
                     WARN_MotionToast("غير متصل", this)
-                    status.text = "غير متصل"
-                    statusIcon.setImageResource(R.drawable.offline_ic)
-
-                }}
-                else
-                       WARN_MotionToast("غير متصل", this)
 
             })
         } catch (e: java.lang.Exception) {
@@ -238,11 +259,6 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
-        // Get the SupportMapFragment and request notification when the map is ready to be used.
-        val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
-
-        mapFragment?.getMapAsync(this)
-
         siteDrawerMenuButton.setOnClickListener { view ->
             this.openCloseNavigationDrawer(view)
             note.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.note));
@@ -253,11 +269,173 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
             note.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.note_active));
             ClickHandler().openDialogFragment(this, CurrentOrderFragment(viewModel), "")
         }
+        checkLocationPermission()
+
+
 
 
     }
 
+    private fun checkLocationPermission() {
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(
+                    this,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                )
+            ) {
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+                AlertDialog.Builder(this)
+                    .setTitle("Location Permission Needed")
+                    .setMessage("This app needs the Location permission, please accept to use location functionality")
+                    .setPositiveButton(
+                        "OK"
+                    ) { _, _ ->
+                        //Prompt the user once explanation has been shown
+                        checkBackgroundLocation()
+                    }
+                    .create()
+                    .show()
+            } else {
+                // No explanation needed, we can request the permission.
+           requestLocationPermission()
+            }
+        } else {
+       checkBackgroundLocation()
+        }
+    }
+    private fun requestLocationPermission() {
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+            ),
+            MY_PERMISSIONS_REQUEST_LOCATION
+        )
+    }
+    private fun checkBackgroundLocation() {
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_BACKGROUND_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            requestBackgroundLocationPermission()
+        }
+    }
+    private fun requestBackgroundLocationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(
+                    Manifest.permission.ACCESS_BACKGROUND_LOCATION
+                ),
+                MY_PERMISSIONS_REQUEST_BACKGROUND_LOCATION
+            )
+        } else {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                MY_PERMISSIONS_REQUEST_LOCATION
+            )
+        }
+    }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            MY_PERMISSIONS_REQUEST_LOCATION -> {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay! Do the
+                    // location-related task you need to do.
+                    if (ContextCompat.checkSelfPermission(
+                            this,
+                            Manifest.permission.ACCESS_FINE_LOCATION
+                        ) == PackageManager.PERMISSION_GRANTED
+                    ) {
+                        mFusedLocationClient?.requestLocationUpdates(
+                            locationRequest,
+                            locationCallback,
+                            Looper.getMainLooper()
+                        )
+
+                        // Now check background location
+                        checkBackgroundLocation()
+                    }
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                    Toast.makeText(this, "permission denied", Toast.LENGTH_LONG).show()
+
+                    // Check if we are in a state where the user has denied the permission and
+                    // selected Don't ask again
+                    if (!ActivityCompat.shouldShowRequestPermissionRationale(
+                            this,
+                            Manifest.permission.ACCESS_FINE_LOCATION
+                        )
+                    ) {
+                        startActivity(
+                            Intent(
+                                Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                                Uri.fromParts("package", this.packageName, null),
+                            ),
+                        )
+                    }
+                }
+                return
+            }
+            MY_PERMISSIONS_REQUEST_BACKGROUND_LOCATION -> {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay! Do the
+                    // location-related task you need to do.
+                    if (ContextCompat.checkSelfPermission(
+                            this,
+                            Manifest.permission.ACCESS_FINE_LOCATION
+                        ) == PackageManager.PERMISSION_GRANTED
+                    ) {
+                        mFusedLocationClient?.requestLocationUpdates(
+                            locationRequest,
+                            locationCallback,
+                            Looper.getMainLooper()
+                        )
+
+                        Toast.makeText(
+                            this,
+                            "Granted Background Location Permission",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                    Toast.makeText(this, "permission denied", Toast.LENGTH_LONG).show()
+                }
+                return
+
+            }
+        }
+    }
+
+    companion object {
+        private const val MY_PERMISSIONS_REQUEST_LOCATION = 99
+        private const val MY_PERMISSIONS_REQUEST_BACKGROUND_LOCATION = 66
+    }
     @Inject
     lateinit var androidInjector: DispatchingAndroidInjector<Any>
     override fun androidInjector(): AndroidInjector<Any> {
@@ -272,15 +450,15 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         //MapHelper().setMapStyle(map, this)
         statusCheck()
 
-
         getLocationPermission()
         // Add a marker in Sydney and move the camera
         getClientAddress()
 
-
         //  map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(-34.0, 151.0), 16.0f))
+        MapHelper().RequestPermission(this)
 
-        if (MapHelper().CheckPermission(this))
+
+        if (MapHelper().CheckPermission(this)){
             if (MapHelper().isLocationEnabled(this)) {
                 enableMyLocation(this)
             } else {
@@ -291,8 +469,10 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                     Toast.LENGTH_SHORT
                 ).show()
             }
-        else {
+        }else
+        {
             MapHelper().RequestPermission(this)
+
         }
     }
 
@@ -637,8 +817,8 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
     override fun onResume() {
         super.onResume()
-        getLocationPermission()
         updateLocation()
+        getLocationPermission()
 
     }
 

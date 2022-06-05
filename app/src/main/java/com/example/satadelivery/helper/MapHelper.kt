@@ -9,6 +9,7 @@ import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.location.Location
 import android.location.LocationManager
+import android.os.Build
 import android.provider.Settings
 import android.util.Log
 import androidx.appcompat.app.AlertDialog
@@ -147,7 +148,6 @@ class MapHelper  {
         if(
             ActivityCompat.checkSelfPermission(context,Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
             ActivityCompat.checkSelfPermission(context,Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-
         ){
             return true
         }
