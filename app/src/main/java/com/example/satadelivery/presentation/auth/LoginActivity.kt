@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.satadelivery.R
@@ -53,7 +54,7 @@ class LoginActivity : AppCompatActivity() {
 
 
             loginRequest()
-
+      progress.isVisible = true
         }
 
 //         if (Pref.VendorId != 0)
@@ -74,6 +75,7 @@ class LoginActivity : AppCompatActivity() {
                 Pref.userPhone = it.user.driver!!.mobile
                 Pref.photo = it.user.driver!!.photo
                 Pref.room_id = it.user.room_id
+                progress.isVisible = false
 
                 val mainIntent = Intent(this, MapActivity::class.java)
                 startActivity(mainIntent)

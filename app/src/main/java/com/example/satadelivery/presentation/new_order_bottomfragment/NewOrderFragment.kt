@@ -51,7 +51,7 @@ class NewOrderFragment @Inject constructor(var item: OrdersItem,var viewModel:Cu
         viewModel.intents.trySend(MainIntent.getLatLong(viewModel.state.value!!.copy(cliendLatitude = lat,cliendLongitude =  long,progress = true)))
 
         view.confirmButton.setOnClickListener {
-            viewModel.changeOrderStatus(item.id!!,3)
+            viewModel.changeOrderStatus(item.order_details?.get(0)?.orderId!!,3)
             dismiss()
             SUCCESS_MotionToast(requireActivity().getString(R.string.success),
                 requireActivity())
