@@ -136,11 +136,11 @@ class DailyOrdersFragment @Inject constructor() : DialogFragment()
 
 
                                 for (i in 0 until it.data!!.size) {
-                                    totalPrice += it.data!!.get(i).total
+                                    totalPrice += it.data!!.get(i).total!!
                                 }
                                 view.total.text = totalPrice.toString()
                                 for (i in 0 until it.data!!.size) {
-                                    totalDeliveryCost = it.data!!.get(i).delivery_serivce
+                                    totalDeliveryCost = it.data!!.get(i).delivery_serivce!!
                                 }
                                 view.deliveryTotal.text = totalDeliveryCost.toString()
 

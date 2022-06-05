@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.satadelivery.R
 import com.example.satadelivery.helper.BaseApplication
+import com.example.satadelivery.helper.MapHelper
 import com.example.satadelivery.helper.PreferenceHelper
 import com.example.satadelivery.models.auth.User
 import com.example.satadelivery.presentation.map_activity.MapActivity
@@ -47,8 +48,12 @@ class LoginActivity : AppCompatActivity() {
         val app: BaseApplication = application as BaseApplication
         mSocket = app.getMSocket()
         mSocket?.connect()
+
         login.setOnClickListener {
+
+
             loginRequest()
+
         }
 
 //         if (Pref.VendorId != 0)

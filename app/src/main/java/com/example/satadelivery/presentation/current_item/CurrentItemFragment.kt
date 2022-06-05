@@ -55,12 +55,12 @@ class CurrentItemFragment @Inject constructor(var item: OrdersItem) : DialogFrag
        view.listener= ClickHandler()
         view.context = context as MapActivity
 
-        val end_latitude = item.billing_address.latitude
-        val end_longitude =  item.billing_address.longitude
+        val end_latitude = item.billing_address!!.latitude
+        val end_longitude =  item.billing_address!!.longitude
 
 
         view.confirmButton.setOnClickListener {
-            viewModel.changeOrderStatus(item.id,4)
+            viewModel.changeOrderStatus(item.id!!,4)
             view.mView.visibility = View.GONE
 
         }
@@ -68,7 +68,7 @@ class CurrentItemFragment @Inject constructor(var item: OrdersItem) : DialogFrag
 
         view.detailsButton.setOnClickListener {
             this.dismiss()
-            ClickHandler().openDialogFragment(requireContext(),DetailsOrderFragment(item.order_details),"")
+            ClickHandler().openDialogFragment(requireContext(),DetailsOrderFragment(item.order_details!!),"")
         }
         view.googleMapsBtn.setOnClickListener {
             val uri =

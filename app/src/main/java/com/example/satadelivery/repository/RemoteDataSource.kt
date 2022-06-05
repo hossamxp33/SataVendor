@@ -54,4 +54,8 @@ class RemoteDataSource @Inject constructor(private val ApiService: APIServices)
     }
 
 
+    //deliversOrdersCanceled
+    override suspend fun deliversOrdersCanceled(data: OrdersItem): OrdersItem  {
+        return ApiService.deliversOrdersCanceled(data)
+    }
 }

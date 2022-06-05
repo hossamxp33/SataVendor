@@ -44,6 +44,9 @@ interface APIServices {
     @POST("delivers/edit/{id}")
     suspend fun changeDeliveryStatus(@Path("id") id: Int, @Field("is_online") status: Int): OrdersItem
 
+    //deliversOrdersCanceled/add
+    @POST("deliversOrdersCanceled/add")
+    suspend fun deliversOrdersCanceled( @Body  data: OrdersItem): OrdersItem
 
     @Multipart
     @POST("delivers/edit/{id}")

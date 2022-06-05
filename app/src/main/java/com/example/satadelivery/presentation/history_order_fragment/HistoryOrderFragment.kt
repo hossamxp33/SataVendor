@@ -148,11 +148,11 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
                                 historyOrdersAdapter.submitList(it.data)
 
                                 for (i in 0 until it.data!!.size) {
-                                    totalPrice += it.data!!.get(i).total
+                                    totalPrice += it.data!!.get(i).total!!
                                 }
 
                                 for (i in 0 until it.data!!.size) {
-                                     totalDeliveryCost = it.data!!.get(i).delivery_serivce
+                                     totalDeliveryCost = it.data!!.get(i).delivery_serivce!!
                                 }
                                 view.deliveryTotal.text = totalDeliveryCost.toString()
 

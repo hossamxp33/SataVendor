@@ -67,8 +67,8 @@ class CurrentOrdersAdapter(
 
             ClickHandler().openDialogFragment(context, CurrentItemFragment(currentList[p1]), "")
 
-            val lat = currentList[0].billing_address.latitude
-            val long = currentList[0].billing_address.longitude
+            val lat = currentList[0].billing_address!!.latitude
+            val long = currentList[0].billing_address!!.longitude
 
             viewModel.getLatLong(lat, long)
 

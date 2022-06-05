@@ -179,30 +179,19 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         options.forceNew = true
 
         mSocket?.on("RetriveDeliveryOrder") {
-
             var mp = MediaPlayer.create(this, R.raw.alarm);
-
             mp.start();
-
             runOnUiThread {
-
                 val gson = Gson()
-
                 var json = it.first().toString()
-
                 val type = object : TypeToken<OrdersItem?>() {}.type
-
                 var newitem = gson.fromJson<OrdersItem>(json, type)
-
                 ClickHandler().openDialogFragment(this, NewOrderFragment(newitem!!, viewModel), "")
-
                 //   Log.d("socket", json.toString())
-
             }
-
         }
-        viewModel.getDeliversStatus(Pref.deliveryId)
 
+        viewModel.getDeliversStatus(Pref.deliveryId)
         try {
             viewModel.deliveryItemLD!!.observe(this, {
 
@@ -269,11 +258,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
             note.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.note_active));
             ClickHandler().openDialogFragment(this, CurrentOrderFragment(viewModel), "")
         }
-        checkLocationPermission()
-
-
-
-
+      checkLocationPermission()
     }
 
     private fun checkLocationPermission() {
@@ -375,7 +360,6 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                     }
 
                 } else {
-
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
                     Toast.makeText(this, "permission denied", Toast.LENGTH_LONG).show()
@@ -397,38 +381,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                 }
                 return
             }
-            MY_PERMISSIONS_REQUEST_BACKGROUND_LOCATION -> {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                    // permission was granted, yay! Do the
-                    // location-related task you need to do.
-                    if (ContextCompat.checkSelfPermission(
-                            this,
-                            Manifest.permission.ACCESS_FINE_LOCATION
-                        ) == PackageManager.PERMISSION_GRANTED
-                    ) {
-                        mFusedLocationClient?.requestLocationUpdates(
-                            locationRequest,
-                            locationCallback,
-                            Looper.getMainLooper()
-                        )
-
-                        Toast.makeText(
-                            this,
-                            "Granted Background Location Permission",
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
-                } else {
-
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
-                    Toast.makeText(this, "permission denied", Toast.LENGTH_LONG).show()
-                }
-                return
-
-            }
         }
     }
 
@@ -448,7 +401,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         map.clear();
         MapHelper().setPoiClick(map)
         //MapHelper().setMapStyle(map, this)
-        statusCheck()
+      //  statusCheck()
 
         getLocationPermission()
         // Add a marker in Sydney and move the camera
@@ -564,7 +517,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
     @SuppressLint("MissingPermission")
     private fun getLocationPermission() {
-        if (MapHelper().CheckPermission(this)) {
+
             mFusedLocationClient?.lastLocation?.addOnSuccessListener(this,
                 OnSuccessListener<Location?> { location ->
                     // Got last known location. In some rare situations this can be null.
@@ -586,9 +539,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                     homeLatLng = LatLng(latitude!!, longitude!!)
 
                 })
-        } else {
-            MapHelper().RequestPermission(this)
-        }
+
     }
 
     private fun goToAddress(mlatitude: Double, mLogitude: Double) {
@@ -766,6 +717,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 //
 //            }
             R.id.logout -> {
+                Pref.UserToken = ""
                 val mainIntent = Intent(this, LoginActivity::class.java)
                 startActivity(mainIntent)
                 finish()

@@ -83,8 +83,22 @@ class DataRepo @Inject constructor(
 
             .flowOn(ioDispatcher)
 
+//deliversOrdersCanceled
+suspend  fun deliversOrdersCanceled(data:OrdersItem): Flow<Result<OrdersItem>> =
+    flow {
+        emit(Datasources.deliversOrdersCanceled(data))
+    }
+        .map {
+            Result.success(it)
+        }
+        .retry(retries = 4) { t -> (t is IOException).also { if (it) {
+            delay(1000)
+        }}}
+        .catch {
 
+                throwable ->  emit(Result.failure(throwable)) }
 
+        .flowOn(ioDispatcher)
     //editDeliveryData
     suspend  fun editDeliveryData( file: MultipartBody.Part?, name : String?, phone:String? ,id: Int?,): Flow<Result<Driver>> =
         flow {

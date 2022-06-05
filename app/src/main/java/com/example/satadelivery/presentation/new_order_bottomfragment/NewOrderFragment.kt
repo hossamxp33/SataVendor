@@ -1,32 +1,22 @@
 package com.example.satadelivery.presentation.new_order_bottomfragment
 
 import android.app.Dialog
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import com.example.satadelivery.MainActivity
 import com.example.satadelivery.R
 import com.example.satadelivery.databinding.NeworderFragmentBinding
-import com.example.satadelivery.helper.BaseApplication
-import com.example.satadelivery.helper.ClickHandler
-import com.example.satadelivery.helper.Error_MotionToast
-import com.example.satadelivery.helper.SUCCESS_MotionToast
+import com.example.satadelivery.helper.*
 import com.example.satadelivery.models.current_orders.OrdersItem
 import com.example.satadelivery.presentation.current_order_fragment.mvi.CurrentOrderViewModel
 import com.example.satadelivery.presentation.current_order_fragment.mvi.MainIntent
 import com.example.satadelivery.presentation.details_order_fragment.DetailsOrderFragment
 import com.example.satadelivery.presentation.map_activity.MapActivity
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import javax.inject.Inject
 
 class NewOrderFragment @Inject constructor(var item: OrdersItem,var viewModel:CurrentOrderViewModel) : DialogFragment() {
@@ -34,6 +24,8 @@ class NewOrderFragment @Inject constructor(var item: OrdersItem,var viewModel:Cu
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
+    @Inject
+    lateinit var pref: PreferenceHelper
     lateinit var view: NeworderFragmentBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,13 +45,13 @@ class NewOrderFragment @Inject constructor(var item: OrdersItem,var viewModel:Cu
         view.data = item
 
         view.listener = ClickHandler()
-        var  lat = item.billing_address.latitude
-        var long = item.billing_address.longitude
+        var  lat = item.billing_address!!.latitude
+        var long = item.billing_address!!.longitude
 
         viewModel.intents.trySend(MainIntent.getLatLong(viewModel.state.value!!.copy(cliendLatitude = lat,cliendLongitude =  long,progress = true)))
 
         view.confirmButton.setOnClickListener {
-            viewModel.changeOrderStatus(item.id,3)
+            viewModel.changeOrderStatus(item.id!!,3)
             dismiss()
             SUCCESS_MotionToast(requireActivity().getString(R.string.success),
                 requireActivity())
@@ -69,13 +61,16 @@ class NewOrderFragment @Inject constructor(var item: OrdersItem,var viewModel:Cu
             dismiss()
             Error_MotionToast(requireActivity().getString(R.string.cancel2),
                 requireActivity())
-            viewModel.changeOrderStatus(item.id,5)
+
+            cancelRequest()
         }
+
+
 
         view.detailsButton.setOnClickListener {
             this.dismiss()
             ClickHandler().openDialogFragment(requireContext(),
-                DetailsOrderFragment(item.order_details),"")
+                DetailsOrderFragment(item.order_details!!),"")
         }
 
         return view.root
@@ -105,5 +100,10 @@ class NewOrderFragment @Inject constructor(var item: OrdersItem,var viewModel:Cu
 
 
         return dialog
+    }
+    fun cancelRequest() {
+        val cancelInfo = OrdersItem(
+            delivery_id = pref.deliveryId, order_id = item.order_details?.get(0)?.orderId!!)
+        viewModel.deliversOrdersCanceled(cancelInfo)
     }
 }
