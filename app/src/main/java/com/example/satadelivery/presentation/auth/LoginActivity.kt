@@ -70,6 +70,7 @@ class LoginActivity : AppCompatActivity() {
 
             if (it.token == null) {
                 Toast.makeText(this, "خطأ في كلمة المرور او كلمة السر", Toast.LENGTH_SHORT).show()
+                progress.isVisible = false
 
             } else {
 

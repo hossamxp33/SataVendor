@@ -56,7 +56,6 @@ public class ClickHandler {
 
 
     fun openDialogFragment(context: Context, fragment: DialogFragment, tag:String) {
-
         val fragmentTransaction = (context as MapActivity).supportFragmentManager.beginTransaction()
         fragmentTransaction.add(fragment, tag)
         fragmentTransaction.commitAllowingStateLoss()

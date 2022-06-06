@@ -92,7 +92,7 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
         view.getData.setOnClickListener {
 
             viewModel.intents.trySend(MainIntent.Initialize(viewModel.state.value!!,dateInfo))
-            view.getData.isVisible =false
+            view.getData.isVisible = false
 
         }
         //val dateInfo= DateModel(date_from = "2022-05-19",date_to = "2022-05-19")
@@ -162,7 +162,7 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
 
                             } else {
 
-                                view.progress.isVisible = true
+                              //  viewModel.intents.trySend(MainIntent.Initialize(viewModel.state.value!!,dateInfo))
 
 
                             }

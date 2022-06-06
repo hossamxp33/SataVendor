@@ -93,11 +93,13 @@ import android.widget.CompoundButton
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
+import androidx.drawerlayout.widget.DrawerLayout.SimpleDrawerListener
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.example.satadelivery.databinding.MapActivityBinding
 import com.example.satadelivery.databinding.NavHeaderMainBinding
+import org.jetbrains.anko.support.v4.drawerListener
 
 
 class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
@@ -153,7 +155,6 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     public override fun onCreate(icicle: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(icicle)
-        BaseApplication.appComponent.inject(this)
         PreferenceHelper(this)
 
         val binding: MapActivityBinding =
@@ -203,7 +204,6 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                     if (it[0].is_online == 1) {
 
                         nav_view.getHeaderView(0).switch1.isChecked = true
-                        SUCCESS_MotionToast("متصل", this)
                         status.text = "متصل"
                         statusIcon.setImageResource(R.drawable.online_ic)
                     } else {
@@ -250,6 +250,17 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
+
+        mDrawerLayout!!.addDrawerListener(object : SimpleDrawerListener() {
+            override fun onDrawerStateChanged(newState: Int) {
+                if (newState == DrawerLayout.STATE_SETTLING && !mDrawerLayout!!.isDrawerOpen(
+                        GravityCompat.START)
+                ) {
+                    viewModel.getDeliversStatus(Pref.deliveryId)
+
+                }
+            }
+        })
         siteDrawerMenuButton.setOnClickListener { view ->
             this.openCloseNavigationDrawer(view)
             note.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.note));
@@ -262,6 +273,8 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         }
       checkLocationPermission()
     }
+
+
 
     private fun checkLocationPermission() {
         if (ActivityCompat.checkSelfPermission(
@@ -336,7 +349,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String>,
-        grantResults: IntArray
+        grantResults: IntArray,
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
@@ -715,8 +728,10 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     }
 
     fun openCloseNavigationDrawer(view: View) {
+
         if (mDrawerLayout!!.isDrawerOpen(GravityCompat.START)) {
             mDrawerLayout!!.closeDrawer(GravityCompat.START)
+
         } else {
             mDrawerLayout!!.openDrawer(GravityCompat.START)
         }

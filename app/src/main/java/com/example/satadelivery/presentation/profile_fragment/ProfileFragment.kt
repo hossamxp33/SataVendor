@@ -101,6 +101,10 @@ class ProfileFragment @Inject constructor() : Fragment() {
         view.appCompatImageView2.setOnClickListener {
             addimage()
         }
+        view.editImage.setOnClickListener {
+            addimage()
+        }
+
         viewModel.getDeliversStatus(pref.deliveryId)
         viewModel.deliveryItemLD!!.observe(requireActivity(), {
             view.data = it[0]

@@ -68,7 +68,7 @@ class NewOrderFragment @Inject constructor(var item: OrdersItem,var viewModel:Cu
 
 
         view.detailsButton.setOnClickListener {
-            this.dismiss()
+          //  this.dismiss()
             ClickHandler().openDialogFragment(requireContext(),
                 DetailsOrderFragment(item.order_details!!),"")
         }
