@@ -453,23 +453,12 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         mFusedLocationClient!!.lastLocation.addOnCompleteListener { task ->
             val location: Location? = task.result
             if (location == null) {
-
                 MapHelper().NewLocationData(context)
-
             }
+
             latitude = location!!.latitude
-
             longitude = location.longitude
-
             homeLatLng = LatLng(latitude!!, longitude!!)
-
-            map.mapType = GoogleMap.MAP_TYPE_TERRAIN
-            val googleOverlay = GroundOverlayOptions()
-                .image(BitmapDescriptorFactory.fromResource(R.drawable.android))
-                .position(homeLatLng, overlaySize)
-            map.addGroundOverlay(googleOverlay)
-
-
         }
 
     }
@@ -493,11 +482,11 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                     //      for (location in locationResult.locations) {
                     // map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng( locationResult.lastLocation.latitude, locationResult.lastLocation.longitude), 16.0f))
                     for (location in locationResult.locations) {
+
                         latitude = locationResult.lastLocation.latitude
                         longitude = locationResult.lastLocation.longitude
                         homeLatLng = LatLng(latitude!!, longitude!!)
-                        map.addMarker(MarkerOptions().position(homeLatLng)
-                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.mark_delivery)))
+
                     }
                 }
             }
