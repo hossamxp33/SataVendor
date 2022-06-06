@@ -483,13 +483,32 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
         //instantiating the LocationCallBack
         //instantiating the LocationCallBack
-
+        val locationCallback: LocationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult) {
+                if (locationResult != null) {
+                    if (locationResult == null) {
+                        return
+                    }
+                    //Showing the latitude, longitude and accuracy on the home screen.
+                    //      for (location in locationResult.locations) {
+                    // map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng( locationResult.lastLocation.latitude, locationResult.lastLocation.longitude), 16.0f))
+                    getLocationPermission()
+                    latitude = locationResult.lastLocation.latitude
+                    longitude = locationResult.lastLocation.longitude
+                    //   }
+                }
+            }
+        }
         if (ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
         ) {
             try {
+
+//        //instantiating the LocationCallBack
+//        //instantiating the LocationCallBack
+
                 goToAddress(latitude!!,longitude!!)
 
             }catch (e:Exception){
@@ -758,11 +777,10 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     }
 
 
-    override fun onResume() {
+    override fun onResume(){
         super.onResume()
         updateLocation()
        getLocationPermission()
-
     }
 
 
