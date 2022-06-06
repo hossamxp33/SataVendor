@@ -166,7 +166,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
         mDrawerLayout = binding.drawerLayout
 
-
+        statusCheck()
         val headerBinding: NavHeaderMainBinding =
             NavHeaderMainBinding.bind(binding.navView.getHeaderView(0))
 
@@ -262,14 +262,15 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         siteDrawerMenuButton.setOnClickListener { view ->
             this.openCloseNavigationDrawer(view)
             note.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.note));
-
+            checkLocationPermission()
         }
 
         note.setOnClickListener {
             note.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.note_active));
             ClickHandler().openDialogFragment(this, CurrentOrderFragment(viewModel), "")
+
         }
-        checkLocationPermission()
+
     }
 
 
@@ -295,7 +296,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                         "OK"
                     ) { _, _ ->
                         //Prompt the user once explanation has been shown
-                        checkBackgroundLocation()
+                        requestLocationPermission()
                     }
                     .create()
                     .show()
@@ -419,7 +420,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         //MapHelper().setMapStyle(map, this)
         //  statusCheck()
 
-        getLocationPermission()
+      //  getLocationPermission()
         // Add a marker in Sydney and move the camera
         getClientAddress()
 
@@ -509,17 +510,13 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
             OnSuccessListener<Location?> { location ->
                 // Got last known location. In some rare situations this can be null.
                 if (location != null) {
-
                         latitude = location.latitude
                         longitude = location.longitude
                         goToAddress(latitude!!, longitude!!)
+                    homeLatLng = LatLng(latitude!!, longitude!!)
 
                 }
-
-                homeLatLng = LatLng(latitude!!, longitude!!)
-
             })
-
     }
 
     private fun goToAddress(mlatitude: Double, mLogitude: Double) {
@@ -546,7 +543,6 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                     if (it != null) {
                         val end_latitude = it.cliendLatitude
                         val end_longitude = it.cliendLongitude
-
 
                         if (end_latitude != null && end_longitude != null)
                             if (it.progress == true) {
@@ -757,7 +753,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     override fun onResume() {
         super.onResume()
         updateLocation()
-        getLocationPermission()
+       getLocationPermission()
 
     }
 
