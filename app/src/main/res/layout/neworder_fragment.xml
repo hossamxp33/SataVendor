@@ -112,7 +112,7 @@
             android:id="@+id/paymentWayText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/blackNormalTextStyle"
+            style="@style/cartBlackNormalTextStyle"
             android:layout_marginRight="16dp"
             android:text="@string/paymentWayText"
             app:layout_constraintRight_toRightOf="parent"
@@ -122,8 +122,8 @@
                android:id="@+id/paymentWay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/blackNormalTextStyle"
-            android:text="@{data.paymenttype.name}"
+            style="@style/cartBlackNormalTextStyle"
+            android:text="@{data.paymenttype.name + ` `}"
             app:layout_constraintRight_toLeftOf="@+id/paymentWayText"
             app:layout_constraintTop_toBottomOf="@+id/cardView" />
 

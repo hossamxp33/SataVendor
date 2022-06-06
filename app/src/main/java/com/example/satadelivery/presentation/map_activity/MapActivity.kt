@@ -197,12 +197,10 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         viewModel.getDeliversStatus(Pref.deliveryId)
         try {
             viewModel.deliveryItemLD!!.observe(this, {
-
                 if (!it.isNullOrEmpty()) {
                     headerBinding.data = it[0]
                     nav_view.getHeaderView(0).userName.text = it[0].name?.replace("\"", "");
                     if (it[0].is_online == 1) {
-
                         nav_view.getHeaderView(0).switch1.isChecked = true
                         status.text = "متصل"
                         statusIcon.setImageResource(R.drawable.online_ic)
@@ -489,13 +487,13 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                 this,
                 Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
         ) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+            try {
+                goToAddress(latitude!!,longitude!!)
+
+            }catch (e:Exception){
+
+            }
+
             return
         }
         mFusedLocationClient?.requestLocationUpdates(locationRequest,
@@ -511,20 +509,13 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
             OnSuccessListener<Location?> { location ->
                 // Got last known location. In some rare situations this can be null.
                 if (location != null) {
-//                    if (Pref.latitude != "" && Pref.longitude != "") {
-//                        // Logic to handle location object
-//                        latitude = Pref.latitude?.toDouble()
-//                        longitude = Pref.longitude?.toDouble()
-//                        goToAddress(latitude!!, longitude!!)
-//
-//                    } else {
+
                         latitude = location.latitude
                         longitude = location.longitude
                         goToAddress(latitude!!, longitude!!)
-                  //  }
+
                 }
-//                Pref.latitude = latitude.toString()
-//                Pref.longitude = longitude.toString()
+
                 homeLatLng = LatLng(latitude!!, longitude!!)
 
             })
@@ -532,14 +523,19 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     }
 
     private fun goToAddress(mlatitude: Double, mLogitude: Double) {
-        val homeLatLng = LatLng(mlatitude, mLogitude)
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(mlatitude, mLogitude), 16.0f))
-        map.addMarker(MarkerOptions().position(homeLatLng)
-            .icon(BitmapDescriptorFactory.fromResource(R.drawable.mark_delivery)))
-        map.setOnCameraIdleListener(GoogleMap.OnCameraIdleListener {
-            latitude = map.cameraPosition.target.latitude
-            longitude = map.cameraPosition.target.longitude
-        })
+      try{
+          val homeLatLng = LatLng(mlatitude, mLogitude)
+          map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(mlatitude, mLogitude), 16.0f))
+          map.addMarker(MarkerOptions().position(homeLatLng)
+              .icon(BitmapDescriptorFactory.fromResource(R.drawable.mark_delivery)))
+          map.setOnCameraIdleListener(GoogleMap.OnCameraIdleListener {
+              latitude = map.cameraPosition.target.latitude
+              longitude = map.cameraPosition.target.longitude
+          })
+      }catch (e:Exception){
+          checkLocationPermission()
+      }
+
     }
 
 
