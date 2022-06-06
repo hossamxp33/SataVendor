@@ -110,8 +110,8 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/shadow_back_g"
                 android:translationZ="3dp"
-                app:layout_constraintLeft_toRightOf="@+id/siteDrawerMenuButton"
-                app:layout_constraintRight_toLeftOf="@+id/note"
+                app:layout_constraintLeft_toRightOf="@+id/note"
+                app:layout_constraintRight_toLeftOf="@+id/siteDrawerMenuButton"
                 app:layout_constraintTop_toTopOf="@+id/note">
 
                 <androidx.appcompat.widget.AppCompatTextView

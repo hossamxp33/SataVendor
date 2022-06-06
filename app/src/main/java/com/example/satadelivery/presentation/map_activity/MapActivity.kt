@@ -523,6 +523,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     private fun goToAddress(mlatitude: Double, mLogitude: Double) {
       try{
           val homeLatLng = LatLng(mlatitude, mLogitude)
+          map.clear()
           map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(mlatitude, mLogitude), 16.0f))
           map.addMarker(MarkerOptions().position(homeLatLng)
               .icon(BitmapDescriptorFactory.fromResource(R.drawable.mark_delivery)))
@@ -703,8 +704,14 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                 val mainIntent = Intent(this, LoginActivity::class.java)
                 startActivity(mainIntent)
                 finish()
+
             }
+ R.id.profile ->{
+     ClickHandler().switchBetweenFragments(this, ProfileFragment())
+
+ }
         }
+
 
         mDrawerLayout?.closeDrawer(GravityCompat.START)
         return true
