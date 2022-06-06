@@ -171,7 +171,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
             NavHeaderMainBinding.bind(binding.navView.getHeaderView(0))
 
 
-      ////////////// Socket ///////////////////////
+        ////////////// Socket ///////////////////////
         val app: BaseApplication = application as BaseApplication
         mSocket = app.getMSocket()
         //connecting socket
@@ -193,7 +193,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
             }
         }
 
-      ////// Delivery Status online/offline ///////////
+        ////// Delivery Status online/offline ///////////
         viewModel.getDeliversStatus(Pref.deliveryId)
         try {
             viewModel.deliveryItemLD!!.observe(this, {
@@ -421,7 +421,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         //MapHelper().setMapStyle(map, this)
         //  statusCheck()
 
-      //  getLocationPermission()
+        //  getLocationPermission()
         // Add a marker in Sydney and move the camera
         getClientAddress()
 
@@ -492,10 +492,13 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                     //Showing the latitude, longitude and accuracy on the home screen.
                     //      for (location in locationResult.locations) {
                     // map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng( locationResult.lastLocation.latitude, locationResult.lastLocation.longitude), 16.0f))
-                    getLocationPermission()
-                    latitude = locationResult.lastLocation.latitude
-                    longitude = locationResult.lastLocation.longitude
-                    //   }
+                    for (location in locationResult.locations) {
+                        latitude = locationResult.lastLocation.latitude
+                        longitude = locationResult.lastLocation.longitude
+                        homeLatLng = LatLng(latitude!!, longitude!!)
+                        map.addMarker(MarkerOptions().position(homeLatLng)
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.mark_delivery)))
+                    }
                 }
             }
         }
@@ -509,9 +512,9 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 //        //instantiating the LocationCallBack
 //        //instantiating the LocationCallBack
 
-                goToAddress(latitude!!,longitude!!)
+                goToAddress(latitude!!, longitude!!)
 
-            }catch (e:Exception){
+            } catch (e: Exception) {
 
             }
 
@@ -530,9 +533,9 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
             OnSuccessListener<Location?> { location ->
                 // Got last known location. In some rare situations this can be null.
                 if (location != null) {
-                        latitude = location.latitude
-                        longitude = location.longitude
-                        goToAddress(latitude!!, longitude!!)
+                    latitude = location.latitude
+                    longitude = location.longitude
+                    goToAddress(latitude!!, longitude!!)
                     homeLatLng = LatLng(latitude!!, longitude!!)
 
                 }
@@ -540,19 +543,20 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     }
 
     private fun goToAddress(mlatitude: Double, mLogitude: Double) {
-      try{
-          val homeLatLng = LatLng(mlatitude, mLogitude)
-          map.clear()
-          map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(mlatitude, mLogitude), 16.0f))
-          map.addMarker(MarkerOptions().position(homeLatLng)
-              .icon(BitmapDescriptorFactory.fromResource(R.drawable.mark_delivery)))
-          map.setOnCameraIdleListener(GoogleMap.OnCameraIdleListener {
-              latitude = map.cameraPosition.target.latitude
-              longitude = map.cameraPosition.target.longitude
-          })
-      }catch (e:Exception){
-          checkLocationPermission()
-      }
+        try {
+            val homeLatLng = LatLng(mlatitude, mLogitude)
+            map.clear()
+            map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(mlatitude, mLogitude),
+                16.0f))
+            map.addMarker(MarkerOptions().position(homeLatLng)
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.mark_delivery)))
+            map.setOnCameraIdleListener(GoogleMap.OnCameraIdleListener {
+                latitude = map.cameraPosition.target.latitude
+                longitude = map.cameraPosition.target.longitude
+            })
+        } catch (e: Exception) {
+            checkLocationPermission()
+        }
 
     }
 
@@ -725,10 +729,10 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                 finish()
 
             }
- R.id.profile ->{
-     ClickHandler().switchBetweenFragments(this, ProfileFragment())
+            R.id.profile -> {
+                ClickHandler().switchBetweenFragments(this, ProfileFragment())
 
- }
+            }
         }
 
 
@@ -777,10 +781,10 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     }
 
 
-    override fun onResume(){
+    override fun onResume() {
         super.onResume()
         updateLocation()
-       getLocationPermission()
+        getLocationPermission()
     }
 
 
