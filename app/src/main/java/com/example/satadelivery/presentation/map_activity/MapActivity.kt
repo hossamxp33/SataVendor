@@ -482,10 +482,13 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                     //      for (location in locationResult.locations) {
                     // map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng( locationResult.lastLocation.latitude, locationResult.lastLocation.longitude), 16.0f))
                     for (location in locationResult.locations) {
-
                         latitude = locationResult.lastLocation.latitude
                         longitude = locationResult.lastLocation.longitude
                         homeLatLng = LatLng(latitude!!, longitude!!)
+
+           //             viewModel.intents.trySend(MainIntent.getLatLong(viewModel.state.value!!.copy(cliendLatitude = latitude,cliendLongitude = longitude,progress = true)))
+
+
 
                     }
                 }
