@@ -271,9 +271,8 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
             note.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.note_active));
             ClickHandler().openDialogFragment(this, CurrentOrderFragment(viewModel), "")
         }
-      checkLocationPermission()
+        checkLocationPermission()
     }
-
 
 
     private fun checkLocationPermission() {
@@ -304,12 +303,13 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                     .show()
             } else {
                 // No explanation needed, we can request the permission.
-           requestLocationPermission()
+                requestLocationPermission()
             }
         } else {
-       checkBackgroundLocation()
+            checkBackgroundLocation()
         }
     }
+
     private fun requestLocationPermission() {
         ActivityCompat.requestPermissions(
             this,
@@ -319,6 +319,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
             MY_PERMISSIONS_REQUEST_LOCATION
         )
     }
+
     private fun checkBackgroundLocation() {
         if (ActivityCompat.checkSelfPermission(
                 this,
@@ -328,6 +329,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
             requestBackgroundLocationPermission()
         }
     }
+
     private fun requestBackgroundLocationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             ActivityCompat.requestPermissions(
@@ -404,6 +406,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         private const val MY_PERMISSIONS_REQUEST_LOCATION = 99
         private const val MY_PERMISSIONS_REQUEST_BACKGROUND_LOCATION = 66
     }
+
     @Inject
     lateinit var androidInjector: DispatchingAndroidInjector<Any>
     override fun androidInjector(): AndroidInjector<Any> {
@@ -416,7 +419,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         map.clear();
         MapHelper().setPoiClick(map)
         //MapHelper().setMapStyle(map, this)
-      //  statusCheck()
+        //  statusCheck()
 
         getLocationPermission()
         // Add a marker in Sydney and move the camera
@@ -426,7 +429,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         MapHelper().RequestPermission(this)
 
 
-        if (MapHelper().CheckPermission(this)){
+        if (MapHelper().CheckPermission(this)) {
             if (MapHelper().isLocationEnabled(this)) {
                 enableMyLocation(this)
             } else {
@@ -437,8 +440,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                     Toast.LENGTH_SHORT
                 ).show()
             }
-        }else
-        {
+        } else {
             MapHelper().RequestPermission(this)
 
         }
@@ -455,29 +457,17 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                 MapHelper().NewLocationData(context)
 
             }
-            if (Pref.latitude != "" && Pref.longitude != "") {
+            latitude = location!!.latitude
 
-                latitude = Pref.latitude?.toDouble()
+            longitude = location.longitude
 
-                longitude = Pref.longitude?.toDouble()
+            homeLatLng = LatLng(latitude!!, longitude!!)
 
-                homeLatLng = LatLng(latitude!!, longitude!!)
-
-            } else {
-
-                latitude = location!!.latitude
-
-                longitude = location.longitude
-
-                homeLatLng = LatLng(latitude!!, longitude!!)
-
-                map.mapType = GoogleMap.MAP_TYPE_TERRAIN
-                val googleOverlay = GroundOverlayOptions()
-                    .image(BitmapDescriptorFactory.fromResource(R.drawable.android))
-                    .position(homeLatLng, overlaySize)
-                map.addGroundOverlay(googleOverlay)
-
-            }
+            map.mapType = GoogleMap.MAP_TYPE_TERRAIN
+            val googleOverlay = GroundOverlayOptions()
+                .image(BitmapDescriptorFactory.fromResource(R.drawable.android))
+                .position(homeLatLng, overlaySize)
+            map.addGroundOverlay(googleOverlay)
 
 
         }
@@ -517,27 +507,27 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     @SuppressLint("MissingPermission")
     private fun getLocationPermission() {
 
-            mFusedLocationClient?.lastLocation?.addOnSuccessListener(this,
-                OnSuccessListener<Location?> { location ->
-                    // Got last known location. In some rare situations this can be null.
-                    if (location != null) {
-                        if (Pref.latitude != "" && Pref.longitude != "") {
-                            // Logic to handle location object
-                            latitude = Pref.latitude?.toDouble()
-                            longitude = Pref.longitude?.toDouble()
-                            goToAddress(latitude!!, longitude!!)
+        mFusedLocationClient?.lastLocation?.addOnSuccessListener(this,
+            OnSuccessListener<Location?> { location ->
+                // Got last known location. In some rare situations this can be null.
+                if (location != null) {
+//                    if (Pref.latitude != "" && Pref.longitude != "") {
+//                        // Logic to handle location object
+//                        latitude = Pref.latitude?.toDouble()
+//                        longitude = Pref.longitude?.toDouble()
+//                        goToAddress(latitude!!, longitude!!)
+//
+//                    } else {
+                        latitude = location.latitude
+                        longitude = location.longitude
+                        goToAddress(latitude!!, longitude!!)
+                  //  }
+                }
+//                Pref.latitude = latitude.toString()
+//                Pref.longitude = longitude.toString()
+                homeLatLng = LatLng(latitude!!, longitude!!)
 
-                        } else {
-                            latitude = location.latitude
-                            longitude = location.longitude
-                            goToAddress(latitude!!, longitude!!)
-                        }
-                    }
-                    Pref.latitude = latitude.toString()
-                    Pref.longitude = longitude.toString()
-                    homeLatLng = LatLng(latitude!!, longitude!!)
-
-                })
+            })
 
     }
 
