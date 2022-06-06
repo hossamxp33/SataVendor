@@ -170,17 +170,16 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         val headerBinding: NavHeaderMainBinding =
             NavHeaderMainBinding.bind(binding.navView.getHeaderView(0))
 
+
+      ////////////// Socket ///////////////////////
         val app: BaseApplication = application as BaseApplication
         mSocket = app.getMSocket()
         //connecting socket
         mSocket?.connect()
         mSocket?.emit("CreateDeliveryRoom", Pref.room_id!!)
-
         val options = IO.Options()
-
         options.reconnection = true //reconnection
         options.forceNew = true
-
         mSocket?.on("RetriveDeliveryOrder") {
             var mp = MediaPlayer.create(this, R.raw.alarm);
             mp.start();
@@ -194,6 +193,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
             }
         }
 
+      ////// Delivery Status online/offline ///////////
         viewModel.getDeliversStatus(Pref.deliveryId)
         try {
             viewModel.deliveryItemLD!!.observe(this, {
@@ -217,6 +217,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
             })
         } catch (e: java.lang.Exception) {
         }
+
         nav_view.getHeaderView(0).setOnClickListener {
             mDrawerLayout?.closeDrawer(GravityCompat.START)
             ClickHandler().switchBetweenFragments(this, ProfileFragment())
