@@ -17,12 +17,15 @@ import com.example.satadelivery.presentation.current_order_fragment.mvi.CurrentO
 import com.example.satadelivery.presentation.current_order_fragment.mvi.MainIntent
 import com.example.satadelivery.presentation.details_order_fragment.DetailsOrderFragment
 import com.example.satadelivery.presentation.map_activity.MapActivity
+import com.github.nkzawa.socketio.client.IO
+import com.github.nkzawa.socketio.client.Socket
 import javax.inject.Inject
 
 class NewOrderFragment @Inject constructor(var item: OrdersItem,var viewModel:CurrentOrderViewModel) : DialogFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
+    var mSocket: Socket? = null
 
     @Inject
     lateinit var pref: PreferenceHelper
@@ -51,10 +54,22 @@ class NewOrderFragment @Inject constructor(var item: OrdersItem,var viewModel:Cu
         viewModel.intents.trySend(MainIntent.getLatLong(viewModel.state.value!!.copy(cliendLatitude = lat,cliendLongitude =  long,progress = true)))
 
         view.confirmButton.setOnClickListener {
-            viewModel.changeOrderStatus(item.order_details?.get(0)?.orderId!!,3)
-            dismiss()
+            viewModel.changeOrderStatus(item.order_details?.get(0)?.orderId!!,3,pref.deliveryId)
+
+
+            ////////////// Socket ///////////////////////
+            val app: BaseApplication = (context as MapActivity).application as BaseApplication
+            mSocket = app.getMSocket()
+            //connecting socket
+            mSocket?.connect()
+            mSocket?.emit("OrderDeliveryCanceled", "delivery_information:1")
+            val options = IO.Options()
+            options.reconnection = true //reconnection
+            options.forceNew = true
             SUCCESS_MotionToast(requireActivity().getString(R.string.success),
                 requireActivity())
+            dismiss()
+
         }
 
         view.cancelButton.setOnClickListener {

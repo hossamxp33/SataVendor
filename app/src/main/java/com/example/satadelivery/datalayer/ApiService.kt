@@ -38,7 +38,7 @@ interface APIServices {
     // رفض 5
     @FormUrlEncoded
     @POST("orders/edit/{order_id}")
-    suspend fun changeOrderStatus(@Path("order_id") orderId: Int, @Field("order_status_id") status: Int): OrdersItem
+    suspend fun changeOrderStatus(@Path("order_id") orderId: Int, @Field("order_status_id") status: Int, @Field("delivery_id") delivery_id: Int): OrdersItem
 
     @FormUrlEncoded
     @POST("delivers/edit/{id}")

@@ -48,9 +48,9 @@ class DataRepo @Inject constructor(
 
     //changeOrderStatus
 
-    suspend  fun changeOrderStatus(order_id:Int,statusId:Int): Flow<Result<OrdersItem>> =
+    suspend  fun changeOrderStatus(order_id:Int,statusId:Int,delivery_id:Int): Flow<Result<OrdersItem>> =
         flow {
-            emit(Datasources.changeOrderStatus(order_id,statusId))
+            emit(Datasources.changeOrderStatus(order_id,statusId,delivery_id))
         }
             .map {
                 Result.success(it)

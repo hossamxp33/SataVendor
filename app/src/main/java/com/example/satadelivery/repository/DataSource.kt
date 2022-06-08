@@ -24,7 +24,7 @@ interface DataSource {
     suspend fun getCurrentOrders(): ArrayList<OrdersItem>
 
     suspend fun getDeliveryOrdersByDate(dateModel: DateModel?): ArrayList<OrdersItem>
-    suspend fun changeOrderStatus(order_id:Int,statusId:Int) : OrdersItem
+    suspend fun changeOrderStatus(order_id:Int,statusId:Int,delivery_id:Int) : OrdersItem
 
     suspend fun editDeliveryData(img: MultipartBody.Part?, name : String?, phone:String?,id :Int?) : Driver
 

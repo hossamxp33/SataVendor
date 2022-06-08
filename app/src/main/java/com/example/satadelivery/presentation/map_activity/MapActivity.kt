@@ -15,6 +15,7 @@ import android.location.Location
 import android.location.LocationManager
 import android.media.MediaPlayer
 import android.net.Uri
+import android.nfc.Tag
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
@@ -99,6 +100,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.example.satadelivery.databinding.MapActivityBinding
 import com.example.satadelivery.databinding.NavHeaderMainBinding
+import com.example.satadelivery.presentation.profile_fragment.ProfileFragment.Companion.TAG
 import org.jetbrains.anko.support.v4.drawerListener
 
 
@@ -108,7 +110,9 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     @Inject
     lateinit var Pref: PreferenceHelper
     internal var mFusedLocationClient: FusedLocationProviderClient? = null
+
     private lateinit var map: GoogleMap
+
     var latitude: Double? = null //-33.867
     var longitude: Double? = null // 151.206
 
@@ -123,6 +127,8 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     var intent1: Intent? = null
 
     var mSocket: Socket? = null
+
+    var userLocationMarker: Marker? = null
 
     @Inject
     lateinit var socket: Socket
@@ -168,6 +174,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
         statusCheck()
         val headerBinding: NavHeaderMainBinding =
+
             NavHeaderMainBinding.bind(binding.navView.getHeaderView(0))
 
 
@@ -196,10 +203,10 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         ////// Delivery Status online/offline ///////////
         viewModel.getDeliversStatus(Pref.deliveryId)
         try {
-            viewModel.deliveryItemLD!!.observe(this, {
+            viewModel.deliveryItemLD!!.observe(this) {
                 if (!it.isNullOrEmpty()) {
                     headerBinding.data = it[0]
-                    nav_view.getHeaderView(0).userName.text = it[0].name?.replace("\"", "");
+                    nav_view.getHeaderView(0).userName.text = it[0].name.replace("\"", "");
                     if (it[0].is_online == 1) {
                         nav_view.getHeaderView(0).switch1.isChecked = true
                         status.text = "متصل"
@@ -214,8 +221,9 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                 } else
                     WARN_MotionToast("غير متصل", this)
 
-            })
+            }
         } catch (e: java.lang.Exception) {
+
         }
 
         nav_view.getHeaderView(0).setOnClickListener {
@@ -260,6 +268,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                 }
             }
         })
+
         siteDrawerMenuButton.setOnClickListener { view ->
             this.openCloseNavigationDrawer(view)
             note.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.note));
@@ -348,59 +357,59 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         }
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray,
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when (requestCode) {
-            MY_PERMISSIONS_REQUEST_LOCATION -> {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    // permission was granted, yay! Do the
-                    // location-related task you need to do.
-                    if (ContextCompat.checkSelfPermission(
-                            this,
-                            Manifest.permission.ACCESS_FINE_LOCATION
-                        ) == PackageManager.PERMISSION_GRANTED
-                    ) {
-                        mFusedLocationClient?.requestLocationUpdates(
-                            locationRequest,
-                            locationCallback,
-                            Looper.getMainLooper()
-                        )
-
-                        // Now check background location
-                        checkBackgroundLocation()
-                    }
-
-                } else {
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
-                    Toast.makeText(this, "permission denied", Toast.LENGTH_LONG).show()
-
-                    // Check if we are in a state where the user has denied the permission and
-                    // selected Don't ask again
-                    if (!ActivityCompat.shouldShowRequestPermissionRationale(
-                            this,
-                            Manifest.permission.ACCESS_FINE_LOCATION
-                        )
-                    ) {
-                        startActivity(
-                            Intent(
-                                Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                                Uri.fromParts("package", this.packageName, null),
-                            ),
-                        )
-                    }
-                }
-                return
-            }
-
-        }
-    }
+//    override fun onRequestPermissionsResult(
+//        requestCode: Int,
+//        permissions: Array<String>,
+//        grantResults: IntArray,
+//    ) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+//        when (requestCode) {
+//            MY_PERMISSIONS_REQUEST_LOCATION -> {
+//                // If request is cancelled, the result arrays are empty.
+//                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//
+//                    // permission was granted, yay! Do the
+//                    // location-related task you need to do.
+//                    if (ContextCompat.checkSelfPermission(
+//                            this,
+//                            Manifest.permission.ACCESS_FINE_LOCATION
+//                        ) == PackageManager.PERMISSION_GRANTED
+//                    ) {
+//                        mFusedLocationClient?.requestLocationUpdates(
+//                            locationRequest,
+//                            locationCallback,
+//                            Looper.getMainLooper()
+//                        )
+//
+//                        // Now check background location
+//                        checkBackgroundLocation()
+//                    }
+//
+//                } else {
+//                    // permission denied, boo! Disable the
+//                    // functionality that depends on this permission.
+//                    Toast.makeText(this, "permission denied", Toast.LENGTH_LONG).show()
+//
+//                    // Check if we are in a state where the user has denied the permission and
+//                    // selected Don't ask again
+//                    if (!ActivityCompat.shouldShowRequestPermissionRationale(
+//                            this,
+//                            Manifest.permission.ACCESS_FINE_LOCATION
+//                        )
+//                    ) {
+//                        startActivity(
+//                            Intent(
+//                                Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+//                                Uri.fromParts("package", this.packageName, null),
+//                            ),
+//                        )
+//                    }
+//                }
+//                return
+//            }
+//
+//        }
+//    }
 
     companion object {
         private const val MY_PERMISSIONS_REQUEST_LOCATION = 99
@@ -422,8 +431,8 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         //  statusCheck()
 
         //  getLocationPermission()
-        // Add a marker in Sydney and move the camera
-        getClientAddress()
+        // Add a marker in Sydney and mDrawermove the camera
+
 
         //  map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(-34.0, 151.0), 16.0f))
         MapHelper().RequestPermission(this)
@@ -463,6 +472,64 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
     }
 
+    fun startLocationUpdate() {
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+        ) {
+
+            return
+        }
+        mFusedLocationClient?.requestLocationUpdates(
+            locationRequest,
+            locationCallback,
+            Looper.getMainLooper()
+
+        )
+    }
+
+    fun stopLocationUpdate() {
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return
+        }
+
+        mFusedLocationClient?.removeLocationUpdates(locationCallback)
+
+    }
+
+    fun setUserLocationMarker(location: Location) {
+        homeLatLng = LatLng(location.latitude, location.longitude)
+        if (userLocationMarker == null) {
+            userLocationMarker = map.addMarker(MarkerOptions()
+                .position(homeLatLng)
+                .icon(BitmapDescriptorFactory
+                    .fromResource(R.drawable.motor_ic))
+                .rotation(location.bearing)
+                .anchor(0.5f, 0.5f)
+            )
+            map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(location.latitude,
+                location.longitude), 16.0f))
+        } else {
+            userLocationMarker!!.position = homeLatLng
+            userLocationMarker!!.rotation = location.bearing
+            map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(location.latitude,
+                location.longitude), 16.0f))
+
+        }
+    }
+
     fun updateLocation() {
         //Instantiating the Location request and setting the priority and the interval I need to update the location.
         locationRequest = LocationRequest.create();
@@ -475,22 +542,24 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         val locationCallback: LocationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
                 if (locationResult != null) {
-                    if (locationResult == null) {
-                        return
-                    }
+                    Log.d(TAG, "onLocationResult: " + locationResult.lastLocation)
+
+                    if (map != null)
+                        setUserLocationMarker(locationResult.lastLocation)
+                    getClientAddress(locationResult.lastLocation)
                     //Showing the latitude, longitude and accuracy on the home screen.
                     //      for (location in locationResult.locations) {
                     // map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng( locationResult.lastLocation.latitude, locationResult.lastLocation.longitude), 16.0f))
-                    for (location in locationResult.locations) {
-                        latitude = locationResult.lastLocation.latitude
-                        longitude = locationResult.lastLocation.longitude
-                        homeLatLng = LatLng(latitude!!, longitude!!)
-
-           //             viewModel.intents.trySend(MainIntent.getLatLong(viewModel.state.value!!.copy(cliendLatitude = latitude,cliendLongitude = longitude,progress = true)))
-
-
-
-                    }
+//                    for (location in locationResult.locations) {
+//                        latitude = locationResult.lastLocation.latitude
+//                        longitude = locationResult.lastLocation.longitude
+//                        homeLatLng = LatLng(latitude!!, longitude!!)
+//
+//           //             viewModel.intents.trySend(MainIntent.getLatLong(viewModel.state.value!!.copy(cliendLatitude = latitude,cliendLongitude = longitude,progress = true)))
+//
+//
+//
+//                    }
                 }
             }
         }
@@ -504,7 +573,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 //        //instantiating the LocationCallBack
 //        //instantiating the LocationCallBack
 
-                goToAddress(latitude!!, longitude!!)
+                //     goToAddress(latitude!!, longitude!!)
 
             } catch (e: Exception) {
 
@@ -540,8 +609,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
             map.clear()
             map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(mlatitude, mLogitude),
                 16.0f))
-            map.addMarker(MarkerOptions().position(homeLatLng)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.mark_delivery)))
+
             map.setOnCameraIdleListener(GoogleMap.OnCameraIdleListener {
                 latitude = map.cameraPosition.target.latitude
                 longitude = map.cameraPosition.target.longitude
@@ -553,7 +621,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     }
 
 
-    fun getClientAddress() {
+    fun getClientAddress(location: Location) {
         try {
             lifecycleScope.launchWhenStarted {
                 viewModel.state.collect {
@@ -564,9 +632,23 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                         if (end_latitude != null && end_longitude != null)
                             if (it.progress == true) {
                                 val clientLatLng = LatLng(end_latitude, end_longitude)
-                                map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(
-                                    end_latitude,
-                                    end_longitude), 16.0f))
+                                if (userLocationMarker == null) {
+                                    userLocationMarker = map.addMarker(MarkerOptions()
+                                        .position(homeLatLng)
+                                        .icon(BitmapDescriptorFactory
+                                            .fromResource(R.drawable.motor_ic))
+                                        .rotation(location.bearing)
+                                        .anchor(0.5f, 0.5f)
+                                    )
+
+                                } else {
+                                    userLocationMarker!!.position = homeLatLng
+                                    userLocationMarker!!.rotation = location.bearing
+
+                                }
+//                                map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(
+//                                    end_latitude,
+//                                    end_longitude), 16.0f))
 
                                 map.addMarker(MarkerOptions().position(clientLatLng))
 
@@ -775,8 +857,8 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
     override fun onResume() {
         super.onResume()
+        //   getLocationPermission()
         updateLocation()
-        getLocationPermission()
     }
 
 
