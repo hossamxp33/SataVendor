@@ -3,6 +3,7 @@
     <string name="confirm">قبول</string>
     <string name="cancel">رفض</string>
     <string name="cancel2">تم رفض الطلب</string>
+    <string name="cancel3">الغاء</string>
     <string name="name">الاسم </string>
     <string name="address">مساكن شيراتون الحي الثامن مدينة نصر</string>
     <string name="details">تفاصيل الطلب</string>

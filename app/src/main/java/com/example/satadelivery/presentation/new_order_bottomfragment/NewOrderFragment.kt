@@ -76,7 +76,6 @@ class NewOrderFragment @Inject constructor(var item: OrdersItem,var viewModel:Cu
             dismiss()
             Error_MotionToast(requireActivity().getString(R.string.cancel2),
                 requireActivity())
-
             cancelRequest()
         }
 

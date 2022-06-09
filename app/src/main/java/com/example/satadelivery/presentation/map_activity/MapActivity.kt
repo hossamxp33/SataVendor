@@ -433,7 +433,6 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         //  getLocationPermission()
         // Add a marker in Sydney and mDrawermove the camera
 
-
         //  map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(-34.0, 151.0), 16.0f))
         MapHelper().RequestPermission(this)
 
@@ -547,6 +546,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                     if (map != null)
                         setUserLocationMarker(locationResult.lastLocation)
                     getClientAddress(locationResult.lastLocation)
+
                     //Showing the latitude, longitude and accuracy on the home screen.
                     //      for (location in locationResult.locations) {
                     // map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng( locationResult.lastLocation.latitude, locationResult.lastLocation.longitude), 16.0f))
@@ -699,9 +699,9 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                                             // add polyline to the map
                                             map.addPolyline(options)
                                             // show map with route centered
-                                            map.moveCamera(CameraUpdateFactory.newLatLngBounds(
-                                                bounds,
-                                                100))
+//                                            map.moveCamera(CameraUpdateFactory.newLatLngBounds(
+//                                                bounds,
+//                                                100))
                                         } catch (e: Exception) {
                                         }
                                     }

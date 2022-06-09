@@ -213,13 +213,12 @@
                 app:layout_constraintWidth_percent="0.47" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/cancel_button"
+                android:id="@+id/report_button"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_margin="@dimen/dimen_4"
                 android:background="@drawable/cancel_btn_bg"
                 android:gravity="center"
-                android:onClick="@{()->listener.callNumber(data.phone,Context)}"
                 android:text="@string/report"
                 android:textColor="@color/white"
                 android:textSize="16sp"

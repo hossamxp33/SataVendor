@@ -2,6 +2,7 @@ package com.example.satadelivery.presentation.current_item
 
 import android.app.Dialog
 import android.content.Intent
+import android.graphics.Rect
 import android.net.Uri
 import android.os.Bundle
 import android.view.*
@@ -18,8 +19,13 @@ import com.example.satadelivery.models.current_orders.OrdersItem
 import com.example.satadelivery.presentation.current_order_fragment.mvi.CurrentOrderViewModel
 import com.example.satadelivery.presentation.details_order_fragment.DetailsOrderFragment
 import com.example.satadelivery.presentation.map_activity.MapActivity
-
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import kotlinx.android.synthetic.main.bottom_dialog.*
+import kotlinx.android.synthetic.main.bottom_dialog.call
+import kotlinx.android.synthetic.main.bottom_dialog.cancel
+import kotlinx.android.synthetic.main.cancel_dialog.*
 import javax.inject.Inject
+
 
 class CurrentItemFragment @Inject constructor(var item: OrdersItem) : DialogFragment() {
 
@@ -27,7 +33,8 @@ class CurrentItemFragment @Inject constructor(var item: OrdersItem) : DialogFrag
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     val viewModel by viewModels<CurrentOrderViewModel> { viewModelFactory }
-
+    var bottomSheetDialog : BottomSheetDialog?=null
+    var cancelSheetDialog : Dialog?=null
 
     @Inject
     lateinit var pref: PreferenceHelper
@@ -51,8 +58,10 @@ class CurrentItemFragment @Inject constructor(var item: OrdersItem) : DialogFrag
         dialog!!.window!!.requestFeature(Window.FEATURE_NO_TITLE);
         dialog!!.setCanceledOnTouchOutside(true)
 
-       view.data = item
-       view.listener= ClickHandler()
+
+
+        view.data = item
+        view.listener= ClickHandler()
         view.context = context as MapActivity
 
         val end_latitude = item.billing_address!!.latitude
@@ -65,6 +74,10 @@ class CurrentItemFragment @Inject constructor(var item: OrdersItem) : DialogFrag
 
         }
 
+view.reportButton.setOnClickListener {
+    showBottomSheetDialog()
+
+}
 
         view.detailsButton.setOnClickListener {
             this.dismiss()
@@ -82,8 +95,43 @@ class CurrentItemFragment @Inject constructor(var item: OrdersItem) : DialogFrag
         return view.root
     }
 
+    private fun showBottomSheetDialog() {
+
+        bottomSheetDialog = BottomSheetDialog(requireContext())
+        bottomSheetDialog!!.setContentView(R.layout.bottom_dialog)
 
 
+        bottomSheetDialog!!.show()
+        bottomSheetDialog!!.not_delivery.setOnClickListener {
+            showReportSheet()
+        }
+        bottomSheetDialog!!.call.setOnClickListener {
+            ClickHandler().callNumber(item.phone!!,requireContext())
+        }
+
+        bottomSheetDialog!!.cancel.setOnClickListener {
+            bottomSheetDialog!!.dismiss()        }
+    }
+ fun showReportSheet(){
+     cancelSheetDialog = Dialog(requireContext())
+     cancelSheetDialog!!.setContentView(R.layout.cancel_dialog)
+
+     cancelSheetDialog!!.setContentView(R.layout.cancel_dialog)
+     cancelSheetDialog!!.send.setOnClickListener {
+         cancelSheetDialog!!.dismiss()
+     }
+     cancelSheetDialog!!.cancelMessage.setOnClickListener {
+         cancelSheetDialog!!.dismiss()     }
+
+     cancelSheetDialog!!.show()
+     val displayRectangle = Rect()
+
+     val window = activity!!.window
+     window.decorView.getWindowVisibleDisplayFrame(displayRectangle)
+     cancelSheetDialog!!.window!!.setLayout((displayRectangle.width() *
+             0.9f).toInt(), cancelSheetDialog!!.getWindow()!!.getAttributes().height);
+
+ }
     override fun onResume() {
         super.onResume()
         val params: ViewGroup.LayoutParams = dialog!!.window!!.attributes
