@@ -7,6 +7,7 @@ import com.example.satadelivery.models.current_orders.OrdersItem
 
 data class MainViewState(
     var data: ArrayList<OrdersItem>?=null,
+    var filterData : ArrayList<OrdersItem>?=null,
     var noOrderYet : Boolean? = false,
     val progress:  Boolean? = null,
     var error: UserError?=null

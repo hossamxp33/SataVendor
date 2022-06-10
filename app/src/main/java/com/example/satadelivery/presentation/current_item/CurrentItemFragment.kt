@@ -29,12 +29,15 @@ import javax.inject.Inject
 
 class CurrentItemFragment @Inject constructor(var item: OrdersItem) : DialogFragment() {
 
-    companion object { const val TAG = "TownBottomSheetDialogFragment" }
+    companion object {
+        const val TAG = "TownBottomSheetDialogFragment"
+    }
+
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     val viewModel by viewModels<CurrentOrderViewModel> { viewModelFactory }
-    var bottomSheetDialog : BottomSheetDialog?=null
-    var cancelSheetDialog : Dialog?=null
+    var bottomSheetDialog: BottomSheetDialog? = null
+    var cancelSheetDialog: Dialog? = null
 
     @Inject
     lateinit var pref: PreferenceHelper
@@ -47,6 +50,7 @@ class CurrentItemFragment @Inject constructor(var item: OrdersItem) : DialogFrag
         setStyle(STYLE_NO_FRAME, R.style.colorPickerStyle)
 
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -54,34 +58,38 @@ class CurrentItemFragment @Inject constructor(var item: OrdersItem) : DialogFrag
         view = DataBindingUtil.inflate(inflater,
             R.layout.current_item, container, false)
 
-     //   view.listener = ClickHandler()
+        //   view.listener = ClickHandler()
         dialog!!.window!!.requestFeature(Window.FEATURE_NO_TITLE);
         dialog!!.setCanceledOnTouchOutside(true)
 
 
 
         view.data = item
-        view.listener= ClickHandler()
+        view.listener = ClickHandler()
         view.context = context as MapActivity
 
         val end_latitude = item.billing_address!!.latitude
-        val end_longitude =  item.billing_address!!.longitude
+        val end_longitude = item.billing_address!!.longitude
 
 
         view.confirmButton.setOnClickListener {
-            viewModel.changeOrderStatus(item.order_details?.get(0)?.orderId!!,4,item.delivery_id!!)
+            viewModel.changeOrderStatus(item.order_details?.get(0)?.orderId!!,
+                4,
+                item.delivery_id!!)
             view.mView.visibility = View.GONE
 
         }
 
-view.reportButton.setOnClickListener {
-    showBottomSheetDialog()
+        view.reportButton.setOnClickListener {
+            showBottomSheetDialog()
 
-}
+        }
 
         view.detailsButton.setOnClickListener {
             this.dismiss()
-            ClickHandler().openDialogFragment(requireContext(),DetailsOrderFragment(item.order_details!!),"")
+            ClickHandler().openDialogFragment(requireContext(),
+                DetailsOrderFragment(item.order_details!!),
+                "")
         }
         view.googleMapsBtn.setOnClickListener {
             val uri =
@@ -106,32 +114,37 @@ view.reportButton.setOnClickListener {
             showReportSheet()
         }
         bottomSheetDialog!!.call.setOnClickListener {
-            ClickHandler().callNumber(item.phone!!,requireContext())
+            ClickHandler().callNumber(item.phone!!, requireContext())
         }
 
         bottomSheetDialog!!.cancel.setOnClickListener {
-            bottomSheetDialog!!.dismiss()        }
+            bottomSheetDialog!!.dismiss()
+        }
     }
- fun showReportSheet(){
-     cancelSheetDialog = Dialog(requireContext())
-     cancelSheetDialog!!.setContentView(R.layout.cancel_dialog)
 
-     cancelSheetDialog!!.setContentView(R.layout.cancel_dialog)
-     cancelSheetDialog!!.send.setOnClickListener {
-         cancelSheetDialog!!.dismiss()
-     }
-     cancelSheetDialog!!.cancelMessage.setOnClickListener {
-         cancelSheetDialog!!.dismiss()     }
+    fun showReportSheet() {
+        cancelSheetDialog = Dialog(requireContext())
+        cancelSheetDialog!!.setContentView(R.layout.cancel_dialog)
 
-     cancelSheetDialog!!.show()
-     val displayRectangle = Rect()
+        cancelSheetDialog!!.setContentView(R.layout.cancel_dialog)
+        cancelSheetDialog!!.send.setOnClickListener {
+            cancelSheetDialog!!.dismiss()
+            bottomSheetDialog!!.dismiss()
+            this.dismiss()
+        }
+        cancelSheetDialog!!.cancelMessage.setOnClickListener {
+            cancelSheetDialog!!.dismiss()
+        }
 
-     val window = activity!!.window
-     window.decorView.getWindowVisibleDisplayFrame(displayRectangle)
-     cancelSheetDialog!!.window!!.setLayout((displayRectangle.width() *
-             0.9f).toInt(), cancelSheetDialog!!.getWindow()!!.getAttributes().height);
+        cancelSheetDialog!!.show()
+        val displayRectangle = Rect()
 
- }
+        val window = activity!!.window
+        window.decorView.getWindowVisibleDisplayFrame(displayRectangle)
+        cancelSheetDialog!!.window!!.setLayout((displayRectangle.width() *
+                0.9f).toInt(), cancelSheetDialog!!.getWindow()!!.getAttributes().height);
+
+    }
 
     override fun onResume() {
         super.onResume()
@@ -159,8 +172,6 @@ view.reportButton.setOnClickListener {
 
         return dialog
     }
-
-
 
 
 }

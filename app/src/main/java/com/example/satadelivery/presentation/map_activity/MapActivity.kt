@@ -226,12 +226,6 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
         }
 
-        nav_view.getHeaderView(0).setOnClickListener {
-            mDrawerLayout?.closeDrawer(GravityCompat.START)
-            ClickHandler().switchBetweenFragments(this, ProfileFragment())
-        }
-
-
         nav_view.setNavigationItemSelectedListener(this)
 
         nav_view.getHeaderView(0).switch1
@@ -699,9 +693,9 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                                             // add polyline to the map
                                             map.addPolyline(options)
                                             // show map with route centered
-                                            map.moveCamera(CameraUpdateFactory.newLatLngBounds(
-                                                bounds,
-                                                100))
+//                                            map.moveCamera(CameraUpdateFactory.newLatLngBounds(
+//                                                bounds,
+//                                                50))
                                         } catch (e: Exception) {
                                         }
                                     }

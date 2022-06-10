@@ -52,4 +52,7 @@
     <string name="storeName">أسم المتجر</string>
     <string name="deliveryTotalText"> مجموع خدمة التوصيل :  </string>
     <string name="required">مطلوب</string>
+    <string name="orderPrice">سعر الطلب</string>
+    <string name="problem">مشكلة!</string>
+    <string name="canceled">مرفوضة</string>
 </resources>

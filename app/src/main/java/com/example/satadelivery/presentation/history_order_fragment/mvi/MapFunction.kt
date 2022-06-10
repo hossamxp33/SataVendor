@@ -20,6 +20,8 @@ suspend fun mapIntentToViewState(
 ) = when (intent) {
     is MainIntent.Initialize -> proceedWithInitialize(loadMainData, intent)
     is MainIntent.ErrorDisplayed -> intent.viewState.copy(error = null)
+    is MainIntent.FilterData -> filterDataByState(intent, intent.stateId!!)
+
 }
 
 
@@ -31,6 +33,7 @@ private suspend fun proceedWithInitialize(
     val data = response.first()
     return runCatching {
         intent.viewState!!.copy(data = (data.getOrThrow()),
+            filterData = data.getOrThrow(),
             noOrderYet = false,
             error = null,
             progress = false)
@@ -40,6 +43,15 @@ private suspend fun proceedWithInitialize(
         }
 
 }
+private fun filterDataByState(intent:MainIntent, order_status_id: Int): MainViewState {
+    val filterDataArray = filterOrder(order_status_id, intent.viewState?.data!!)
+    return intent.viewState!!.copy(filterData = filterDataArray as ArrayList<OrdersItem>)
+}
+
+fun filterOrder(order_status_id: Int, productArray: ArrayList<OrdersItem>?) =
+    productArray!!.filter { data -> data.order_status_id == order_status_id }
+
+
 
 
 

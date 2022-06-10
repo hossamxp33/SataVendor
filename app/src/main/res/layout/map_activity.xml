@@ -164,6 +164,7 @@
             android:background="@color/white"
             android:fitsSystemWindows="true"
            android:padding="8dp"
+            app:itemTextAppearance="@style/TextStyle"
             app:headerLayout="@layout/nav_header_main"
             app:itemIconTint="@color/green"
             app:itemTextColor="@color/green"

@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.DatePicker
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 
 import androidx.databinding.DataBindingUtil
@@ -45,7 +46,7 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
     val viewModel by viewModels<HistoryOrderViewmodel> { viewModelFactory }
 
     lateinit var historyOrdersAdapter: HistoryOrdersAdapter
-    var dateInfo : DateModel ? = null
+    var dateInfo: DateModel? = null
 
     var sDay = 0
     var sMonth: Int = 0
@@ -54,8 +55,9 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
     var myDay = 0
     var myMonth: Int = 0
     var myYear: Int = 0
-    var totalPrice = 0
-    var totalDeliveryCost= 0
+    var totalPrice =0
+    var orderPriceValue = 0
+    var totalDeliveryCost = 0
     var end: String? = null
 
     lateinit var view: HistoryOrdersFragmentBinding
@@ -86,16 +88,19 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
         }
 
         view.dismissBtn.setOnClickListener {
-           this.dismiss()
+            this.dismiss()
         }
 
         view.getData.setOnClickListener {
 
-            viewModel.intents.trySend(MainIntent.Initialize(viewModel.state.value!!,dateInfo))
+            viewModel.intents.trySend(MainIntent.Initialize(viewModel.state.value!!, dateInfo))
             view.getData.isVisible = false
 
         }
         //val dateInfo= DateModel(date_from = "2022-05-19",date_to = "2022-05-19")
+
+
+
 
 
 
@@ -140,29 +145,51 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
                     } else {
                         if (it.progress == true) {
                             view.progress.isVisible = true
-                            view.total.text ="0"
+                            view.total.text = "0"
 
                         } else {
                             view.progress.visibility = View.GONE
                             if (it.data != null) {
-                                historyOrdersAdapter.submitList(it.data)
+
+                                historyOrdersAdapter.submitList(it.filterData)
 
                                 for (i in 0 until it.data!!.size) {
-                                    totalPrice += it.data!!.get(i).total!!
+                                    orderPriceValue += it.data!!.get(i).total!!
+                                    totalDeliveryCost = it.data!!.get(i).delivery_serivce!!
+
                                 }
 
-                                for (i in 0 until it.data!!.size) {
-                                     totalDeliveryCost = it.data!!.get(i).delivery_serivce!!
+                                view.deliveryTotal.text = totalDeliveryCost.toString()
+
+                                view.orderPriceValue.text = orderPriceValue.toString()
+
+                                view.total.text = (orderPriceValue + totalDeliveryCost).toString()
+
+                                view.delivered.setOnClickListener { it1 ->
+                                    noColoredView()
+                                    coloredView(it1)
+                                    viewModel.intents.trySend(MainIntent.FilterData(viewModel.state.value!!, 4))
+
                                 }
-                                view.deliveryTotal.text = totalDeliveryCost.toString()
 
-                                view.total.text = totalPrice.toString()
-                                view.deliveryTotal.text = totalDeliveryCost.toString()
+                                view.canceledOrders.setOnClickListener { it1 ->
+                                    noColoredView()
+                                    coloredView(it1)
+                                    viewModel.intents.trySend(MainIntent.FilterData(viewModel.state.value!!, 5))
 
 
+                                }
+
+                                view.issuesOrders.setOnClickListener { it1 ->
+                                    noColoredView()
+                                    coloredView(it1)
+                                    viewModel.intents.trySend(MainIntent.FilterData(viewModel.state.value!!, 6))
+
+
+                                }
                             } else {
 
-                              //  viewModel.intents.trySend(MainIntent.Initialize(viewModel.state.value!!,dateInfo))
+                                //  viewModel.intents.trySend(MainIntent.Initialize(viewModel.state.value!!,dateInfo))
 
 
                             }
@@ -176,18 +203,20 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
             }
         }
     }
+
     fun historyOrderRecycleView() {
-        historyOrdersAdapter = HistoryOrdersAdapter(requireContext(),this)
+        historyOrdersAdapter = HistoryOrdersAdapter(requireContext(), this)
         view.dailyOrderRecycle.apply {
             adapter = historyOrdersAdapter
             isNestedScrollingEnabled = false
             setHasFixedSize(true)
         }
     }
+
     override fun onDateSet(p0: DatePicker?, p1: Int, p2: Int, p3: Int) {
 
         myYear = p1
-        myMonth = p2+1
+        myMonth = p2 + 1
         myDay = p3
 
         when {
@@ -202,7 +231,8 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
                 view.endTime.isEnabled = false
                 view.startTime.isEnabled = true
 
-                 dateInfo= DateModel(date_from = view.startTime.text.toString(),date_to = view.endTime.text.toString())
+                dateInfo = DateModel(date_from = view.startTime.text.toString(),
+                    date_to = view.endTime.text.toString())
 
                 view.getData.isVisible = true
             }
@@ -212,17 +242,14 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
         }
 
 
-
-
     }
-
 
 
     override fun onResume() {
         super.onResume()
         val params: ViewGroup.LayoutParams = dialog!!.window!!.attributes
         params.width = ViewGroup.LayoutParams.MATCH_PARENT
-        params.height = 1800
+        params.height = 2000
         dialog!!.window!!.setGravity(Gravity.CENTER_HORIZONTAL or Gravity.BOTTOM)
 
     }
@@ -244,4 +271,18 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
         return dialog
     }
 
+    private fun coloredView(view: View) {
+        view.setBackgroundColor(ContextCompat
+            .getColor(requireContext(), R.color.light_orange))
+    }
+    private fun whiteView(view: View) {
+        view.setBackgroundColor(ContextCompat
+            .getColor(requireContext(), R.color.white))
+    }
+    private fun noColoredView() {
+        whiteView(view.issuesOrders)
+        whiteView(view.delivered)
+        whiteView(view.canceledOrders)
+
+    }
 }
