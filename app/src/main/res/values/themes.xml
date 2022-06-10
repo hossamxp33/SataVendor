@@ -40,6 +40,16 @@
         <item name="android:layout_gravity">bottom</item>
     </style>
 
+    <style name="BrandedSwitch.control" parent="Theme.AppCompat.Light">
+        <!-- active thumb & track color (30% transparency) -->
+        <item name="colorControlActivated">#e6e600</item>
+        <item name="colorSwitchThumbNormal">#cc0000</item>
+    </style>
+
+    <style name="BrandedSwitch.text" parent="Theme.AppCompat.Light">
+        <item name="android:textColor">#ffa000</item>
+        <item name="android:textSize">9dp</item>
+    </style>
     <style name="Animation.App.FlushMessage.Exit" parent="@android:style/Animation.Activity">
         <item name="android:windowEnterAnimation">@anim/slide_top</item>
         <item name="android:windowExitAnimation">@anim/slide_down</item>

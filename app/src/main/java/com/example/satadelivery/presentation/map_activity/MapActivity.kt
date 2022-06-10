@@ -699,9 +699,9 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                                             // add polyline to the map
                                             map.addPolyline(options)
                                             // show map with route centered
-//                                            map.moveCamera(CameraUpdateFactory.newLatLngBounds(
-//                                                bounds,
-//                                                100))
+                                            map.moveCamera(CameraUpdateFactory.newLatLngBounds(
+                                                bounds,
+                                                100))
                                         } catch (e: Exception) {
                                         }
                                     }

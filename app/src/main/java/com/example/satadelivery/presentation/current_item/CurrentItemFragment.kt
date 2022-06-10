@@ -132,6 +132,7 @@ view.reportButton.setOnClickListener {
              0.9f).toInt(), cancelSheetDialog!!.getWindow()!!.getAttributes().height);
 
  }
+
     override fun onResume() {
         super.onResume()
         val params: ViewGroup.LayoutParams = dialog!!.window!!.attributes

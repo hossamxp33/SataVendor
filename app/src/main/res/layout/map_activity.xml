@@ -163,9 +163,11 @@
             android:layout_gravity="right"
             android:background="@color/white"
             android:fitsSystemWindows="true"
+           android:padding="8dp"
             app:headerLayout="@layout/nav_header_main"
             app:itemIconTint="@color/green"
             app:itemTextColor="@color/green"
+            app:itemBackground="@drawable/shadow_back_g_12"
             app:menu="@menu/activity_main_drawer" />
 
 
