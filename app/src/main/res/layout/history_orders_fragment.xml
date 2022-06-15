@@ -53,7 +53,8 @@
                 android:id="@+id/filterLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/shadow_back_g_gray"
+                android:background="@drawable/shadow_back_g"
+                android:visibility="gone"
                 android:minHeight="40dp"
                 app:layout_constraintTop_toBottomOf="@+id/recent_location">
 
@@ -62,7 +63,6 @@
                     style="@style/blackNormalTextStyle"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:background="@drawable/shadow_back_g_12"
                     android:text="تم التسليم"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

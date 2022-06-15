@@ -84,6 +84,7 @@ class CurrentOrderFragment @Inject constructor(var viewModel:CurrentOrderViewMod
     }
 
     private fun getAllData() {
+
         lifecycleScope.launchWhenStarted {
             viewModel.state.collect {
                 if (it != null) {
@@ -112,12 +113,9 @@ class CurrentOrderFragment @Inject constructor(var viewModel:CurrentOrderViewMod
 //                                mp.start();
 
                             }else{
-
                                 view.progress.isVisible = true
                                 view.noOrderFound.isVisible = true
-
                                 viewModel.intents.send(MainIntent.Initialize(it))
-
                             }
 
                         }
