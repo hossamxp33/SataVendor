@@ -3,10 +3,19 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Projects/SataDelivery/app/src/main/res/layout/activity_main.xml" value="0.27685185185185185" />
+        <entry key="..\:/Projects/SataDelivery/app/src/main/res/layout/current_item.xml" value="0.13541666666666666" />
+        <entry key="..\:/Projects/SataDelivery/app/src/main/res/layout/current_order_item.xml" value="0.246875" />
+        <entry key="..\:/Projects/SataDelivery/app/src/main/res/layout/current_orders_adapter.xml" value="0.15628166160081053" />
+        <entry key="..\:/Projects/SataDelivery/app/src/main/res/layout/daily_orders_fragment.xml" value="0.2328125" />
+        <entry key="..\:/Projects/SataDelivery/app/src/main/res/layout/delivery_login_fragment.xml" value="0.11388888888888889" />
+        <entry key="..\:/Projects/SataDelivery/app/src/main/res/layout/history_order_adapter.xml" value="0.15628166160081053" />
+        <entry key="..\:/Projects/SataDelivery/app/src/main/res/layout/history_orders_fragment.xml" value="0.15628166160081053" />
+        <entry key="..\:/Projects/SataDelivery/app/src/main/res/layout/neworder_fragment.xml" value="0.2328125" />
+        <entry key="..\:/Projects/SataDelivery/app/src/main/res/layout/profile_fragment.xml" value="0.11388888888888889" />
         <entry key="..\:/SataDelivery/app/src/main/res/drawable-v24/map_border.xml" value="0.19427083333333334" />
         <entry key="..\:/SataDelivery/app/src/main/res/drawable-v24/opacity_back_g.xml" value="0.23981481481481481" />
         <entry key="..\:/SataDelivery/app/src/main/res/drawable-v24/shadow_back_g.xml" value="0.21296296296296297" />
-        <entry key="..\:/SataDelivery/app/src/main/res/drawable-v24/shadow_back_g_12.xml" value="0.1125" />
         <entry key="..\:/SataDelivery/app/src/main/res/drawable-v24/white_circle_bk.xml" value="0.21296296296296297" />
         <entry key="..\:/SataDelivery/app/src/main/res/drawable/accpet_btn_bg.xml" value="0.2740740740740741" />
         <entry key="..\:/SataDelivery/app/src/main/res/drawable/cancel_btn_bg.xml" value="0.21296296296296297" />
@@ -14,9 +23,6 @@
         <entry key="..\:/SataDelivery/app/src/main/res/drawable/map_border.xml" value="0.19427083333333334" />
         <entry key="..\:/SataDelivery/app/src/main/res/drawable/opacity_back_g.xml" value="0.23981481481481481" />
         <entry key="..\:/SataDelivery/app/src/main/res/drawable/orange_border_shape.xml" value="0.21296296296296297" />
-        <entry key="..\:/SataDelivery/app/src/main/res/drawable/shadow_back_g.xml" value="0.1125" />
-        <entry key="..\:/SataDelivery/app/src/main/res/drawable/shadow_back_g_12.xml" value="0.1125" />
-        <entry key="..\:/SataDelivery/app/src/main/res/drawable/shadow_back_g_gray.xml" value="0.1125" />
         <entry key="..\:/SataDelivery/app/src/main/res/drawable/shadowbackground.xml" value="0.21296296296296297" />
         <entry key="..\:/SataDelivery/app/src/main/res/drawable/side_nav_bar.xml" value="0.19427083333333334" />
         <entry key="..\:/SataDelivery/app/src/main/res/layout/activity_main.xml" value="0.15104166666666666" />
@@ -34,14 +40,14 @@
         <entry key="..\:/SataDelivery/app/src/main/res/layout/details_order_adapter.xml" value="0.22" />
         <entry key="..\:/SataDelivery/app/src/main/res/layout/details_order_fragment.xml" value="0.18055555555555555" />
         <entry key="..\:/SataDelivery/app/src/main/res/layout/history_order_adapter.xml" value="0.22" />
-        <entry key="..\:/SataDelivery/app/src/main/res/layout/history_orders_fragment.xml" value="0.33" />
+        <entry key="..\:/SataDelivery/app/src/main/res/layout/history_orders_fragment.xml" value="0.16" />
         <entry key="..\:/SataDelivery/app/src/main/res/layout/main_frame_content.xml" value="0.17864583333333334" />
-        <entry key="..\:/SataDelivery/app/src/main/res/layout/map_activity.xml" value="0.33" />
+        <entry key="..\:/SataDelivery/app/src/main/res/layout/map_activity.xml" value="0.1" />
         <entry key="..\:/SataDelivery/app/src/main/res/layout/nav_header_main.xml" value="0.178125" />
         <entry key="..\:/SataDelivery/app/src/main/res/layout/neworder_fragment.xml" value="0.16" />
         <entry key="..\:/SataDelivery/app/src/main/res/layout/orders_fragment.xml" value="0.18055555555555555" />
         <entry key="..\:/SataDelivery/app/src/main/res/layout/profile_fragment.xml" value="0.18" />
-        <entry key="..\:/SataDelivery/app/src/main/res/menu/activity_main_drawer.xml" value="0.5" />
+        <entry key="..\:/SataDelivery/app/src/main/res/menu/activity_main_drawer.xml" value="0.178125" />
         <entry key="..\:/SataDelivery/app/src/main/res/menu/bottom_menu.xml" value="0.2601851851851852" />
         <entry key="..\:/SataDelivery/app/src/main/res/menu/popup_menu.xml" value="0.2601851851851852" />
       </map>

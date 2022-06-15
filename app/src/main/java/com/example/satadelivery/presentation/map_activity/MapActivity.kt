@@ -272,7 +272,32 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         siteDrawerMenuButton.setOnClickListener { view ->
             this.openCloseNavigationDrawer(view)
             note.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.note));
-            checkLocationPermission()
+
+            if (MapHelper().CheckPermission(this)) {
+                if (MapHelper().isLocationEnabled(this)) {
+                    enableMyLocation(this)
+                } else {
+
+                    Toast.makeText(
+                        this,
+                        "Please Turn on Your device Location",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            } else {
+                if (!ActivityCompat.shouldShowRequestPermissionRationale(
+                        this,
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                    )
+                ) {
+                    startActivity(
+                        Intent(
+                            Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                            Uri.fromParts("package", this.packageName, null),
+                        ),
+                    )
+                }
+            }
         }
 
         note.setOnClickListener {
@@ -307,6 +332,9 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                     ) { _, _ ->
                         //Prompt the user once explanation has been shown
                         requestLocationPermission()
+                        // selected Don't ask again
+
+
                     }
                     .create()
                     .show()

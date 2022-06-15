@@ -55,7 +55,7 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
     var myDay = 0
     var myMonth: Int = 0
     var myYear: Int = 0
-    var totalPrice =0
+    var totalPrice = 0
     var orderPriceValue = 0
     var totalDeliveryCost = 0
     var end: String? = null
@@ -72,8 +72,10 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        view = DataBindingUtil.inflate(inflater,
-            R.layout.history_orders_fragment, container, false)
+        view = DataBindingUtil.inflate(
+            inflater,
+            R.layout.history_orders_fragment, container, false
+        )
         //   view.listener = ClickHandler()
         view.context = context as MapActivity
 
@@ -98,14 +100,10 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
 
         }
         //val dateInfo= DateModel(date_from = "2022-05-19",date_to = "2022-05-19")
-
-
-
-
-
-
         getAllData()
+
         historyOrderRecycleView()
+
         return view.root
     }
 
@@ -118,8 +116,10 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
 
         val datePickerDialog =
 
-            DatePickerDialog(requireContext(),
-                AlertDialog.THEME_DEVICE_DEFAULT_DARK, this, sYear, sMonth, sDay)
+            DatePickerDialog(
+                requireContext(),
+                AlertDialog.THEME_DEVICE_DEFAULT_DARK, this, sYear, sMonth, sDay
+            )
 
         datePickerDialog.show()
 
@@ -150,13 +150,13 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
                         } else {
                             view.progress.visibility = View.GONE
                             if (it.data != null) {
-                               view. chooseDate.isVisible = false
+
                                 historyOrdersAdapter.submitList(it.filterData)
-                                orderPriceValue = 0
-                                totalDeliveryCost = 0
+
                                 for (i in 0 until it.data!!.size) {
                                     orderPriceValue += it.data!!.get(i).total!!
-                                    totalDeliveryCost += it.data!!.get(i).delivery_serivce!!
+                                    totalDeliveryCost = it.data!!.get(i).delivery_serivce!!
+
                                 }
 
                                 view.deliveryTotal.text = totalDeliveryCost.toString()
@@ -164,20 +164,28 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
                                 view.orderPriceValue.text = orderPriceValue.toString()
 
                                 view.total.text = (orderPriceValue + totalDeliveryCost).toString()
-
+                                view.filterLayout.isVisible = true
                                 view.delivered.setOnClickListener { it1 ->
                                     noColoredView()
                                     coloredView(it1)
-
-                                    viewModel.intents.trySend(MainIntent.FilterData(viewModel.state.value!!, 4))
+                                    viewModel.intents.trySend(
+                                        MainIntent.FilterData(
+                                            viewModel.state.value!!,
+                                            4
+                                        )
+                                    )
 
                                 }
 
                                 view.canceledOrders.setOnClickListener { it1 ->
                                     noColoredView()
                                     coloredView(it1)
-
-                                    viewModel.intents.trySend(MainIntent.FilterData(viewModel.state.value!!, 5))
+                                    viewModel.intents.trySend(
+                                        MainIntent.FilterData(
+                                            viewModel.state.value!!,
+                                            5
+                                        )
+                                    )
 
 
                                 }
@@ -185,8 +193,12 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
                                 view.issuesOrders.setOnClickListener { it1 ->
                                     noColoredView()
                                     coloredView(it1)
-
-                                    viewModel.intents.trySend(MainIntent.FilterData(viewModel.state.value!!, 6))
+                                    viewModel.intents.trySend(
+                                        MainIntent.FilterData(
+                                            viewModel.state.value!!,
+                                            6
+                                        )
+                                    )
 
 
                                 }
@@ -227,15 +239,16 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
                 view.endTime.isEnabled = true
                 view.startTime.text = "$myYear-$myMonth-$myDay"
                 view.startTime.isEnabled = false
-
             }
             view.endTime.isEnabled -> {
                 view.endTime.text = "$myYear-$myMonth-$myDay"
                 view.endTime.isEnabled = false
                 view.startTime.isEnabled = true
 
-                dateInfo = DateModel(date_from = view.startTime.text.toString(),
-                    date_to = view.endTime.text.toString())
+                dateInfo = DateModel(
+                    date_from = view.startTime.text.toString(),
+                    date_to = view.endTime.text.toString()
+                )
 
                 view.getData.isVisible = true
             }
@@ -275,13 +288,19 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
     }
 
     private fun coloredView(view: View) {
-        view.setBackgroundColor(ContextCompat
-            .getColor(requireContext(), R.color.light_orange))
+        view.setBackgroundColor(
+            ContextCompat
+                .getColor(requireContext(), R.color.light_orange)
+        )
     }
+
     private fun whiteView(view: View) {
-        view.setBackgroundColor(ContextCompat
-            .getColor(requireContext(), R.color.white))
+        view.setBackgroundColor(
+            ContextCompat
+                .getColor(requireContext(), R.color.white)
+        )
     }
+
     private fun noColoredView() {
         whiteView(view.issuesOrders)
         whiteView(view.delivered)
