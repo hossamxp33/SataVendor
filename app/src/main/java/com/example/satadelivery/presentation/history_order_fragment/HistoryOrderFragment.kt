@@ -154,8 +154,8 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
                                 historyOrdersAdapter.submitList(it.filterData)
 
                                 for (i in 0 until it.data!!.size) {
-                                    orderPriceValue += it.data!!.get(i).total!!
-                                    totalDeliveryCost = it.data!!.get(i).delivery_serivce!!
+                                    orderPriceValue += it.data!!.get(i).total!!.toInt()
+                                    totalDeliveryCost = it.data!!.get(i).delivery_serivce!!.toInt()
 
                                 }
 
@@ -165,6 +165,7 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
 
                                 view.total.text = (orderPriceValue + totalDeliveryCost).toString()
                                 view.filterLayout.isVisible = true
+
                                 view.delivered.setOnClickListener { it1 ->
                                     noColoredView()
                                     coloredView(it1)

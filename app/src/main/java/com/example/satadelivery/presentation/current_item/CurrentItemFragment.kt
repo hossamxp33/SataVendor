@@ -85,11 +85,14 @@ class CurrentItemFragment @Inject constructor(var item: OrdersItem) : DialogFrag
             showBottomSheetDialog()
 
         }
+        view.dismissBtn.setOnClickListener {
+            this.dismiss()
+        }
 
         view.detailsButton.setOnClickListener {
             this.dismiss()
             ClickHandler().openDialogFragment(requireContext(),
-                DetailsOrderFragment(item.order_details!!),
+                DetailsOrderFragment(item),
                 "")
         }
         view.googleMapsBtn.setOnClickListener {

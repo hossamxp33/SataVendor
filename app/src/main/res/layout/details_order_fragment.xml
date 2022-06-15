@@ -81,13 +81,102 @@
                 android:layout_height="0dp"
                 android:layout_marginTop="16dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/guid"
                 tools:itemCount="2"
                 tools:listitem="@layout/details_order_adapter" />
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dimen_8"
+                android:background="@drawable/shadow_back_g_12"
+                android:padding="@dimen/dimen_8"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/orderPriceText"
+                    style="@style/topicTitleTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:text="@string/orderPrice"
+                    android:textSize="@dimen/dimen_12"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/deliveryTotalText"
+                    style="@style/topicTitleTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:text="@string/deliveryTotalText"
+                    android:textSize="@dimen/dimen_12"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/orderPriceText" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/totalText"
+                    style="@style/topicTitleTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:fontFamily="@font/diin_bold"
+                    android:text="@string/totalText"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/deliveryTotalText" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/orderPriceValue"
+                    style="@style/topicTitleTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen_16"
+                    android:text="0"
+                    android:textColor="@color/red2"
+                    android:textSize="@dimen/dimen_16"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/deliveryTotal"
+                    style="@style/topicTitleTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen_16"
+                    android:text="0"
+                    android:textColor="@color/red2"
+                    android:textSize="@dimen/dimen_16"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/orderPriceValue" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/total"
+                    style="@style/topicTitleTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen_16"
+                    android:fontFamily="@font/diin_bold"
+                    android:text="0"
+                    android:textColor="@color/red2"
+
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/deliveryTotal" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
         <androidx.appcompat.widget.AppCompatTextView

@@ -15,17 +15,20 @@ import android.view.Gravity
 import com.example.satadelivery.databinding.DailyOrdersFragmentBinding
 import com.example.satadelivery.databinding.DetailsOrderFragmentBinding
 import com.example.satadelivery.models.current_orders.OrderDetail
+import com.example.satadelivery.models.current_orders.OrdersItem
 import com.example.satadelivery.presentation.details_order_fragment.adapter.DetailsOrderAdapter
 
 
-class DetailsOrderFragment @Inject constructor(var detailsOrderItems: List<OrderDetail>) :
+class DetailsOrderFragment @Inject constructor(var detailsOrderItems: OrdersItem) :
     DialogFragment() {
 
     companion object {
         const val TAG = "TownBottomSheetDialogFragment"
     }
 
-
+    var totalPrice = 0
+    var orderPriceValue = 0
+    var totalDeliveryCost = 0
     lateinit var detailsOrderAdapter: DetailsOrderAdapter
 
     lateinit var view: DetailsOrderFragmentBinding
@@ -51,7 +54,20 @@ class DetailsOrderFragment @Inject constructor(var detailsOrderItems: List<Order
 
         dailyOrderRecycleView()
 
-        detailsOrderAdapter.submitList(detailsOrderItems)
+        detailsOrderAdapter.submitList(detailsOrderItems.order_details)
+        for (i in 0 until detailsOrderItems.order_details!!.size) {
+
+            orderPriceValue += detailsOrderItems.order_details!![i].total.toInt()
+
+            totalDeliveryCost = detailsOrderItems.delivery_serivce!!.toInt()
+
+        }
+        view.deliveryTotal.text = totalDeliveryCost.toString()
+
+        view.orderPriceValue.text = orderPriceValue.toString()
+
+        view.total.text = (orderPriceValue + totalDeliveryCost).toString()
+
         view.closeButton.setOnClickListener {
             this.dismiss()
         }

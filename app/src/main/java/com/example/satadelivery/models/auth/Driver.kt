@@ -10,5 +10,6 @@ data class Driver(
     var mobile: String?=null,
     var room_id: String?=null,
     var salary: Int?=null,
+    var delivery_information :Int?=null,
     var user_id: Int?=null
 )

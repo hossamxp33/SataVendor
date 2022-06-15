@@ -1,18 +1,18 @@
 package com.example.satadelivery.models.current_orders
 
 data class BillingAddress(
-    var address: String,
-    var apartment_number: String,
-    var area_id: String,
-    var created_at: String,
-    var first_name: String,
-    var floor_number: String,
-    var id: Int,
-    var last_name: String,
-    var latitude: Double,
-    var longitude: Double,
-    var notes: String,
-    var phone: String,
-    var updated_at: String,
-    var user_id: Int
+    var address: String?=null,
+    var apartment_number: String?=null,
+    var area_id: String?=null,
+    var created_at: String?=null,
+    var first_name: String?=null,
+    var floor_number: String?=null,
+    var id: Int?=null,
+    var last_name: String?=null,
+    var latitude: Double?=null,
+    var longitude: Double?=null,
+    var notes: String?=null,
+    var phone: String?=null,
+    var updated_at: String?=null,
+    var user_id: Int?=null
 )

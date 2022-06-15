@@ -12,6 +12,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.satadelivery.R
 import com.example.satadelivery.databinding.NeworderFragmentBinding
 import com.example.satadelivery.helper.*
+import com.example.satadelivery.models.auth.Driver
+import com.example.satadelivery.models.auth.User
 import com.example.satadelivery.models.current_orders.OrdersItem
 import com.example.satadelivery.presentation.current_order_fragment.mvi.CurrentOrderViewModel
 import com.example.satadelivery.presentation.current_order_fragment.mvi.MainIntent
@@ -19,6 +21,9 @@ import com.example.satadelivery.presentation.details_order_fragment.DetailsOrder
 import com.example.satadelivery.presentation.map_activity.MapActivity
 import com.github.nkzawa.socketio.client.IO
 import com.github.nkzawa.socketio.client.Socket
+import com.google.gson.JsonArray
+import kotlinx.android.synthetic.main.delivery_login_fragment.*
+import org.json.JSONObject
 import javax.inject.Inject
 
 class NewOrderFragment @Inject constructor(var item: OrdersItem,var viewModel:CurrentOrderViewModel) : DialogFragment() {
@@ -48,10 +53,16 @@ class NewOrderFragment @Inject constructor(var item: OrdersItem,var viewModel:Cu
         view.data = item
 
         view.listener = ClickHandler()
-        var  lat = item.billing_address!!.latitude
-        var long = item.billing_address!!.longitude
 
-        viewModel.intents.trySend(MainIntent.getLatLong(viewModel.state.value!!.copy(cliendLatitude = lat,cliendLongitude =  long,progress = true)))
+
+try {
+    var  lat = item.billing_address!!.latitude
+    var long = item.billing_address!!.longitude
+    viewModel.intents.trySend(MainIntent.getLatLong(viewModel.state.value!!.copy(cliendLatitude = lat,cliendLongitude =  long,progress = true)))
+
+}catch (e:Exception){
+
+}
 
         view.confirmButton.setOnClickListener {
             viewModel.changeOrderStatus(item.id!!,3,pref.deliveryId)
@@ -61,11 +72,16 @@ class NewOrderFragment @Inject constructor(var item: OrdersItem,var viewModel:Cu
             val app: BaseApplication = (context as MapActivity).application as BaseApplication
             mSocket = app.getMSocket()
             //connecting socket
+            val data= JSONObject()
+            data.put("roomID",pref.room_id)
+            data.put("delivery_information",1)
+
             mSocket?.connect()
-            mSocket?.emit("OrderDeliveryCanceled", "delivery_information:1")
             val options = IO.Options()
             options.reconnection = true //reconnection
             options.forceNew = true
+
+            mSocket?.emit("OrderDeliveryCanceled", data)
             SUCCESS_MotionToast(requireActivity().getString(R.string.success),
                 requireActivity())
             dismiss()
@@ -84,7 +100,7 @@ class NewOrderFragment @Inject constructor(var item: OrdersItem,var viewModel:Cu
         view.detailsButton.setOnClickListener {
           //  this.dismiss()
             ClickHandler().openDialogFragment(requireContext(),
-                DetailsOrderFragment(item.order_details!!),"")
+                DetailsOrderFragment(item),"")
         }
 
         return view.root
