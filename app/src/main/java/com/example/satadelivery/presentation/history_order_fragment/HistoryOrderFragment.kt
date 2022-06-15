@@ -145,17 +145,18 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
                     } else {
                         if (it.progress == true) {
                             view.progress.isVisible = true
-                            view.total.text = "0"
+
 
                         } else {
                             view.progress.visibility = View.GONE
                             if (it.data != null) {
-
+                               view. chooseDate.isVisible = false
                                 historyOrdersAdapter.submitList(it.filterData)
 
                                 for (i in 0 until it.data!!.size) {
+
                                     orderPriceValue += it.data!!.get(i).total!!.toInt()
-                                    totalDeliveryCost = it.data!!.get(i).delivery_serivce!!.toInt()
+                                    totalDeliveryCost += it.data!!.get(i).delivery_serivce!!.toInt()
 
                                 }
 
@@ -167,18 +168,22 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
                                 view.filterLayout.isVisible = true
 
                                 view.delivered.setOnClickListener { it1 ->
+                                    view.deliveryTotal.text = "0"
+
+                                    view.orderPriceValue.text = "0"
                                     noColoredView()
                                     coloredView(it1)
-                                    viewModel.intents.trySend(
-                                        MainIntent.FilterData(
-                                            viewModel.state.value!!,
-                                            4
-                                        )
-                                    )
+
+                                    viewModel.intents.trySend(MainIntent.FilterData(viewModel.state.value!!, 4))
 
                                 }
 
                                 view.canceledOrders.setOnClickListener { it1 ->
+
+                                    view.deliveryTotal.text = "0"
+
+                                    view.orderPriceValue.text = "0"
+
                                     noColoredView()
                                     coloredView(it1)
                                     viewModel.intents.trySend(
@@ -192,6 +197,9 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
                                 }
 
                                 view.issuesOrders.setOnClickListener { it1 ->
+                                    view.deliveryTotal.text = "0"
+
+                                    view.orderPriceValue.text = "0"
                                     noColoredView()
                                     coloredView(it1)
                                     viewModel.intents.trySend(
