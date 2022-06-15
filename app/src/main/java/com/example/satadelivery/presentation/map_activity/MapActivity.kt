@@ -95,6 +95,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout.SimpleDrawerListener
+import cn.pedant.SweetAlert.SweetAlertDialog
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
@@ -138,6 +139,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     var distance: Double? = null
 
     var locationRequest: LocationRequest? = null
+    lateinit var pDialog: SweetAlertDialog
 
     val viewModel by viewModels<CurrentOrderViewModel> { viewModelFactory }
     val locationCallback: LocationCallback = object : LocationCallback() {
@@ -251,6 +253,10 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
+       home.setOnClickListener {
+           sweetAlert()
+
+        }
 
         mDrawerLayout!!.addDrawerListener(object : SimpleDrawerListener() {
             override fun onDrawerStateChanged(newState: Int) {
@@ -615,6 +621,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     }
 
 
+
     fun getClientAddress(location: Location) {
         try {
             lifecycleScope.launchWhenStarted {
@@ -823,6 +830,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         val manager: LocationManager = getSystemService(LOCATION_SERVICE) as LocationManager
         if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             buildAlertMessageNoGps()
+
         }
     }
 
@@ -848,7 +856,21 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         alert.show()
     }
 
-
+    fun sweetAlert(){
+        pDialog = SweetAlertDialog(this, SweetAlertDialog.NORMAL_TYPE)
+        pDialog.contentText = this.getString(R.string.go_home)
+        pDialog.confirmText = "نعم"
+        pDialog.cancelText = "لا"
+        pDialog.setCancelClickListener { pDialog.dismiss() }
+        pDialog.setConfirmClickListener {
+            val uri =
+                "http://maps.google.com/maps?saddr=" + Pref.latitude.toString() + "," + Pref.longitude.toString() + "&daddr=" + homeLatLng.toString() + "," + homeLatLng
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+            intent.setPackage("com.google.android.apps.maps")
+            startActivity(intent)
+        }
+        pDialog.show()
+    }
     override fun onResume() {
         super.onResume()
         //   getLocationPermission()

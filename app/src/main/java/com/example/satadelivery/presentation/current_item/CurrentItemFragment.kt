@@ -6,6 +6,7 @@ import android.graphics.Rect
 import android.net.Uri
 import android.os.Bundle
 import android.view.*
+import androidx.annotation.Nullable
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
@@ -102,6 +103,15 @@ class CurrentItemFragment @Inject constructor(var item: OrdersItem) : DialogFrag
 
         return view.root
     }
+    override fun onActivityCreated(@Nullable savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        dialog!!.setCancelable(false)
+        dialog!!.setCanceledOnTouchOutside(false)
+        dialog!!.window?.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
+            WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL);
+        dialog!!.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+
+    }
 
     private fun showBottomSheetDialog() {
 
@@ -138,11 +148,11 @@ class CurrentItemFragment @Inject constructor(var item: OrdersItem) : DialogFrag
 
         cancelSheetDialog!!.show()
         val displayRectangle = Rect()
-
-        val window = activity!!.window
-        window.decorView.getWindowVisibleDisplayFrame(displayRectangle)
-        cancelSheetDialog!!.window!!.setLayout((displayRectangle.width() *
-                0.9f).toInt(), cancelSheetDialog!!.getWindow()!!.getAttributes().height);
+//
+//        val window = activity!!.window
+//        window.decorView.getWindowVisibleDisplayFrame(displayRectangle)
+//        cancelSheetDialog!!.window!!.setLayout((displayRectangle.width() *
+//                0.9f).toInt(), cancelSheetDialog!!.getWindow()!!.getAttributes().height);
 
     }
 
@@ -150,7 +160,7 @@ class CurrentItemFragment @Inject constructor(var item: OrdersItem) : DialogFrag
         super.onResume()
         val params: ViewGroup.LayoutParams = dialog!!.window!!.attributes
         params.width = ViewGroup.LayoutParams.MATCH_PARENT
-        params.height = 1800
+        params.height = 1500
         dialog!!.window!!.setGravity(Gravity.CENTER_HORIZONTAL or Gravity.BOTTOM)
 
     }
@@ -163,6 +173,11 @@ class CurrentItemFragment @Inject constructor(var item: OrdersItem) : DialogFrag
             dialog.window?.setWindowAnimations(
                 R.style.Animation_Design_BottomSheetDialog
             )
+
+            dialog.setCancelable(false)
+            dialog.setCanceledOnTouchOutside(true)
+
+
         } else {
             dialog.window?.setWindowAnimations(
                 R.style.Animation_Design_BottomSheetDialog

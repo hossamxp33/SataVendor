@@ -276,6 +276,24 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center" />
             </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/chooseDate"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="20dp"
+                    android:text="قم باختيار تاريخ لمراجعة الطلبات"
+                    android:layout_gravity="center" />
+            </FrameLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

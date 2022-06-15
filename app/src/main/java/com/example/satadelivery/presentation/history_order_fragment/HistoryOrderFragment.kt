@@ -150,13 +150,13 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
                         } else {
                             view.progress.visibility = View.GONE
                             if (it.data != null) {
-
+                               view. chooseDate.isVisible = false
                                 historyOrdersAdapter.submitList(it.filterData)
-
+                                orderPriceValue = 0
+                                totalDeliveryCost = 0
                                 for (i in 0 until it.data!!.size) {
                                     orderPriceValue += it.data!!.get(i).total!!
-                                    totalDeliveryCost = it.data!!.get(i).delivery_serivce!!
-
+                                    totalDeliveryCost += it.data!!.get(i).delivery_serivce!!
                                 }
 
                                 view.deliveryTotal.text = totalDeliveryCost.toString()
@@ -168,6 +168,7 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
                                 view.delivered.setOnClickListener { it1 ->
                                     noColoredView()
                                     coloredView(it1)
+
                                     viewModel.intents.trySend(MainIntent.FilterData(viewModel.state.value!!, 4))
 
                                 }
@@ -175,6 +176,7 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
                                 view.canceledOrders.setOnClickListener { it1 ->
                                     noColoredView()
                                     coloredView(it1)
+
                                     viewModel.intents.trySend(MainIntent.FilterData(viewModel.state.value!!, 5))
 
 
@@ -183,6 +185,7 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
                                 view.issuesOrders.setOnClickListener { it1 ->
                                     noColoredView()
                                     coloredView(it1)
+
                                     viewModel.intents.trySend(MainIntent.FilterData(viewModel.state.value!!, 6))
 
 

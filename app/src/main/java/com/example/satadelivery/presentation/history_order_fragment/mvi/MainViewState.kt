@@ -11,5 +11,4 @@ data class MainViewState(
     var noOrderYet : Boolean? = false,
     val progress:  Boolean? = null,
     var error: UserError?=null
-
 )
