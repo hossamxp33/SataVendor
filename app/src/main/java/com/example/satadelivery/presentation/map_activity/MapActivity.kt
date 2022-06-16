@@ -3,19 +3,14 @@ package com.example.satadelivery.presentation.map_activity
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
-import android.location.Address
-import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
 import android.media.MediaPlayer
 import android.net.Uri
-import android.nfc.Tag
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
@@ -23,8 +18,6 @@ import android.provider.Settings
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
-import android.widget.ImageView
-import android.widget.Switch
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
@@ -32,12 +25,29 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
+import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.drawerlayout.widget.DrawerLayout.SimpleDrawerListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import cn.pedant.SweetAlert.SweetAlertDialog
+import com.beust.klaxon.*
 import com.example.satadelivery.R
+import com.example.satadelivery.databinding.MapActivityBinding
+import com.example.satadelivery.databinding.NavHeaderMainBinding
+import com.example.satadelivery.helper.*
+import com.example.satadelivery.models.current_orders.OrdersItem
+import com.example.satadelivery.presentation.auth.LoginActivity
+import com.example.satadelivery.presentation.current_order_fragment.CurrentOrderFragment
+import com.example.satadelivery.presentation.current_order_fragment.mvi.CurrentOrderViewModel
+import com.example.satadelivery.presentation.history_order_fragment.DailyOrdersFragment
+import com.example.satadelivery.presentation.history_order_fragment.HistoryOrderFragment
 import com.example.satadelivery.presentation.new_order_bottomfragment.NewOrderFragment
-
+import com.example.satadelivery.presentation.profile_fragment.ProfileFragment
+import com.example.satadelivery.presentation.profile_fragment.ProfileFragment.Companion.TAG
+import com.github.nkzawa.socketio.client.IO
+import com.github.nkzawa.socketio.client.Socket
+import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -45,64 +55,23 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.material.navigation.NavigationView
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import kotlinx.android.synthetic.main.map_activity.*
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.maps.model.LatLngBounds
-import com.google.android.gms.maps.model.PolylineOptions
-import java.io.IOException
-import java.util.*
-import javax.inject.Inject
-import com.beust.klaxon.*
-import com.example.satadelivery.models.current_orders.OrderDetail
-import com.example.satadelivery.models.current_orders.OrdersItem
-import com.example.satadelivery.presentation.Permissions
-import com.example.satadelivery.presentation.auth.LoginActivity
-import org.jetbrains.anko.custom.onUiThread
-
-import org.jetbrains.anko.custom.async
-import java.net.URL
-import com.google.gson.JsonArray
-import com.google.gson.JsonObject
-import com.example.satadelivery.presentation.current_order_fragment.CurrentOrderFragment
-import com.example.satadelivery.presentation.current_order_fragment.mvi.CurrentOrderViewModel
-import com.example.satadelivery.presentation.current_order_fragment.mvi.MainIntent
-import com.example.satadelivery.presentation.details_order_fragment.DetailsOrderFragment
-import com.example.satadelivery.presentation.history_order_fragment.DailyOrdersFragment
-import com.example.satadelivery.presentation.history_order_fragment.HistoryOrderFragment
-import com.example.satadelivery.presentation.profile_fragment.ProfileFragment
-import com.github.nkzawa.socketio.client.IO
-import com.github.nkzawa.socketio.client.Socket
-import com.google.android.gms.location.*
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import com.google.maps.android.SphericalUtil
 import kotlinx.android.synthetic.main.nav_header_main.*
+import kotlinx.android.synthetic.main.nav_header_main.view.*
 import kotlinx.coroutines.flow.collect
 import org.jetbrains.anko.custom.async
-
-
-import android.widget.TextView
-import com.example.satadelivery.helper.*
-import junit.runner.Version.id
-import kotlinx.android.synthetic.main.nav_header_main.view.*
-import android.widget.CompoundButton
-import androidx.appcompat.widget.AppCompatImageView
-import androidx.core.view.isVisible
-import androidx.databinding.DataBindingUtil
-import androidx.drawerlayout.widget.DrawerLayout.SimpleDrawerListener
-import cn.pedant.SweetAlert.SweetAlertDialog
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.bumptech.glide.request.RequestOptions
-import com.example.satadelivery.databinding.MapActivityBinding
-import com.example.satadelivery.databinding.NavHeaderMainBinding
-import com.example.satadelivery.presentation.profile_fragment.ProfileFragment.Companion.TAG
-import org.jetbrains.anko.support.v4.drawerListener
+import org.jetbrains.anko.custom.onUiThread
+import org.jetbrains.anko.locationManager
+import java.io.IOException
+import java.net.URL
+import java.util.*
+import javax.inject.Inject
 
 
 class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
@@ -112,7 +81,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     lateinit var Pref: PreferenceHelper
     internal var mFusedLocationClient: FusedLocationProviderClient? = null
 
-    private lateinit var map: GoogleMap
+      var map: GoogleMap ?  = null
 
     var latitude: Double? = null //-33.867
     var longitude: Double? = null // 151.206
@@ -253,8 +222,8 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
-       home.setOnClickListener {
-           sweetAlert()
+        home.setOnClickListener {
+            sweetAlert()
 
         }
 
@@ -453,8 +422,8 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
-        map.clear();
-        MapHelper().setPoiClick(map)
+        map!!.clear();
+        MapHelper().setPoiClick(map!!)
         //MapHelper().setMapStyle(map, this)
         //  statusCheck()
 
@@ -463,7 +432,22 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
         //  map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(-34.0, 151.0), 16.0f))
         MapHelper().RequestPermission(this)
+        updateLocation()
 
+//        if (map !=null) {
+//            map!!.setOnCameraMoveListener {
+//
+//                    if ( map!!.cameraPosition.zoom < 16.0f && map!!.cameraPosition.zoom > 3.0f) {
+//                        Toast.makeText(this,"a",Toast.LENGTH_SHORT).show()
+//                    mFusedLocationClient!!.removeLocationUpdates(locationCallback)
+//
+//                }else{
+//
+//            }
+//            }
+//        }else{
+//
+//        }
 
         if (MapHelper().CheckPermission(this)) {
             if (MapHelper().isLocationEnabled(this)) {
@@ -485,7 +469,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
     @SuppressLint("MissingPermission")
     fun enableMyLocation(context: Context) {
-        map.isMyLocationEnabled = true
+        map?.isMyLocationEnabled  = true
         mFusedLocationClient!!.lastLocation.addOnCompleteListener { task ->
             val location: Location? = task.result
             if (location == null) {
@@ -539,19 +523,19 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     fun setUserLocationMarker(location: Location) {
         homeLatLng = LatLng(location.latitude, location.longitude)
         if (userLocationMarker == null) {
-            userLocationMarker = map.addMarker(MarkerOptions()
+            userLocationMarker = map!!.addMarker(MarkerOptions()
                 .position(homeLatLng)
                 .icon(BitmapDescriptorFactory
                     .fromResource(R.drawable.motor_ic))
                 .rotation(location.bearing)
                 .anchor(0.5f, 0.5f)
             )
-            map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(location.latitude,
+            map!!.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(location.latitude,
                 location.longitude), 16.0f))
         } else {
             userLocationMarker!!.position = homeLatLng
             userLocationMarker!!.rotation = location.bearing
-            map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(location.latitude,
+            map!!.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(location.latitude,
                 location.longitude), 16.0f))
 
         }
@@ -569,11 +553,13 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         val locationCallback: LocationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
                 if (locationResult != null) {
+
+
                     Log.d(TAG, "onLocationResult: " + locationResult.lastLocation)
 
                     if (map != null)
                         setUserLocationMarker(locationResult.lastLocation)
-                    getClientAddress(locationResult.lastLocation)
+                         getClientAddress(locationResult.lastLocation)
 
                     //Showing the latitude, longitude and accuracy on the home screen.
                     //      for (location in locationResult.locations) {
@@ -588,6 +574,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 //
 //
 //                    }
+
                 }
             }
         }
@@ -598,10 +585,6 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         ) {
             try {
 
-//        //instantiating the LocationCallBack
-//        //instantiating the LocationCallBack
-
-                //     goToAddress(latitude!!, longitude!!)
 
             } catch (e: Exception) {
 
@@ -634,20 +617,19 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     private fun goToAddress(mlatitude: Double, mLogitude: Double) {
         try {
             val homeLatLng = LatLng(mlatitude, mLogitude)
-            map.clear()
-            map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(mlatitude, mLogitude),
+            map?.clear()
+            map!!.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(mlatitude, mLogitude),
                 16.0f))
 
-            map.setOnCameraIdleListener(GoogleMap.OnCameraIdleListener {
-                latitude = map.cameraPosition.target.latitude
-                longitude = map.cameraPosition.target.longitude
+            map!!.setOnCameraIdleListener(GoogleMap.OnCameraIdleListener {
+                latitude = map!!.cameraPosition.target.latitude
+                longitude = map!!.cameraPosition.target.longitude
             })
         } catch (e: Exception) {
             checkLocationPermission()
         }
 
     }
-
 
 
     fun getClientAddress(location: Location) {
@@ -662,7 +644,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                             if (it.progress == true) {
                                 val clientLatLng = LatLng(end_latitude, end_longitude)
                                 if (userLocationMarker == null) {
-                                    userLocationMarker = map.addMarker(MarkerOptions()
+                                    userLocationMarker = map!!.addMarker(MarkerOptions()
                                         .position(homeLatLng)
                                         .icon(BitmapDescriptorFactory
                                             .fromResource(R.drawable.motor_ic))
@@ -679,7 +661,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 //                                    end_latitude,
 //                                    end_longitude), 16.0f))
 
-                                map.addMarker(MarkerOptions().position(clientLatLng))
+                                map!!.addMarker(MarkerOptions().position(clientLatLng))
 
                                 val options = PolylineOptions()
                                 options.color(this@MapActivity.getColor(R.color.orange))
@@ -726,7 +708,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                                             // build bounds
                                             val bounds = LatLongB.build()
                                             // add polyline to the map
-                                            map.addPolyline(options)
+                                            map!!.addPolyline(options)
                                             // show map with route centered
 //                                            map.moveCamera(CameraUpdateFactory.newLatLngBounds(
 //                                                bounds,
@@ -884,7 +866,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         alert.show()
     }
 
-    fun sweetAlert(){
+    fun sweetAlert() {
         pDialog = SweetAlertDialog(this, SweetAlertDialog.NORMAL_TYPE)
         pDialog.contentText = this.getString(R.string.go_home)
         pDialog.confirmText = "نعم"
@@ -899,11 +881,10 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         }
         pDialog.show()
     }
+
     override fun onResume() {
         super.onResume()
-        //   getLocationPermission()
-        updateLocation()
-    }
 
+    }
 
 }
