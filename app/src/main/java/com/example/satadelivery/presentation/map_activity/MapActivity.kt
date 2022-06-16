@@ -432,22 +432,8 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
         //  map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(-34.0, 151.0), 16.0f))
         MapHelper().RequestPermission(this)
-        updateLocation()
 
-//        if (map !=null) {
-//            map!!.setOnCameraMoveListener {
-//
-//                    if ( map!!.cameraPosition.zoom < 16.0f && map!!.cameraPosition.zoom > 3.0f) {
-//                        Toast.makeText(this,"a",Toast.LENGTH_SHORT).show()
-//                    mFusedLocationClient!!.removeLocationUpdates(locationCallback)
-//
-//                }else{
-//
-//            }
-//            }
-//        }else{
-//
-//        }
+
 
         if (MapHelper().CheckPermission(this)) {
             if (MapHelper().isLocationEnabled(this)) {
@@ -478,7 +464,11 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
             latitude = location!!.latitude
             longitude = location.longitude
+
+            map!!.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(latitude!!,
+                longitude!!), 16.0f))
             homeLatLng = LatLng(latitude!!, longitude!!)
+
         }
 
     }
@@ -530,13 +520,11 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                 .rotation(location.bearing)
                 .anchor(0.5f, 0.5f)
             )
-            map!!.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(location.latitude,
-                location.longitude), 16.0f))
+
         } else {
             userLocationMarker!!.position = homeLatLng
             userLocationMarker!!.rotation = location.bearing
-            map!!.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(location.latitude,
-                location.longitude), 16.0f))
+
 
         }
     }
@@ -553,8 +541,6 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         val locationCallback: LocationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
                 if (locationResult != null) {
-
-
                     Log.d(TAG, "onLocationResult: " + locationResult.lastLocation)
 
                     if (map != null)
@@ -592,15 +578,21 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
             return
         }
-        mFusedLocationClient?.requestLocationUpdates(locationRequest,
-            locationCallback,
-            Looper.getMainLooper())
+
+        if (map !=null && map!!.cameraPosition.zoom == 16.0f && map!!.cameraPosition.zoom > 3.0f) {
+          Toast.makeText(this,"a",Toast.LENGTH_SHORT).show()
+          mFusedLocationClient!!.removeLocationUpdates(locationCallback)
+
+                }else{
+                        mFusedLocationClient?.requestLocationUpdates(locationRequest,
+                            locationCallback,
+                            Looper.getMainLooper())
+            }
 
     }
 
     @SuppressLint("MissingPermission")
     private fun getLocationPermission() {
-
         mFusedLocationClient?.lastLocation?.addOnSuccessListener(this,
             OnSuccessListener<Location?> { location ->
                 // Got last known location. In some rare situations this can be null.
@@ -710,9 +702,9 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                                             // add polyline to the map
                                             map!!.addPolyline(options)
                                             // show map with route centered
-//                                            map.moveCamera(CameraUpdateFactory.newLatLngBounds(
-//                                                bounds,
-//                                                50))
+                                            map!!.moveCamera(CameraUpdateFactory.newLatLngBounds(
+                                                bounds,
+                                                60))
                                         } catch (e: Exception) {
                                         }
                                     }
@@ -884,7 +876,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
     override fun onResume() {
         super.onResume()
-
+   updateLocation()
     }
 
 }
