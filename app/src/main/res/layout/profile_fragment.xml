@@ -8,19 +8,19 @@
 
         <variable
             name="data"
-            type="com.example.satadelivery.models.delivery.DeliveryItem" />
+            type="com.sata.satadelivery.models.delivery.DeliveryItem" />
 
         <variable
             name="Context"
-            type="com.example.satadelivery.presentation.map_activity.MapActivity" />
+            type="com.sata.satadelivery.presentation.map_activity.MapActivity" />
 
         <variable
             name="listener"
-            type="com.example.satadelivery.helper.ClickHandler" />
+            type="com.sata.satadelivery.helper.ClickHandler" />
 
         <variable
             name="pref"
-            type="com.example.satadelivery.helper.PreferenceHelper" />
+            type="com.sata.satadelivery.helper.PreferenceHelper" />
 
     </data>
 

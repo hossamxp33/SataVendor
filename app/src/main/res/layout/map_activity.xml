@@ -15,7 +15,7 @@
 
         <variable
             name="Context"
-            type="com.example.satadelivery.presentation.map_activity.MapActivity" />
+            type="com.sata.satadelivery.presentation.map_activity.MapActivity" />
 
         <!--        <variable-->
         <!--            name="listener"-->

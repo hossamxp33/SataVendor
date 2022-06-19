@@ -7,14 +7,14 @@
 
         <variable
             name="data"
-            type="com.example.satadelivery.models.current_orders.OrderDetail" />
+            type="com.sata.satadelivery.models.current_orders.OrderDetail" />
 
         <variable
             name="Context"
-            type="com.example.satadelivery.presentation.map_activity.MapActivity" />
+            type="com.sata.satadelivery.presentation.map_activity.MapActivity" />
         <variable
             name="listener"
-            type="com.example.satadelivery.helper.ClickHandler"/>
+            type="com.sata.satadelivery.helper.ClickHandler"/>
 
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
