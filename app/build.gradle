@@ -19,8 +19,8 @@ android {
         applicationId "com.sata.satadelivery"
         minSdk 23
         targetSdk 30
-        versionCode 3
-        versionName "3"
+        versionCode 4
+        versionName "4"
         testInstrumentationRunner "com.example.satadelivery.CustomTestRunner"
         vectorDrawables.useSupportLibrary = true
 
@@ -48,11 +48,13 @@ android {
     buildTypes {
         release {
 
-            minifyEnabled true
+            minifyEnabled false
+            multiDexEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        debug {
+        }
     }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8

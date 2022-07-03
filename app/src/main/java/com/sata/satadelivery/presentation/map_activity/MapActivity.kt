@@ -737,7 +737,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
         val params = "$origin&$dest&$sensor"
 
-        return "https://maps.googleapis.com/maps/api/directions/json?$params&key=AIzaSyCjzzd4nbOiZJx3B53u9ZZAq0tcOsVUBdg"
+        return "https://maps.googleapis.com/maps/api/directions/json?$params&key=AIzaSyBxgJFTad1Ir0m_pn7dfzm3qVGnK7IyoFQ"
 
     }
 

@@ -95,7 +95,7 @@
                 android:id="@+id/note"
                 android:layout_width="55dp"
                 android:layout_height="55dp"
-                android:layout_marginLeft="32dp"
+                android:layout_marginLeft="64dp"
                 android:layout_marginTop="32dp"
                 android:background="@drawable/white_circle_bk"
                 android:padding="@dimen/dimen_8"
