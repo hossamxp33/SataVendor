@@ -5,22 +5,22 @@
     <data>
         <variable
             name="data"
-            type="com.sata.satadelivery.models.current_orders.OrdersItem" />
+            type="com.codesroots.satavendor.models.current_orders.OrdersItem" />
 
         <variable
             name="Context"
-            type="com.sata.satadelivery.presentation.map_activity.MapActivity" />
+            type="com.codesroots.satavendor.presentation.map_activity.MapActivity" />
 
         <variable
             name="fragment"
-            type="com.sata.satadelivery.presentation.current_item.CurrentItemFragment" />
+            type="com.codesroots.satavendor.presentation.current_item.CurrentItemFragment" />
   <variable
             name="mainFragment"
-            type="com.sata.satadelivery.presentation.current_order_fragment.CurrentOrderFragment" />
+            type="com.codesroots.satavendor.presentation.current_order_fragment.CurrentOrderFragment" />
 
         <variable
             name="listener"
-            type="com.sata.satadelivery.helper.ClickHandler"/>
+            type="com.codesroots.satavendor.helper.ClickHandler"/>
 
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -1,41 +1,33 @@
 {
   "project_info": {
-    "project_number": "661719332311",
-    "project_id": "sata-fast",
-    "storage_bucket": "sata-fast.appspot.com"
+    "project_number": "830730249765",
+    "project_id": "satavendor-c0491",
+    "storage_bucket": "satavendor-c0491.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:661719332311:android:f2d4e4e9a530d5d1c2c792",
+        "mobilesdk_app_id": "1:830730249765:android:cf4d4752454e43509e01cc",
         "android_client_info": {
-          "package_name": "com.sata.satadelivery"
+          "package_name": "com.codesroots.satavendor"
         }
       },
       "oauth_client": [
         {
-          "client_id": "661719332311-vgn4kbao2aejfdi59dmst5nfbq1gcnt3.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.sata.satadelivery",
-            "certificate_hash": "b55b730052512905a04c5fb3eebf8e65f36fe4e2"
-          }
-        },
-        {
-          "client_id": "661719332311-pi25sldhuhspsgokoamt3coi3ch71gpa.apps.googleusercontent.com",
+          "client_id": "830730249765-mdr27baoqvrndvhelsnk58alf0u2ep5b.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCxzKfHk8b0d7yqeJu7rIjGho1Jeg2zivY"
+          "current_key": "AIzaSyAyf_K_gHZTSgFlDHS98YbwGyp9W0CSZ6E"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "661719332311-pi25sldhuhspsgokoamt3coi3ch71gpa.apps.googleusercontent.com",
+              "client_id": "830730249765-mdr27baoqvrndvhelsnk58alf0u2ep5b.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

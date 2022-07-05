@@ -9,6 +9,6 @@ dependencyResolutionManagement {
 
     }
 }
-rootProject.name = "SataDelivery"
+rootProject.name = "SataVendor"
 include ':app'
 

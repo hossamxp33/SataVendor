@@ -10,7 +10,7 @@
 
         <variable
             name="Context"
-            type="com.sata.satadelivery.presentation.map_activity.MapActivity" />
+            type="com.codesroots.satavendor.presentation.map_activity.MapActivity" />
         <!--    <variable-->
         <!--        name="listener"-->
         <!--        type="com.example.satafood.presentaion.ClickHandler"/>-->

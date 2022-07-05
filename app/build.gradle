@@ -16,12 +16,12 @@ android {
     compileSdk 30
 
     defaultConfig {
-        applicationId "com.sata.satadelivery"
+        applicationId "com.codesroots.satavendor"
         minSdk 23
         targetSdk 30
         versionCode 4
         versionName "4"
-        testInstrumentationRunner "com.example.satadelivery.CustomTestRunner"
+        testInstrumentationRunner "com.codesroots.satavendor.CustomTestRunner"
         vectorDrawables.useSupportLibrary = true
 
 

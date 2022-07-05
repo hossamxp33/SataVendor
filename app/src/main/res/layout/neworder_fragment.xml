@@ -5,14 +5,14 @@
 <data>
     <variable
         name="data"
-        type="com.sata.satadelivery.models.current_orders.OrdersItem" />
+        type="com.codesroots.satavendor.models.current_orders.OrdersItem" />
 
     <variable
         name="Context"
-        type="com.sata.satadelivery.presentation.map_activity.MapActivity" />
+        type="com.codesroots.satavendor.presentation.map_activity.MapActivity" />
     <variable
         name="listener"
-        type="com.sata.satadelivery.helper.ClickHandler"/>
+        type="com.codesroots.satavendor.helper.ClickHandler"/>
 
 </data>
 <androidx.constraintlayout.widget.ConstraintLayout
