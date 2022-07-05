@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.satadelivery">
+    package="com.sata.satadelivery">
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -23,7 +23,7 @@
         android:icon="@mipmap/ic_launcher_logo_adaptive_fore"
         android:installLocation="preferExternal"
         android:label="@string/app_name"
-        android:name=".helper.BaseApplication"
+        android:name="com.sata.satadelivery.helper.BaseApplication"
         android:windowSoftInputMode="stateVisible"
         android:usesCleartextTraffic="true"
         android:requestLegacyExternalStorage="true"
@@ -33,22 +33,22 @@
         android:theme="@style/AppTheme.NoActionBar">
 
         <activity
-            android:name=".MainActivity"
+            android:name="com.sata.satadelivery.MainActivity"
             android:exported="true">
 
         </activity>
         <activity
-            android:name=".presentation.auth.LoginActivity"
+            android:name="com.sata.satadelivery.presentation.auth.LoginActivity"
             android:exported="true">
 
         </activity>
         <activity
-            android:name=".presentation.map_activity.MapActivity"
+            android:name="com.sata.satadelivery.presentation.map_activity.MapActivity"
             android:exported="true">
 
         </activity>
         <activity
-            android:name=".presentation.splashScreen.SplashScreen"
+            android:name="com.sata.satadelivery.presentation.splashScreen.SplashScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

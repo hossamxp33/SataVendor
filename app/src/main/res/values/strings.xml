@@ -55,4 +55,5 @@
     <string name="orderPrice">سعر الطلب</string>
     <string name="problem">مشكلة!</string>
     <string name="canceled">مرفوضة</string>
+    <string name="go_home">هل تريد الذهاب اللي المطعم ؟</string>
 </resources>

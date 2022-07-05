@@ -7,15 +7,15 @@
 
         <variable
             name="data"
-            type="com.example.satadelivery.models.current_orders.OrdersItem" />
+            type="com.sata.satadelivery.models.current_orders.OrdersItem" />
 
         <variable
             name="Context"
-            type="com.example.satadelivery.presentation.map_activity.MapActivity" />
+            type="com.sata.satadelivery.presentation.map_activity.MapActivity" />
 
         <variable
             name="listener"
-            type="com.example.satadelivery.helper.ClickHandler" />
+            type="com.sata.satadelivery.helper.ClickHandler" />
 
     </data>
 
@@ -33,6 +33,7 @@
         android:padding="8dp">
 
         <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/commentText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/grayTopicTitleTextStyle"
