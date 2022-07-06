@@ -15,6 +15,7 @@ import com.codesroots.satavendor.helper.*
 import com.codesroots.satavendor.models.current_orders.OrderStatus
 import com.codesroots.satavendor.models.current_orders.OrdersItem
 import com.codesroots.satavendor.models.delivery.DeliveryItem
+import com.codesroots.satavendor.presentation.current_item.CurrentItemFragment
 import com.codesroots.satavendor.presentation.current_order_fragment.mvi.CurrentOrderViewModel
 import com.codesroots.satavendor.presentation.current_order_fragment.mvi.MainIntent
 import com.codesroots.satavendor.presentation.details_order_fragment.DetailsOrderFragment
@@ -156,9 +157,10 @@ class NewOrderFragment @Inject constructor(
                 order_status_id = 1,orderId = item.order_details?.get(0)?.orderId!!, time = time)
 
             viewModel.changeOrderStatus(item.id!!,changeStatusInfo)
-            val deliveriesInfo = DeliveryItem(branch_id =  pref.VendorId)
 
-            viewModel.getDeliveris(deliveriesInfo)
+            ClickHandler().openDialogFragment(requireContext(), CurrentItemFragment(item), "")
+
+
 
             orderTimesDialog.dismiss()
 
