@@ -27,8 +27,8 @@ class RemoteDataSource @Inject constructor(private val ApiService: APIServices)
     }
 
 
-    override suspend fun getCurrentOrders(): ArrayList<OrdersItem> =
-       runCatching { ApiService.getCurrentOrders() }
+    override suspend fun getCurrentOrders(id:Int?): ArrayList<OrdersItem> =
+       runCatching { ApiService.getCurrentOrders(id!!) }
            .getOrElse { throw it }
 
     override suspend fun getDeliveryOrdersByDate(dateModel: DateModel?): ArrayList<OrdersItem> =

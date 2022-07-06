@@ -16,6 +16,7 @@ import com.codesroots.satavendor.helper.UserError
 import com.codesroots.satavendor.presentation.current_order_fragment.adapter.CurrentOrdersAdapter
 import com.codesroots.satavendor.presentation.current_order_fragment.mvi.CurrentOrderViewModel
 import com.codesroots.satavendor.presentation.current_order_fragment.mvi.MainIntent
+import com.codesroots.satavendor.presentation.map_activity.MapActivity
 
 import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
@@ -50,10 +51,11 @@ class CurrentOrderFragment @Inject constructor(var viewModel:CurrentOrderViewMod
         view = DataBindingUtil.inflate(inflater,
             R.layout.current_order_fragment, container, false)
 
+        val pref = (context as MapActivity).Pref
      //   view.listener = ClickHandler()
         dialog!!.window!!.requestFeature(Window.FEATURE_NO_TITLE);
         dialog!!.setCanceledOnTouchOutside(true);
-        viewModel.intents.trySend(MainIntent.Initialize(viewModel.state.value!!))
+        viewModel.intents.trySend(MainIntent.Initialize(viewModel.state.value!!,pref.VendorId))
         getAllData()
 
 
@@ -74,6 +76,7 @@ class CurrentOrderFragment @Inject constructor(var viewModel:CurrentOrderViewMod
     }
 
     private fun getAllData() {
+        val pref = (context as MapActivity).Pref
 
         lifecycleScope.launchWhenStarted {
             viewModel.state.collect {
@@ -105,7 +108,7 @@ class CurrentOrderFragment @Inject constructor(var viewModel:CurrentOrderViewMod
                             }else{
                                 view.progress.isVisible = true
                                 view.noOrderFound.isVisible = true
-                                viewModel.intents.send(MainIntent.Initialize(it))
+                                viewModel.intents.send(MainIntent.Initialize(it,pref.VendorId))
                             }
 
                         }

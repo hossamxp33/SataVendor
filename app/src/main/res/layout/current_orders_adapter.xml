@@ -71,6 +71,16 @@
                     app:strokeWidth="0dp" />
 
             </androidx.cardview.widget.CardView>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/price"
+                style="@style/grayTopicTitleTextStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{data.order_details.get(0).total + ` ` + `ج.م`}"
+                android:textColor="@color/red2"
+                app:layout_constraintBottom_toBottomOf="@+id/details_button"
+                app:layout_constraintRight_toRightOf="@+id/cardView"
+                app:layout_constraintTop_toTopOf="@+id/details_button" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/call"
@@ -101,7 +111,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                app:layout_constraintLeft_toLeftOf="parent"
                 android:text="@{data.billing_address.address}"
                 app:layout_constraintBottom_toBottomOf="@+id/cardView"
                 app:layout_constraintRight_toLeftOf="@+id/cardView"

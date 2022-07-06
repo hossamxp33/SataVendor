@@ -40,6 +40,7 @@ class DailyOrdersFragment @Inject constructor() : DialogFragment()
     val viewModel by viewModels<HistoryOrderViewmodel> { viewModelFactory }
 
     lateinit var historyOrdersAdapter: HistoryOrdersAdapter
+
     var dateInfo : DateModel ? = null
 
     var sDay = 0
@@ -61,7 +62,7 @@ class DailyOrdersFragment @Inject constructor() : DialogFragment()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View{
         view = DataBindingUtil.inflate(inflater,
             R.layout.daily_orders_fragment, container, false)
         //   view.listener = ClickHandler()
@@ -73,7 +74,7 @@ class DailyOrdersFragment @Inject constructor() : DialogFragment()
         sYear = calendar.get(Calendar.YEAR)
 
 
-        dateInfo= DateModel(date_from = "$sYear-$sMonth-$sDay",date_to ="$sYear-$sMonth-$sDay")
+        dateInfo= DateModel(date_from = "$sYear-$sMonth-$sDay",date_to ="$sYear-$sMonth-$sDay", (context as MapActivity).Pref.VendorId.toString())
 
         viewModel.intents.trySend(MainIntent.Initialize(viewModel.state.value!!,dateInfo))
 
@@ -98,7 +99,6 @@ class DailyOrdersFragment @Inject constructor() : DialogFragment()
                   R.style.Animation_Design_BottomSheetDialog
               )
           }
-
 
           return dialog
       }
@@ -131,13 +131,22 @@ class DailyOrdersFragment @Inject constructor() : DialogFragment()
                                 historyOrdersAdapter.submitList(it.data)
 
 
+
                                 for (i in 0 until it.data!!.size) {
 
-                                    orderPriceValue += it.data!!.get(i).total!!.toInt()
-                                    totalDeliveryCost += it.data!!.get(i).delivery_serivce!!.toInt()
+                                    orderPriceValue += it.data!![i].total!!.toInt()
+
+                                    totalDeliveryCost = it.data!![i].delivery_serivce!!.toInt()
 
                                 }
+
                                 view.deliveryTotal.text = totalDeliveryCost.toString()
+
+                                view.orderPriceValue.text = orderPriceValue.toString()
+
+                                view.total.text = (orderPriceValue + totalDeliveryCost).toString()
+
+
 
 //                                var mp = MediaPlayer.create(requireContext(), R.raw.alarm);
 //                                mp.start();

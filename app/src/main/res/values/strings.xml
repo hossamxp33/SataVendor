@@ -56,4 +56,7 @@
     <string name="problem">مشكلة!</string>
     <string name="canceled">مرفوضة</string>
     <string name="go_home">هل تريد الذهاب اللي المطعم ؟</string>
+    <string name="timeoutExceeded">Timeout exceeded while waiting for loading, make sure you are connected to the internet</string>
+    <string name="errorOccurred">error occurred, please try again</string>
+    <string name="select_a_time">أختار وقت</string>
 </resources>

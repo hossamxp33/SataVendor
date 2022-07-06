@@ -96,6 +96,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     var intent1: Intent? = null
 
     var mSocket: Socket? = null
+    var data: ArrayList<OrdersItem>? = null
 
     var userLocationMarker: Marker? = null
 
@@ -157,7 +158,9 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         val options = IO.Options()
         options.reconnection = true //reconnection
         options.forceNew = true
-        mSocket?.on("RetriveDeliveryOrder") {
+
+        mSocket?.emit("create_user", Pref.VendorId)
+        mSocket?.on("makeNewOrderToBranch") {
             var mp = MediaPlayer.create(this, R.raw.alarm);
             mp.start();
             runOnUiThread {
@@ -165,9 +168,15 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                 var json = it.first().toString()
                 val type = object : TypeToken<OrdersItem?>() {}.type
                 var newitem = gson.fromJson<OrdersItem>(json, type)
+
+                data?.add(0, newitem)
+
                 ClickHandler().openDialogFragment(this, NewOrderFragment(newitem!!, viewModel), "")
-                //   Log.d("socket", json.toString())
+
+                Log.d("socket", json)
+
             }
+
         }
 
         ////// Delivery Status online/offline ///////////

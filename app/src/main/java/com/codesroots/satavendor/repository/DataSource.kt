@@ -21,7 +21,7 @@ interface DataSource {
 
     suspend fun getLoginResponse(loginModel: User): Response<AuthModel>
 
-    suspend fun getCurrentOrders(): ArrayList<OrdersItem>
+    suspend fun getCurrentOrders(id :Int?): ArrayList<OrdersItem>
 
     suspend fun getDeliveryOrdersByDate(dateModel: DateModel?): ArrayList<OrdersItem>
     suspend fun changeOrderStatus(order_id:Int,data: OrderStatus) : OrderStatus

@@ -73,17 +73,12 @@ class LoginActivity : AppCompatActivity() {
             } else {
 
                 pref.UserToken = it.token
-                pref.deliveryId = it.user.id!!
-                pref.delivery_status = it.user.driver!!.is_online
-
-                pref.restaurantName = it.user.name
-                pref.userName = it.user.driver!!.name
-                pref.userPhone = it.user.driver!!.mobile
-                pref.photo = it.user.driver!!.photo
+                pref.VendorId = it.user.branch_id
+                pref.restaurantName = it.user.branches?.name
+                pref.userPhone = it.user.branches?.phone
                 pref.room_id = it.user.room_id
-                pref.restaurantLat = it.user.driver!!.branches.latitude.toString()
-                pref.restaurantLong = it.user.driver!!.branches.longitude.toString()
-
+                pref.restaurantLat = it.user.branches?.latitude.toString()
+                pref.restaurantLong = it.user.branches?.longitude.toString()
 
                 progress.isVisible = false
 

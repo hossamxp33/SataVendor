@@ -46,7 +46,7 @@ class DetailsOrderFragment @Inject constructor(var detailsOrderItems: OrdersItem
             R.layout.details_order_fragment, container, false)
         view.listener = ClickHandler()
         view.context = context as MapActivity
-
+        view.data = detailsOrderItems.order_details!![0]
         dialog!!.window!!.requestFeature(Window.FEATURE_NO_TITLE);
         dialog!!.setCanceledOnTouchOutside(true);
 

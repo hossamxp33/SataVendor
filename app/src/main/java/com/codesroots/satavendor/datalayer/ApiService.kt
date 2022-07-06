@@ -16,20 +16,20 @@ import retrofit2.http.*
 interface APIServices {
 
     ////////////// Authentication
-    @POST("Driverlogin")
+    @POST("login")
     suspend fun login(@Body loginModel: User?): Response<AuthModel>
 
     //delivers/GetDliveryOrders
 
 
-    @GET("delivers/GetDliveryCurentOrders")
-    suspend fun getCurrentOrders(): ArrayList<OrdersItem>
+    @GET("orders/currentorders/{id}/0")
+    suspend fun getCurrentOrders(@Path("id") id: Int): ArrayList<OrdersItem>
 
-    @GET("delivers/view/{id}")
+    @GET("branches/view/{id}")
     suspend fun getDeliversStatus(@Path("id") id: Int): Response<Delivery>
 
     //Delivery Orders By Date
-    @POST("delivers/GetDliveryOrdersByDate")
+    @POST("orders/GetBranchOrdersByDate")
     suspend fun getDeliveryOrdersByDate(@Body dateModel: DateModel?): ArrayList<OrdersItem>
 
     // order_status_id

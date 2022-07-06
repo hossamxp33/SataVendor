@@ -17,9 +17,9 @@ class DataRepo @Inject constructor(
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 )  {
 
-        val getOrders: Flow<Result<ArrayList<OrdersItem>>> =
+        fun getOrders(id :Int?): Flow<Result<ArrayList<OrdersItem>>> =
         flow {
-            emit(Datasources.getCurrentOrders())
+            emit(Datasources.getCurrentOrders(id))
         }
             .map { Result.success(it) }
             .retry(retries = 4) { t -> (t is IOException).also { if (it) {

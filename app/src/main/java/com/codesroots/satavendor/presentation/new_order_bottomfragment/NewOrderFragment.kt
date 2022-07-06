@@ -18,6 +18,7 @@ import com.codesroots.satavendor.presentation.current_order_fragment.mvi.Current
 import com.codesroots.satavendor.presentation.current_order_fragment.mvi.MainIntent
 import com.codesroots.satavendor.presentation.details_order_fragment.DetailsOrderFragment
 import com.codesroots.satavendor.presentation.map_activity.MapActivity
+import com.codesroots.satavendor.presentation.order_times_fragment.OrderTimesDialog
 import com.github.nkzawa.socketio.client.IO
 import com.github.nkzawa.socketio.client.Socket
 import kotlinx.android.synthetic.main.delivery_login_fragment.*
@@ -32,6 +33,7 @@ class NewOrderFragment @Inject constructor(
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     var mSocket: Socket? = null
+    lateinit var orderTimesDialog: OrderTimesDialog
 
     @Inject
     lateinit var pref: PreferenceHelper
@@ -51,6 +53,7 @@ class NewOrderFragment @Inject constructor(
             R.layout.neworder_fragment, container, false)
         //   view.listener = ClickHandler()
         view.context = context as MapActivity
+
         view.data = item
 
         view.listener = ClickHandler()
@@ -76,7 +79,7 @@ class NewOrderFragment @Inject constructor(
         options.forceNew = true
 
         view.confirmButton.setOnClickListener {
-            changeStatusRequest()
+            showOrderTimesDialog()
 
             //connecting socket
             val confirmData = JSONObject()
@@ -84,8 +87,7 @@ class NewOrderFragment @Inject constructor(
             confirmData.put("delivery_information", 1)
 
             mSocket?.emit("OrderDeliveryCanceled", confirmData)
-            SUCCESS_MotionToast(requireActivity().getString(R.string.success),
-                requireActivity())
+
             dismiss()
 
         }
@@ -148,8 +150,21 @@ class NewOrderFragment @Inject constructor(
     }
     fun changeStatusRequest() {
         val changeStatusInfo = OrderStatus(
-            order_status_id = 3, delivery_id = pref.deliveryId)
+            order_status_id = 3, orderId = item.order_details?.get(0)?.orderId!!)
         viewModel.changeOrderStatus(item.id!!,changeStatusInfo)
 
     }
+    private fun showOrderTimesDialog() {
+        orderTimesDialog = OrderTimesDialog.getInstance(requireContext()){ time ->
+            val changeStatusInfo = OrderStatus(
+                order_status_id = 1,orderId = item.order_details?.get(0)?.orderId!!, time = time)
+            viewModel.changeOrderStatus(item.id!!,changeStatusInfo)
+
+            orderTimesDialog.dismiss()
+
+        }
+
+        orderTimesDialog.show()
+    }
+
 }

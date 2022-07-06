@@ -195,13 +195,13 @@ class CurrentItemFragment @Inject constructor(var item: OrdersItem) : DialogFrag
 
     fun cancelRequest(comment: String?) {
         val changeStatusInfo = OrderStatus(
-            order_status_id = 6, delivery_id = pref.deliveryId, delivery_comment = comment)
+            order_status_id = 6, orderId = pref.deliveryId, delivery_comment = comment)
         viewModel.changeOrderStatus(item.id!!, changeStatusInfo)
     }
 
     fun confirmRequest() {
         val changeStatusInfo = OrderStatus(
-            order_status_id = 4, delivery_id = pref.deliveryId)
+            order_status_id = 4, orderId = pref.deliveryId)
         viewModel.changeOrderStatus(item.id!!, changeStatusInfo)
     }
 

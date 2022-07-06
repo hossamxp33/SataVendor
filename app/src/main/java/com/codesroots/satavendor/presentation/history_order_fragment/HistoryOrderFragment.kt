@@ -150,14 +150,16 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
                             if (it.data != null) {
                                view. chooseDate.isVisible = false
                                 historyOrdersAdapter.submitList(it.filterData)
-
                                 for (i in 0 until it.data!!.size) {
-
-                                    orderPriceValue += it.data!!.get(i).total!!.toInt()
-                                    totalDeliveryCost += it.data!!.get(i).delivery_serivce!!.toInt()
-
+                                    orderPriceValue += it.data!![i].total!!.toInt()
+                                    totalDeliveryCost = it.data!![i].delivery_serivce!!.toInt()
                                 }
+
                                 view.deliveryTotal.text = totalDeliveryCost.toString()
+
+                                view.orderPriceValue.text = orderPriceValue.toString()
+
+                                view.total.text = (orderPriceValue + totalDeliveryCost).toString()
 
 
                                 view.filterLayout.isVisible = true
@@ -172,8 +174,6 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
                                 }
 
                                 view.canceledOrders.setOnClickListener { it1 ->
-
-
                                     noColoredView()
                                     coloredView(it1)
                                     viewModel.intents.trySend(
@@ -244,7 +244,8 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
 
                 dateInfo = DateModel(
                     date_from = view.startTime.text.toString(),
-                    date_to = view.endTime.text.toString()
+                    date_to = view.endTime.text.toString(),
+                    branch_id = (context as MapActivity).Pref.VendorId.toString()
                 )
 
                 view.getData.isVisible = true
