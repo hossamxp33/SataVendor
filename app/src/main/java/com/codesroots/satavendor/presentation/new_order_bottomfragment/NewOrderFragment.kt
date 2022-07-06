@@ -1,6 +1,7 @@
 package com.codesroots.satavendor.presentation.new_order_bottomfragment
 
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -36,6 +37,8 @@ class NewOrderFragment @Inject constructor(
     lateinit var viewModelFactory: ViewModelProvider.Factory
     var mSocket: Socket? = null
     lateinit var orderTimesDialog: OrderTimesDialog
+
+
 
     @Inject
     lateinit var pref: PreferenceHelper
@@ -81,7 +84,7 @@ class NewOrderFragment @Inject constructor(
         options.forceNew = true
 
         view.confirmButton.setOnClickListener {
-            showOrderTimesDialog()
+            showOrderTimesDialog(context as MapActivity)
 
             //connecting socket
             val confirmData = JSONObject()
@@ -151,19 +154,15 @@ class NewOrderFragment @Inject constructor(
         viewModel.deliversOrdersCanceled(cancelInfo)
     }
 
-    private fun showOrderTimesDialog() {
+    private fun showOrderTimesDialog(context: Context) {
         orderTimesDialog = OrderTimesDialog.getInstance(requireContext()){ time ->
             val changeStatusInfo = OrderStatus(
                 order_status_id = 1,orderId = item.order_details?.get(0)?.orderId!!, time = time)
 
             viewModel.changeOrderStatus(item.id!!,changeStatusInfo)
 
-            ClickHandler().openDialogFragment(requireContext(), CurrentItemFragment(item), "")
-
-
-
             orderTimesDialog.dismiss()
-
+            (context as MapActivity).let { ClickHandler().openDialogFragment(it, CurrentItemFragment(item), "") }
         }
 
         orderTimesDialog.show()

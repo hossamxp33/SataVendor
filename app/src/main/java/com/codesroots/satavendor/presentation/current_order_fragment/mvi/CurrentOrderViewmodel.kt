@@ -36,6 +36,8 @@ class CurrentOrderViewModel @Inject constructor(private val DateRepoCompnay: Dat
     val OrderState: MutableStateFlow<OrdersItem>? get() = ChangeStatusuiState
 
     var deliveryItemLD: MutableLiveData<Delivery>? = null
+    var deliveriesDataLD = MutableLiveData< ArrayList<DeliveryItem>>()
+
     var OrderStateLD: MutableLiveData<OrderStatus>? = null
 
     protected val getStatusState : MutableStateFlow<DeliveryItem>? = null
@@ -51,7 +53,8 @@ class CurrentOrderViewModel @Inject constructor(private val DateRepoCompnay: Dat
         mclientLatitude = MutableLiveData()
         mclientLatitude = MutableLiveData()
         deliveryItemLD = MutableLiveData()
-        OrderStateLD= MutableLiveData()
+        OrderStateLD = MutableLiveData()
+        deliveriesDataLD = MutableLiveData()
     }
     fun getIntent() {
 
@@ -113,7 +116,7 @@ class CurrentOrderViewModel @Inject constructor(private val DateRepoCompnay: Dat
             withContext(Dispatchers.Main) {
                 (response.collect {
                     runCatching {
-                        deliveriesState?.value = it.getOrNull()!!
+                        deliveriesDataLD.value = it.getOrNull()!!
 
                     }.getOrElse {
                         onError("Error : ${it.message} ")

@@ -13,6 +13,7 @@ import com.codesroots.satavendor.presentation.auth.LoginActivity
 import com.codesroots.satavendor.presentation.current_item.CurrentItemFragment
 import com.codesroots.satavendor.presentation.details_order_fragment.DetailsOrderFragment
 import com.codesroots.satavendor.presentation.current_order_fragment.CurrentOrderFragment
+import com.codesroots.satavendor.presentation.deliveries_fragment.DeliveriesFragment
 import com.codesroots.satavendor.presentation.history_order_fragment.DailyOrdersFragment
 import com.codesroots.satavendor.presentation.history_order_fragment.HistoryOrderFragment
 import com.codesroots.satavendor.presentation.map_activity.MapActivity
@@ -75,6 +76,7 @@ interface AppComponent : AndroidInjector<DaggerApplication> {
     fun inject(app: DetailsOrderFragment)
     fun inject(app: CurrentItemFragment)
     fun inject(app: DailyOrdersFragment)
+    fun inject(app: DeliveriesFragment)
 
 
 }

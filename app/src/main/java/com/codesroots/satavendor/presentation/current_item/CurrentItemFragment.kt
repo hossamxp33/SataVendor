@@ -20,6 +20,7 @@ import com.codesroots.satavendor.models.current_orders.OrderStatus
 import com.codesroots.satavendor.models.current_orders.OrdersItem
 import com.codesroots.satavendor.models.delivery.DeliveryItem
 import com.codesroots.satavendor.presentation.current_order_fragment.mvi.CurrentOrderViewModel
+import com.codesroots.satavendor.presentation.deliveries_fragment.DeliveriesFragment
 import com.codesroots.satavendor.presentation.details_order_fragment.DetailsOrderFragment
 import com.codesroots.satavendor.presentation.map_activity.MapActivity
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -39,8 +40,7 @@ class CurrentItemFragment @Inject constructor(var item: OrdersItem) : DialogFrag
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     val viewModel by viewModels<CurrentOrderViewModel> { viewModelFactory }
-    var bottomSheetDialog: BottomSheetDialog? = null
-    var cancelSheetDialog: Dialog? = null
+
 
     @Inject
     lateinit var pref: PreferenceHelper
@@ -73,10 +73,8 @@ class CurrentItemFragment @Inject constructor(var item: OrdersItem) : DialogFrag
 
 
         view.confirmButton.setOnClickListener {
-            val deliveriesInfo = DeliveryItem(branch_id =  pref.VendorId)
-            viewModel.getDeliveris(deliveriesInfo)
-
             confirmRequest()
+            (context as MapActivity).let { ClickHandler().openDialogFragment(it, DeliveriesFragment(), "") }
 
             view.mView.visibility = View.GONE
 

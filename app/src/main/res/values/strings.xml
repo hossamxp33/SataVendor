@@ -60,4 +60,5 @@
     <string name="timeoutExceeded">Timeout exceeded while waiting for loading, make sure you are connected to the internet</string>
     <string name="errorOccurred">error occurred, please try again</string>
     <string name="select_a_time">أختار وقت</string>
+    <string name="currentDeliveries">المناديب الحالية</string>
 </resources>
