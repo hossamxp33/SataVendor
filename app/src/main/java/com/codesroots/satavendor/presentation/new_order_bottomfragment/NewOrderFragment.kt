@@ -14,6 +14,7 @@ import com.codesroots.satavendor.databinding.NeworderFragmentBinding
 import com.codesroots.satavendor.helper.*
 import com.codesroots.satavendor.models.current_orders.OrderStatus
 import com.codesroots.satavendor.models.current_orders.OrdersItem
+import com.codesroots.satavendor.models.delivery.DeliveryItem
 import com.codesroots.satavendor.presentation.current_order_fragment.mvi.CurrentOrderViewModel
 import com.codesroots.satavendor.presentation.current_order_fragment.mvi.MainIntent
 import com.codesroots.satavendor.presentation.details_order_fragment.DetailsOrderFragment
@@ -145,20 +146,19 @@ class NewOrderFragment @Inject constructor(
 
     fun cancelRequest() {
         val cancelInfo = OrdersItem(
-            delivery_id = pref.deliveryId, order_id = item.order_details?.get(0)?.orderId!!)
+            order_status_id = 5 , order_id = item.order_details?.get(0)?.orderId!!)
         viewModel.deliversOrdersCanceled(cancelInfo)
     }
-    fun changeStatusRequest() {
-        val changeStatusInfo = OrderStatus(
-            order_status_id = 3, orderId = item.order_details?.get(0)?.orderId!!)
-        viewModel.changeOrderStatus(item.id!!,changeStatusInfo)
 
-    }
     private fun showOrderTimesDialog() {
         orderTimesDialog = OrderTimesDialog.getInstance(requireContext()){ time ->
             val changeStatusInfo = OrderStatus(
                 order_status_id = 1,orderId = item.order_details?.get(0)?.orderId!!, time = time)
+
             viewModel.changeOrderStatus(item.id!!,changeStatusInfo)
+            val deliveriesInfo = DeliveryItem(branch_id =  pref.VendorId)
+
+            viewModel.getDeliveris(deliveriesInfo)
 
             orderTimesDialog.dismiss()
 

@@ -80,10 +80,7 @@ class CurrentItemFragment @Inject constructor(var item: OrdersItem) : DialogFrag
         }
 
 
-        view.reportButton.setOnClickListener {
-            showBottomSheetDialog()
 
-        }
         view.dismissBtn.setOnClickListener {
             this.dismiss()
         }
@@ -116,50 +113,7 @@ class CurrentItemFragment @Inject constructor(var item: OrdersItem) : DialogFrag
 
     }
 
-    private fun showBottomSheetDialog() {
 
-        bottomSheetDialog = BottomSheetDialog(requireContext())
-        bottomSheetDialog!!.setContentView(R.layout.bottom_dialog)
-
-
-        bottomSheetDialog!!.show()
-        bottomSheetDialog!!.not_delivery.setOnClickListener {
-            showReportSheet()
-        }
-        bottomSheetDialog!!.call.setOnClickListener {
-            ClickHandler().callNumber(item.phone!!, requireContext())
-        }
-
-        bottomSheetDialog!!.cancel.setOnClickListener {
-            bottomSheetDialog!!.dismiss()
-        }
-    }
-
-    fun showReportSheet() {
-        cancelSheetDialog = Dialog(requireContext())
-        cancelSheetDialog!!.setContentView(R.layout.cancel_dialog)
-
-        cancelSheetDialog!!.setContentView(R.layout.cancel_dialog)
-        cancelSheetDialog!!.send.setOnClickListener {
-            cancelRequest(cancelSheetDialog!!.commentText.text.toString())
-            cancelSheetDialog!!.dismiss()
-            bottomSheetDialog!!.dismiss()
-
-            this.dismiss()
-        }
-        cancelSheetDialog!!.cancelMessage.setOnClickListener {
-            cancelSheetDialog!!.dismiss()
-        }
-
-        cancelSheetDialog!!.show()
-        val displayRectangle = Rect()
-//
-//        val window = activity!!.window
-//        window.decorView.getWindowVisibleDisplayFrame(displayRectangle)
-//        cancelSheetDialog!!.window!!.setLayout((displayRectangle.width() *
-//                0.9f).toInt(), cancelSheetDialog!!.getWindow()!!.getAttributes().height);
-
-    }
 
     override fun onResume() {
         super.onResume()
@@ -193,15 +147,10 @@ class CurrentItemFragment @Inject constructor(var item: OrdersItem) : DialogFrag
         return dialog
     }
 
-    fun cancelRequest(comment: String?) {
-        val changeStatusInfo = OrderStatus(
-            order_status_id = 6, orderId = pref.deliveryId, delivery_comment = comment)
-        viewModel.changeOrderStatus(item.id!!, changeStatusInfo)
-    }
 
     fun confirmRequest() {
         val changeStatusInfo = OrderStatus(
-            order_status_id = 4, orderId = pref.deliveryId)
+            order_status_id = 3, orderId = item.id!!)
         viewModel.changeOrderStatus(item.id!!, changeStatusInfo)
     }
 

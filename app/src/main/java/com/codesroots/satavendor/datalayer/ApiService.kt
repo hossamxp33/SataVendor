@@ -8,6 +8,7 @@ import com.codesroots.satavendor.models.current_orders.OrderStatus
 
 import com.codesroots.satavendor.models.current_orders.OrdersItem
 import com.codesroots.satavendor.models.delivery.Delivery
+import com.codesroots.satavendor.models.delivery.DeliveryItem
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.*
@@ -18,6 +19,10 @@ interface APIServices {
     ////////////// Authentication
     @POST("login")
     suspend fun login(@Body loginModel: User?): Response<AuthModel>
+
+    ////////////// delivers
+    @POST("delivers/indexForBranch")
+    suspend fun getDeliveris(@Body delivery: DeliveryItem?): ArrayList<DeliveryItem>
 
     //delivers/GetDliveryOrders
 

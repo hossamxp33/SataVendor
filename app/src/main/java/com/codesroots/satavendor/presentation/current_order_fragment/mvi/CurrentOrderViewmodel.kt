@@ -42,6 +42,10 @@ class CurrentOrderViewModel @Inject constructor(private val DateRepoCompnay: Dat
 
     val deliveryState: MutableStateFlow<DeliveryItem>? get() = getStatusState
 
+    protected val getDeliveriesData : MutableStateFlow<ArrayList<DeliveryItem>>? = null
+
+    val deliveriesState: MutableStateFlow<ArrayList<DeliveryItem>>? get() = getDeliveriesData
+
     init {
          getIntent()
         mclientLatitude = MutableLiveData()
@@ -66,6 +70,8 @@ class CurrentOrderViewModel @Inject constructor(private val DateRepoCompnay: Dat
         mclientLongitude.postValue(longitude!!)
 
     }
+
+
     fun changeOrderStatus(Id:Int,data: OrderStatus) {
         job = CoroutineScope(Dispatchers.IO).launch {
             val response = DateRepoCompnay.changeOrderStatus(Id,data)
@@ -91,6 +97,23 @@ class CurrentOrderViewModel @Inject constructor(private val DateRepoCompnay: Dat
                 (response.collect {
                     runCatching {
                         OrderState?.value = it.getOrNull()!!
+
+                    }.getOrElse {
+                        onError("Error : ${it.message} ")
+
+                    }
+                })
+            }
+        }
+
+    }
+    fun getDeliveris(data:DeliveryItem) {
+        job = CoroutineScope(Dispatchers.IO).launch {
+            val response = DateRepoCompnay.getDeliveris(data)
+            withContext(Dispatchers.Main) {
+                (response.collect {
+                    runCatching {
+                        deliveriesState?.value = it.getOrNull()!!
 
                     }.getOrElse {
                         onError("Error : ${it.message} ")

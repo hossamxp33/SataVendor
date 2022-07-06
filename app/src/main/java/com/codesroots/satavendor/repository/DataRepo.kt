@@ -5,6 +5,7 @@ import com.codesroots.satavendor.models.auth.Driver
 import com.codesroots.satavendor.models.current_orders.DateModel
 import com.codesroots.satavendor.models.current_orders.OrderStatus
 import com.codesroots.satavendor.models.current_orders.OrdersItem
+import com.codesroots.satavendor.models.delivery.DeliveryItem
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
@@ -20,6 +21,19 @@ class DataRepo @Inject constructor(
         fun getOrders(id :Int?): Flow<Result<ArrayList<OrdersItem>>> =
         flow {
             emit(Datasources.getCurrentOrders(id))
+        }
+            .map { Result.success(it) }
+            .retry(retries = 4) { t -> (t is IOException).also { if (it) {
+                delay(1000 )
+            }}}
+            .catch {
+                    throwable ->  emit(Result.failure(throwable)) }
+            .flowOn(ioDispatcher)
+
+
+        fun getDeliveris(dateModel: DeliveryItem?): Flow<Result<ArrayList<DeliveryItem>>> =
+        flow {
+            emit(Datasources.getDeliveris(dateModel!!))
         }
             .map { Result.success(it) }
             .retry(retries = 4) { t -> (t is IOException).also { if (it) {

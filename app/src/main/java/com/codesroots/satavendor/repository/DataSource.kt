@@ -7,6 +7,7 @@ import com.codesroots.satavendor.models.current_orders.DateModel
 import com.codesroots.satavendor.models.current_orders.OrderStatus
 import com.codesroots.satavendor.models.current_orders.OrdersItem
 import com.codesroots.satavendor.models.delivery.Delivery
+import com.codesroots.satavendor.models.delivery.DeliveryItem
 import okhttp3.MultipartBody
 
 import retrofit2.Response
@@ -20,6 +21,7 @@ Created by Prokash Sarkar on Tue, January 19, 2021
 interface DataSource {
 
     suspend fun getLoginResponse(loginModel: User): Response<AuthModel>
+    suspend fun getDeliveris(deliveryItem: DeliveryItem): ArrayList<DeliveryItem>
 
     suspend fun getCurrentOrders(id :Int?): ArrayList<OrdersItem>
 

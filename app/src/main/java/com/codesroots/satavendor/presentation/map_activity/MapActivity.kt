@@ -186,7 +186,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
             viewModel.deliveryItemLD!!.observe(this) {
                 if (!it.isNullOrEmpty()) {
                     headerBinding.data = it[0]
-                    nav_view.getHeaderView(0).userName.text = it[0].name.replace("\"", "");
+                    nav_view.getHeaderView(0).userName.text = it[0].name?.replace("\"", "");
                     if (it[0].is_online == 1) {
                         nav_view.getHeaderView(0).switch1.isChecked = true
                         status.text = "متصل"
@@ -231,10 +231,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
-        home.setOnClickListener {
-            sweetAlert()
 
-        }
 
         mDrawerLayout!!.addDrawerListener(object : SimpleDrawerListener() {
             override fun onDrawerStateChanged(newState: Int) {
@@ -867,21 +864,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         alert.show()
     }
 
-    fun sweetAlert() {
-        pDialog = SweetAlertDialog(this, SweetAlertDialog.NORMAL_TYPE)
-        pDialog.contentText = this.getString(R.string.go_home)
-        pDialog.confirmText = "نعم"
-        pDialog.cancelText = "لا"
-        pDialog.setCancelClickListener { pDialog.dismiss() }
-        pDialog.setConfirmClickListener {
-            val uri =
-                "http://maps.google.com/maps?saddr=" + latitude + "," + longitude + "&daddr=" + Pref.restaurantLat + "," + Pref.restaurantLong
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
-            intent.setPackage("com.google.android.apps.maps")
-            startActivity(intent)
-        }
-        pDialog.show()
-    }
+
 
     override fun onResume() {
         super.onResume()

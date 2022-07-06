@@ -9,6 +9,7 @@ import com.codesroots.satavendor.models.current_orders.DateModel
 import com.codesroots.satavendor.models.current_orders.OrderStatus
 import com.codesroots.satavendor.models.current_orders.OrdersItem
 import com.codesroots.satavendor.models.delivery.Delivery
+import com.codesroots.satavendor.models.delivery.DeliveryItem
 import okhttp3.MultipartBody
 
 import retrofit2.Response
@@ -26,10 +27,15 @@ class RemoteDataSource @Inject constructor(private val ApiService: APIServices)
         return ApiService.login(loginModel)
     }
 
+    override suspend fun getDeliveris(delivery: DeliveryItem):ArrayList<DeliveryItem>{
+        return ApiService.getDeliveris(delivery)
+    }
+
 
     override suspend fun getCurrentOrders(id:Int?): ArrayList<OrdersItem> =
        runCatching { ApiService.getCurrentOrders(id!!) }
            .getOrElse { throw it }
+
 
     override suspend fun getDeliveryOrdersByDate(dateModel: DateModel?): ArrayList<OrdersItem> =
        runCatching { ApiService.getDeliveryOrdersByDate(dateModel) }
