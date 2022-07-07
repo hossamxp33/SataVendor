@@ -205,7 +205,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         } catch (e: java.lang.Exception) {
 
         }
-
+        getClientAddress()
         nav_view.setNavigationItemSelectedListener(this)
 
         nav_view.getHeaderView(0).switch1
@@ -523,13 +523,13 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                 .position(homeLatLng)
                 .icon(BitmapDescriptorFactory
                     .fromResource(R.drawable.restaurant_location_ic))
-                .rotation(location.bearing)
-                .anchor(0.5f, 0.5f)
+//                .rotation(location.bearing)
+//                .anchor(0.5f, 0.5f)
             )
 
         } else {
             userLocationMarker!!.position = homeLatLng
-            userLocationMarker!!.rotation = location.bearing
+    //        userLocationMarker!!.rotation = location.bearing
 
 
         }
@@ -551,7 +551,6 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
                     if (map != null)
                         setUserLocationMarker(locationResult.lastLocation)
-                    getClientAddress(locationResult.lastLocation)
 
                     //Showing the latitude, longitude and accuracy on the home screen.
                     //      for (location in locationResult.locations) {
@@ -630,7 +629,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     }
 
 
-    fun getClientAddress(location: Location) {
+    fun getClientAddress() {
         try {
             lifecycleScope.launchWhenStarted {
                 viewModel.state.collect {
@@ -869,6 +868,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     override fun onResume() {
         super.onResume()
         updateLocation()
+
 
     }
 
