@@ -130,6 +130,21 @@
                 app:layout_constraintTop_toBottomOf="@+id/cardView"
                 app:layout_constraintWidth_percent="0.35" />
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/order_status"
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:layout_margin="16dp"
+                android:background="@drawable/green_btn_bg"
+                android:text="@{data.order_status_id}"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/details_button"
+                app:layout_constraintTop_toBottomOf="@+id/cardView"
+                app:layout_constraintWidth_percent="0.35" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

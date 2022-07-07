@@ -32,9 +32,6 @@ class CurrentOrderFragment @Inject constructor(var viewModel:CurrentOrderViewMod
 
     private val appViewModel: CurrentOrderViewModel by viewModels()
 
-
-
-
     lateinit var currentOrdersAdapter: CurrentOrdersAdapter
 
 

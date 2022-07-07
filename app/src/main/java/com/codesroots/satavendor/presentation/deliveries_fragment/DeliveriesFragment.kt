@@ -37,7 +37,7 @@ class DeliveriesFragment @Inject constructor() : DialogFragment() {
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     val viewModel by viewModels<CurrentOrderViewModel> { viewModelFactory }
-
+    var data = OrdersItem()
     lateinit var deliveriesAdapter: DeliveriesAdapter
 
     lateinit var view: DeliveriesFragmentBinding
@@ -46,7 +46,10 @@ class DeliveriesFragment @Inject constructor() : DialogFragment() {
         super.onCreate(savedInstanceState)
         BaseApplication.appComponent.inject(this)
         setStyle(STYLE_NO_FRAME, R.style.colorPickerStyle);
-
+        if (getArguments() != null) {
+            val mArgs = arguments
+          data = mArgs?.getSerializable("item_data") as OrdersItem
+        }
     }
 
     override fun onCreateView(
@@ -68,7 +71,7 @@ class DeliveriesFragment @Inject constructor() : DialogFragment() {
 
         viewModel.deliveriesDataLD.observe(requireActivity(),{
           if (it!=null){
-              deliveriesAdapter = DeliveriesAdapter(requireContext(),it)
+              deliveriesAdapter = DeliveriesAdapter(requireContext(),it,this)
               deliveriesAdapter.data = it
               view.deliveriesRecycle.apply {
                   adapter = deliveriesAdapter

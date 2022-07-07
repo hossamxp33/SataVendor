@@ -522,7 +522,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
             userLocationMarker = map!!.addMarker(MarkerOptions()
                 .position(homeLatLng)
                 .icon(BitmapDescriptorFactory
-                    .fromResource(R.drawable.restaurant_location_ic))
+                    .fromResource(R.drawable.restaurant_ic))
 //                .rotation(location.bearing)
 //                .anchor(0.5f, 0.5f)
             )

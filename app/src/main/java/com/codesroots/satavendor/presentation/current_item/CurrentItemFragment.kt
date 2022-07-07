@@ -58,8 +58,10 @@ class CurrentItemFragment @Inject constructor(var item: OrdersItem) : DialogFrag
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        view = DataBindingUtil.inflate(inflater,
-            R.layout.current_item, container, false)
+        view = DataBindingUtil.inflate(
+            inflater,
+            R.layout.current_item, container, false
+        )
 
         //   view.listener = ClickHandler()
         dialog!!.window!!.requestFeature(Window.FEATURE_NO_TITLE);
@@ -74,7 +76,16 @@ class CurrentItemFragment @Inject constructor(var item: OrdersItem) : DialogFrag
 
         view.confirmButton.setOnClickListener {
             confirmRequest()
-            (context as MapActivity).let { ClickHandler().openDialogFragment(it, DeliveriesFragment(), "") }
+            val fragmentTransaction =
+                (context as MapActivity).supportFragmentManager.beginTransaction()
+            fragmentTransaction.add(DeliveriesFragment(), tag)
+            fragmentTransaction.commitAllowingStateLoss()
+            val fm = (context as MapActivity).supportFragmentManager.beginTransaction()
+            val dialogFragment = DeliveriesFragment() // my custom FargmentDialog
+            var args: Bundle? = null
+            args?.putSerializable("item_data", item);
+            dialogFragment.setArguments(args)
+            dialogFragment.show(fm, "")
 
             view.mView.visibility = View.GONE
 
@@ -88,9 +99,11 @@ class CurrentItemFragment @Inject constructor(var item: OrdersItem) : DialogFrag
 
         view.detailsButton.setOnClickListener {
             this.dismiss()
-            ClickHandler().openDialogFragment(requireContext(),
+            ClickHandler().openDialogFragment(
+                requireContext(),
                 DetailsOrderFragment(item),
-                "")
+                ""
+            )
         }
         view.googleMapsBtn.setOnClickListener {
             val uri =
@@ -108,12 +121,13 @@ class CurrentItemFragment @Inject constructor(var item: OrdersItem) : DialogFrag
         super.onActivityCreated(savedInstanceState)
         dialog!!.setCancelable(false)
         dialog!!.setCanceledOnTouchOutside(false)
-        dialog!!.window?.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
-            WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL);
+        dialog!!.window?.setFlags(
+            WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
+            WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+        );
         dialog!!.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
 
     }
-
 
 
     override fun onResume() {
@@ -151,7 +165,8 @@ class CurrentItemFragment @Inject constructor(var item: OrdersItem) : DialogFrag
 
     fun confirmRequest() {
         val changeStatusInfo = OrderStatus(
-            order_status_id = 3, orderId = item.id!!)
+            order_status_id = 3, orderId = item.id!!
+        )
         viewModel.changeOrderStatus(item.id!!, changeStatusInfo)
     }
 

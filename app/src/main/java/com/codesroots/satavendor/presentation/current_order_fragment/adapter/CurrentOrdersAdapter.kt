@@ -16,8 +16,10 @@ import com.codesroots.satavendor.models.current_orders.OrdersItem
 import com.codesroots.satavendor.presentation.current_item.CurrentItemFragment
 import com.codesroots.satavendor.presentation.current_order_fragment.mvi.CurrentOrderViewModel
 import com.codesroots.satavendor.presentation.current_order_fragment.mvi.MainIntent
+import com.codesroots.satavendor.presentation.deliveries_fragment.DeliveriesFragment
 
 import com.codesroots.satavendor.presentation.map_activity.MapActivity
+import com.codesroots.satavendor.presentation.new_order_bottomfragment.NewOrderFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
@@ -43,26 +45,62 @@ class CurrentOrdersAdapter(
             LayoutInflater.from(p0.context),
             R.layout.current_orders_adapter, p0, false
         )
-        binding.call.setOnClickListener {
-
-        }
-
-
 
         binding.mView.setOnClickListener {
+            when (currentList[p1].order_status_id) {
+                0 -> ClickHandler().openDialogFragment(
+                    context,
+                    NewOrderFragment(currentList[p1], viewModel),
+                    ""
+                )
+                1 -> ClickHandler().openDialogFragment(
+                    context,
+                    CurrentItemFragment(currentList[p1]),
+                    ""
+                )
+
+                2 -> ClickHandler().openDialogFragment(
+                    (context as MapActivity),
+                    DeliveriesFragment(),
+                    ""
+                )
+
+                3 -> ClickHandler().openDialogFragment(
+                    context,
+                    NewOrderFragment(currentList[p1], viewModel),
+                    ""
+                )
+                else -> ClickHandler().openDialogFragment(
+                    context,
+                    NewOrderFragment(currentList[p1], viewModel),
+                    ""
+                )
+
+
+            }
+
 
             fragment.dismiss()
 
             ClickHandler().openDialogFragment(context, CurrentItemFragment(currentList[p1]), "")
-try {
-    val lat = currentList[0].billing_address!!.latitude
-    val long = currentList[0].billing_address!!.longitude
+            try {
+                val lat = currentList[0].billing_address!!.latitude
+                val long = currentList[0].billing_address!!.longitude
 
-    viewModel.getLatLong(lat, long)
+                viewModel.getLatLong(lat, long)
 
-    viewModel.intents.trySend(MainIntent.getLatLong(viewModel.state.value!!.copy(cliendLatitude = lat,cliendLongitude = long,progress = true)))
+                viewModel.intents.trySend(
+                    MainIntent.getLatLong(
+                        viewModel.state.value!!.copy(
+                            cliendLatitude = lat,
+                            cliendLongitude = long,
+                            progress = true
+                        )
+                    )
+                )
 
-}catch (e:Exception){}
+            } catch (e: Exception) {
+            }
 
         }
         return MenuViewHolder(binding)

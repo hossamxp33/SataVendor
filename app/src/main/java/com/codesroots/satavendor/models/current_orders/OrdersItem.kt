@@ -1,5 +1,7 @@
 package com.codesroots.satavendor.models.current_orders
 
+import java.io.Serializable
+
 data class OrdersItem(
     var billing_address: BillingAddress? = null,
     var billing_address_id: Int? = null,
@@ -23,4 +25,8 @@ data class OrdersItem(
     var paymenttype_id: Int? = null,
     var taxes: Double? = null,
     var total: Double? = null,
+):Serializable
+data class SetorderToDelivery(
+    var room_id: String? = null,
+  var order:OrdersItem?= null
 )
