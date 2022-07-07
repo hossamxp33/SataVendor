@@ -646,13 +646,13 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                                         .position(homeLatLng)
                                         .icon(BitmapDescriptorFactory
                                             .fromResource(R.drawable.motor_ic))
-                                        .rotation(location.bearing)
-                                        .anchor(0.5f, 0.5f)
+//                                        .rotation(location.bearing)
+//                                        .anchor(0.5f, 0.5f)
                                     )
 
                                 } else {
                                     userLocationMarker!!.position = homeLatLng
-                                    userLocationMarker!!.rotation = location.bearing
+//                                    userLocationMarker!!.rotation = location.bearing
 
                                 }
 //                                map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(

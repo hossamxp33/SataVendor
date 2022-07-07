@@ -12,11 +12,13 @@ import com.codesroots.satavendor.helper.ClickHandler
 import com.codesroots.satavendor.presentation.map_activity.MapActivity
 import javax.inject.Inject
 import android.view.Gravity
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.codesroots.satavendor.databinding.DeliveriesFragmentBinding
 import com.codesroots.satavendor.databinding.DeliveryLoginFragmentBinding
 import com.codesroots.satavendor.databinding.DetailsOrderFragmentBinding
+import com.codesroots.satavendor.helper.WARN_MotionToast
 import com.codesroots.satavendor.models.current_orders.OrdersItem
 import com.codesroots.satavendor.models.delivery.Delivery
 import com.codesroots.satavendor.models.delivery.DeliveryItem
@@ -35,10 +37,6 @@ class DeliveriesFragment @Inject constructor() : DialogFragment() {
 
     val viewModel by viewModels<CurrentOrderViewModel> { viewModelFactory }
 
-    var totalPrice = 0
-    var orderPriceValue = 0
-    var totalDeliveryCost = 0
-
     lateinit var deliveriesAdapter: DeliveriesAdapter
 
     lateinit var view: DeliveriesFragmentBinding
@@ -53,35 +51,34 @@ class DeliveriesFragment @Inject constructor() : DialogFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         view = DataBindingUtil.inflate(inflater,
             R.layout.deliveries_fragment, container, false)
         view.listener = ClickHandler()
         view.context = context as MapActivity
 
-     //   view.data = detailsOrderItems.order_details!![0]
 
         dialog!!.window!!.requestFeature(Window.FEATURE_NO_TITLE);
         dialog!!.setCanceledOnTouchOutside(true);
 
         dailyOrderRecycleView()
 
-
         val data = DeliveryItem(branch_id = 5)
         viewModel.getDeliveris(data)
 
-
-
         viewModel.deliveriesDataLD.observe(requireActivity(),{
           if (it!=null){
-
               deliveriesAdapter = DeliveriesAdapter(requireContext(),it)
               deliveriesAdapter.data = it
               view.deliveriesRecycle.apply {
                   adapter = deliveriesAdapter
                   isNestedScrollingEnabled = false
                   setHasFixedSize(true)
+                  view.progress.isVisible=false
               }
+          }else
+          {
+              WARN_MotionToast("",requireActivity())
           }
         })
 
