@@ -10,17 +10,24 @@ import androidx.recyclerview.widget.RecyclerView
 import com.codesroots.satavendor.R
 import com.codesroots.satavendor.databinding.DeliveryItemBinding
 import com.codesroots.satavendor.databinding.DetailsOrderAdapterBinding
+import com.codesroots.satavendor.helper.BaseApplication
 import com.codesroots.satavendor.helper.ClickHandler
+import com.codesroots.satavendor.helper.SUCCESS_MotionToast
 import com.codesroots.satavendor.models.current_orders.OrderDetail
+import com.codesroots.satavendor.models.current_orders.OrdersItem
 import com.codesroots.satavendor.models.delivery.DeliveryItem
 import com.codesroots.satavendor.presentation.map_activity.MapActivity
+import com.github.nkzawa.socketio.client.IO
+import com.github.nkzawa.socketio.client.Socket
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
 
-
-    class DeliveriesAdapter(
+class DeliveriesAdapter(
         var context: Context,
         var data: ArrayList<DeliveryItem>,
     ) : RecyclerView.Adapter<CustomViewHolders>() {
+    var mSocket: Socket? = null
 
 
         override fun getItemCount(): Int {
@@ -30,6 +37,13 @@ import com.codesroots.satavendor.presentation.map_activity.MapActivity
 
         override fun onBindViewHolder(p0: CustomViewHolders, position: Int) {
             p0.bind(data[position], context)
+            ////////////// Socket ///////////////////////
+            val app: BaseApplication = (context as MapActivity).application as BaseApplication
+            mSocket = app.getMSocket()
+            mSocket?.connect()
+            val options = IO.Options()
+            options.reconnection = true //reconnection
+            options.forceNew = true
             try {
 
             }catch (e:Exception){}

@@ -32,6 +32,7 @@ class DeliveriesFragment @Inject constructor() : DialogFragment() {
     companion object {
         const val TAG = "TownBottomSheetDialogFragment"
     }
+
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
@@ -61,7 +62,6 @@ class DeliveriesFragment @Inject constructor() : DialogFragment() {
         dialog!!.window!!.requestFeature(Window.FEATURE_NO_TITLE);
         dialog!!.setCanceledOnTouchOutside(true);
 
-        dailyOrderRecycleView()
 
         val data = DeliveryItem(branch_id = 5)
         viewModel.getDeliveris(data)
@@ -107,10 +107,6 @@ class DeliveriesFragment @Inject constructor() : DialogFragment() {
         return dialog
     }
 
-
-    fun dailyOrderRecycleView() {
-
-    }
 
 
     override fun onResume() {
