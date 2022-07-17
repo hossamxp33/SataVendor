@@ -34,9 +34,12 @@ class AuthViewModel @Inject constructor(private val Datasources: RemoteDataSourc
 
     //authentication
     fun login(loginModel: User?) {
-        job = CoroutineScope(Dispatchers.IO).launch {
+        val coroutineExceptionHandler = CoroutineExceptionHandler{_, throwable ->
+            throwable.printStackTrace()
+        }
+        job = CoroutineScope(Dispatchers.IO + coroutineExceptionHandler).launch {
             val response = Datasources.getLoginResponse(loginModel!!)
-            withContext(Dispatchers.Main) {
+            withContext(Dispatchers.Main + coroutineExceptionHandler) {
                 if (response.isSuccessful) {
                     authLD?.postValue(response.body())
 

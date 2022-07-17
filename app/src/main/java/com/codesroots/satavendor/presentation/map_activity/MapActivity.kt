@@ -108,6 +108,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     var distance: Double? = null
 
     var locationRequest: LocationRequest? = null
+
     lateinit var pDialog: SweetAlertDialog
 
     val viewModel by viewModels<CurrentOrderViewModel> { viewModelFactory }

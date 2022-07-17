@@ -56,6 +56,9 @@ class CurrentOrderViewModel @Inject constructor(private val DateRepoCompnay: Dat
         OrderStateLD = MutableLiveData()
         deliveriesDataLD = MutableLiveData()
     }
+    val coroutineExceptionHandler = CoroutineExceptionHandler{_, throwable ->
+        throwable.printStackTrace()
+    }
     fun getIntent() {
 
         job = viewModelScope.launch() {
@@ -76,9 +79,9 @@ class CurrentOrderViewModel @Inject constructor(private val DateRepoCompnay: Dat
 
 
     fun changeOrderStatus(Id:Int,data: OrderStatus) {
-        job = CoroutineScope(Dispatchers.IO).launch {
+        job = CoroutineScope(Dispatchers.IO+coroutineExceptionHandler).launch {
             val response = DateRepoCompnay.changeOrderStatus(Id,data)
-            withContext(Dispatchers.Main) {
+            withContext(Dispatchers.Main+coroutineExceptionHandler) {
                 (response.collect {
                     runCatching {
                         OrderStateLD?.value = it.getOrNull()!!
@@ -94,9 +97,9 @@ class CurrentOrderViewModel @Inject constructor(private val DateRepoCompnay: Dat
     }
 
     fun deliversOrdersCanceled(data:OrdersItem) {
-        job = CoroutineScope(Dispatchers.IO).launch {
+        job = CoroutineScope(Dispatchers.IO+coroutineExceptionHandler).launch {
             val response = DateRepoCompnay.deliversOrdersCanceled(data)
-            withContext(Dispatchers.Main) {
+            withContext(Dispatchers.Main+coroutineExceptionHandler) {
                 (response.collect {
                     runCatching {
                         OrderState?.value = it.getOrNull()!!
@@ -111,9 +114,9 @@ class CurrentOrderViewModel @Inject constructor(private val DateRepoCompnay: Dat
 
     }
     fun getDeliveris(data:DeliveryItem) {
-        job = CoroutineScope(Dispatchers.IO).launch {
+        job = CoroutineScope(Dispatchers.IO+coroutineExceptionHandler).launch {
             val response = DateRepoCompnay.getDeliveris(data)
-            withContext(Dispatchers.Main) {
+            withContext(Dispatchers.Main+coroutineExceptionHandler) {
                 (response.collect {
                     runCatching {
                         deliveriesDataLD.value = it.getOrNull()!!
@@ -129,7 +132,7 @@ class CurrentOrderViewModel @Inject constructor(private val DateRepoCompnay: Dat
     }
 //changeDeliveryStatus
 fun changeDeliversStatus(Id:Int,statusId:Int) {
-    job = CoroutineScope(Dispatchers.IO).launch {
+    job = CoroutineScope(Dispatchers.IO+coroutineExceptionHandler).launch {
         val response = DateRepoCompnay.changeDeliveryStatus(Id, statusId)
         withContext(Dispatchers.Main) {
             (response.collect {
@@ -146,9 +149,10 @@ fun changeDeliversStatus(Id:Int,statusId:Int) {
 }
 
     fun getDeliversStatus(Id:Int) {
-        job = CoroutineScope(Dispatchers.IO).launch {
+        job = CoroutineScope(Dispatchers.IO+coroutineExceptionHandler).launch {
             val response = Datasources.getDeliversStatus(Id)
-            withContext(Dispatchers.Main) {
+            withContext(Dispatchers.Main
+            +coroutineExceptionHandler) {
                 if (response.isSuccessful) {
                     deliveryItemLD?.postValue(response.body())
 
@@ -167,9 +171,7 @@ fun changeDeliversStatus(Id:Int,statusId:Int) {
 //        loading.value = false
     }
     override fun onCleared() {
-
         super.onCleared()
         job!!.cancel()
-
     }
 }

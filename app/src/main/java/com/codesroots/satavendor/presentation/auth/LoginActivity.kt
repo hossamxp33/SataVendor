@@ -79,9 +79,7 @@ class LoginActivity : AppCompatActivity() {
                 pref.room_id = it.user.room_id
                 pref.restaurantLat = it.user.branches?.latitude.toString()
                 pref.restaurantLong = it.user.branches?.longitude.toString()
-
                 progress.isVisible = false
-
                 val mainIntent = Intent(this, MapActivity::class.java)
                 startActivity(mainIntent)
                 finish()

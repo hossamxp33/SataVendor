@@ -30,6 +30,7 @@ import dagger.Provides
 import dagger.android.AndroidInjectionModule
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
+import okhttp3.ConnectionSpec
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -89,9 +90,10 @@ class APIModule constructor() {
         return OkHttpClient()
             .newBuilder()
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+
             .addInterceptor { chain: Interceptor.Chain ->
                 val originalRequest = chain.request()
-                 var Pref = PreferenceHelper(context)
+                var Pref = PreferenceHelper(context)
                 val builder = originalRequest.newBuilder()
          //       builder.addHeader("Accept", "application/json")
                 builder.addHeader("Content-Type", "application/json")
@@ -101,6 +103,11 @@ class APIModule constructor() {
 
                 chain.proceed(newRequest)
             }
+            .connectionSpecs(listOf(ConnectionSpec.CLEARTEXT,
+                ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
+                    .allEnabledTlsVersions()
+                    .allEnabledCipherSuites()
+                    .build()))
             .build()
     }
 
