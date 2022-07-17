@@ -36,8 +36,19 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.IOException
+import java.io.InputStream
+import java.lang.AssertionError
 import java.net.URISyntaxException
+import java.security.*
+import java.security.cert.CertificateException
+import java.security.cert.CertificateFactory
+import java.util.*
 import javax.inject.Singleton
+import javax.net.ssl.SSLContext
+import javax.net.ssl.TrustManager
+import javax.net.ssl.TrustManagerFactory
+import javax.net.ssl.X509TrustManager
 
 
 /**
@@ -84,6 +95,7 @@ interface AppComponent : AndroidInjector<DaggerApplication> {
 
 @Module
 class APIModule constructor() {
+
     @Singleton
     @Provides
     fun provideHttpClient(context: Context): OkHttpClient {
@@ -118,14 +130,14 @@ class APIModule constructor() {
 
     @Singleton
     @Provides
-
     fun provideRetrofit(
         okHttpClient: OkHttpClient,
         gsonConverterFactory: GsonConverterFactory,
     ): Retrofit {
+        val clients = UnsafeOkHttpClient.getUnsafeOkHttpClient()
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .client(okHttpClient)
+            .client(clients)
             .addConverterFactory(gsonConverterFactory)
             .build()
     }
@@ -140,12 +152,7 @@ class APIModule constructor() {
 
 }
 
-@Module
-class GoogleAPI constructor() {
 
-
-
-}
 
 @Module
 class SocketModule constructor() {
