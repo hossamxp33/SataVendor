@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Rect
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.annotation.Nullable
 import androidx.databinding.DataBindingUtil
@@ -76,16 +77,17 @@ class CurrentItemFragment @Inject constructor(var item: OrdersItem) : DialogFrag
 
         view.confirmButton.setOnClickListener {
             confirmRequest()
-            val fragmentTransaction =
-                (context as MapActivity).supportFragmentManager.beginTransaction()
-            fragmentTransaction.add(DeliveriesFragment(), tag)
-            fragmentTransaction.commitAllowingStateLoss()
+//            val fragmentTransaction =
+//                (context as MapActivity).supportFragmentManager.beginTransaction()
+//            fragmentTransaction.add(DeliveriesFragment(), tag)
+//            fragmentTransaction.commitAllowingStateLoss()
             val fm = (context as MapActivity).supportFragmentManager.beginTransaction()
             val dialogFragment = DeliveriesFragment() // my custom FargmentDialog
-            var args: Bundle? = null
-            args?.putSerializable("item_data", item);
+            var args = Bundle()
+            args.putSerializable("item_data", item);
             dialogFragment.setArguments(args)
             dialogFragment.show(fm, "")
+            Log.d("TAG","socket// setOnClickListener data $item")
 
             view.mView.visibility = View.GONE
 

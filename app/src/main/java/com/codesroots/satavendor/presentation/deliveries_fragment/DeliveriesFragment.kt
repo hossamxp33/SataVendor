@@ -2,6 +2,7 @@ package com.codesroots.satavendor.presentation.deliveries_fragment
 
 import android.app.Dialog
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
@@ -49,6 +50,7 @@ class DeliveriesFragment @Inject constructor() : DialogFragment() {
         if (getArguments() != null) {
             val mArgs = arguments
           data = mArgs?.getSerializable("item_data") as OrdersItem
+            Log.d("TAG","socket// setOnClickListener data $data")
         }
     }
 
@@ -66,7 +68,7 @@ class DeliveriesFragment @Inject constructor() : DialogFragment() {
         dialog!!.setCanceledOnTouchOutside(true);
 
 
-        val data = DeliveryItem(branch_id = 5)
+        val data = DeliveryItem(branch_id = data.branch_id)
         viewModel.getDeliveris(data)
 
         viewModel.deliveriesDataLD.observe(requireActivity(),{

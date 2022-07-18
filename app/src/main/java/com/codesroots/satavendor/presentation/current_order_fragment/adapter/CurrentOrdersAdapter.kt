@@ -2,6 +2,7 @@ package com.codesroots.satavendor.presentation.current_order_fragment.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -28,72 +29,15 @@ class CurrentOrdersAdapter(
     var Intent: Channel<MainIntent>,
     var context: Context,
     var fragment: DialogFragment,
-    var viewModel: CurrentOrderViewModel,
-
-    ) : ListAdapter<OrdersItem, MenuViewHolder>(MenuDiffCallback()) {
+    var viewModel: CurrentOrderViewModel
+    ) : ListAdapter<OrdersItem, CurrentOrdersAdapter.MenuViewHolder>(MenuDiffCallback()) {
 
 
     val scope = CoroutineScope(Dispatchers.Main)
 
-    override fun onBindViewHolder(holder: MenuViewHolder, p1: Int) {
-        holder.bind(context, Intent, currentList[p1])
-        holder.binding.mView.setOnClickListener {
-            when (currentList[p1].order_status_id) {
-                0 -> {
-                    ClickHandler().openDialogFragment(
-                        context,
-                        NewOrderFragment(currentList[p1], viewModel),
-                        ""
-                    )}
-                1 -> {
-                    ClickHandler().openDialogFragment(
-                        context,
-                        CurrentItemFragment(currentList[p1]),
-                        ""
-                    )}
-                2 -> { ClickHandler().openDialogFragment(
-                    (context as MapActivity),
-                    DeliveriesFragment(),
-                    ""
-                )}
-                3 -> { ClickHandler().openDialogFragment(
-                    context,
-                    NewOrderFragment(currentList[p1], viewModel),
-                    ""
-                )}
-                else -> { ClickHandler().openDialogFragment(
-                    context,
-                    NewOrderFragment(currentList[p1], viewModel),
-                    ""
-                )
+    override fun onBindViewHolder(holder: MenuViewHolder, position: Int) {
+        holder.bind(context, Intent, currentList[position])
 
-
-                }
-            }
-
-
-            fragment.dismiss()
-
-            try {
-                val lat = currentList[0].billing_address!!.latitude
-                val long = currentList[0].billing_address!!.longitude
-
-                viewModel.getLatLong(lat, long)
-
-                viewModel.intents.trySend(
-                    MainIntent.getLatLong(
-                        viewModel.state.value!!.copy(
-                            cliendLatitude = lat,
-                            cliendLongitude = long,
-                            progress = true
-                        )
-                    )
-                )
-
-            } catch (e: Exception) {
-            }
-
-        }
     }
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): MenuViewHolder {
@@ -102,9 +46,114 @@ class CurrentOrdersAdapter(
             R.layout.current_orders_adapter, p0, false
         )
 
-
-
         return MenuViewHolder(binding)
+    }
+
+
+    inner class MenuViewHolder(
+        val binding: CurrentOrdersAdapterBinding,
+    ) : RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            binding.mView.setOnClickListener {
+                Log.d("TAG", "onCreateViewHolder: $adapterPosition " + currentList[adapterPosition].order_status_id)
+                when (currentList[adapterPosition].order_status_id) {
+                    0 -> {
+                        Log.d("TAG", "onCreateViewHolder: $adapterPosition / 0 " + currentList[adapterPosition].order_status_id)
+                        ClickHandler().openDialogFragment(
+                            context,
+                            NewOrderFragment(currentList[adapterPosition], viewModel),
+                            ""
+                        )
+                    }
+                    1 -> {
+                        Log.d("TAG", "onCreateViewHolder: $adapterPosition / 1 " + currentList[adapterPosition].order_status_id)
+                        ClickHandler().openDialogFragment(
+                            context,
+                            CurrentItemFragment(currentList[adapterPosition]),
+                            ""
+                        )
+                    }
+
+                    2 -> {
+                        Log.d("TAG", "onCreateViewHolder: $adapterPosition / 2 " + currentList[adapterPosition].order_status_id)
+                        ClickHandler().openDialogFragment(
+                            (context as MapActivity),
+                            DeliveriesFragment(),
+                            ""
+                        )
+                    }
+
+                    3 -> {
+                        Log.d("TAG", "onCreateViewHolder: $adapterPosition / 3 " + currentList[adapterPosition].order_status_id)
+                        ClickHandler().openDialogFragment(
+                            context,
+                            NewOrderFragment(currentList[adapterPosition], viewModel),
+                            ""
+                        )
+                    }
+                    else -> {
+                        Log.d("TAG", "onCreateViewHolder: $adapterPosition / else " + currentList[adapterPosition].order_status_id)
+                        ClickHandler().openDialogFragment(
+                            context,
+                            NewOrderFragment(currentList[adapterPosition], viewModel),
+                            ""
+                        )
+                    }
+
+
+                }
+
+
+                fragment.dismiss()
+
+//            ClickHandler().openDialogFragment(context, CurrentItemFragment(currentList[p1]), "")
+                try {
+                    val lat = currentList[0].billing_address!!.latitude
+                    val long = currentList[0].billing_address!!.longitude
+
+                    viewModel.getLatLong(lat, long)
+
+                    viewModel.intents.trySend(
+                        MainIntent.getLatLong(
+                            viewModel.state.value!!.copy(
+                                cliendLatitude = lat,
+                                cliendLongitude = long,
+                                progress = true
+                            )
+                        )
+                    )
+
+                } catch (e: Exception) {
+                }
+
+            }
+        }
+
+        fun bind(
+            context: Context?,
+            viewModel: Channel<MainIntent>,
+            data: OrdersItem,
+        ) {
+
+            binding.listener = ClickHandler()
+            binding.data = data
+            binding.context = context as MapActivity?
+            binding.fragment = CurrentItemFragment(data)
+
+
+            val status = when (data.order_status_id) {
+                0 -> "New Order"
+                1 -> "Preparing"
+                2 -> "Prepared"
+                3 -> "Done"
+                else -> "Tracking"
+            }
+            binding.status = status
+
+        }
+
+
     }
 }
 
@@ -119,23 +168,3 @@ private class MenuDiffCallback : DiffUtil.ItemCallback<OrdersItem>() {
         oldItem == newItem
 }
 
-class MenuViewHolder(
-    val binding: CurrentOrdersAdapterBinding,
-) : RecyclerView.ViewHolder(binding.root) {
-
-
-    fun bind(
-        context: Context?,
-        viewModel: Channel<MainIntent>,
-        data: OrdersItem,
-    ) {
-
-        binding.listener = ClickHandler()
-        binding.data = data
-        binding.context = context as MapActivity?
-        binding.fragment = CurrentItemFragment(data)
-
-    }
-
-
-}
