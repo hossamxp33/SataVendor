@@ -69,6 +69,7 @@ class DeliveriesFragment @Inject constructor() : DialogFragment() {
 
 
         val data = DeliveryItem(branch_id = data.branch_id)
+
         viewModel.getDeliveris(data)
 
         viewModel.deliveriesDataLD.observe(requireActivity(),{

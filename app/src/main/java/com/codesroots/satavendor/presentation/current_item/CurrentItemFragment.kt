@@ -67,9 +67,6 @@ class CurrentItemFragment @Inject constructor(var item: OrdersItem) : DialogFrag
         //   view.listener = ClickHandler()
         dialog!!.window!!.requestFeature(Window.FEATURE_NO_TITLE);
         dialog!!.setCanceledOnTouchOutside(true)
-
-
-
         view.data = item
         view.listener = ClickHandler()
         view.context = context as MapActivity
@@ -85,7 +82,7 @@ class CurrentItemFragment @Inject constructor(var item: OrdersItem) : DialogFrag
             val dialogFragment = DeliveriesFragment() // my custom FargmentDialog
             var args = Bundle()
             args.putSerializable("item_data", item);
-            dialogFragment.setArguments(args)
+            dialogFragment.arguments = args
             dialogFragment.show(fm, "")
             Log.d("TAG","socket// setOnClickListener data $item")
 
