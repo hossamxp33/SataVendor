@@ -156,11 +156,8 @@ class NewOrderFragment @Inject constructor(
 
     private fun showOrderTimesDialog(context: Context) {
         orderTimesDialog = OrderTimesDialog.getInstance(requireContext()){ time ->
-            val changeStatusInfo = OrderStatus(
-                order_status_id = 1,orderId = item.order_details?.get(0)?.orderId!!, time = time)
-
+            val changeStatusInfo = OrderStatus(order_status_id = 1,orderId = item.order_details?.get(0)?.orderId!!, time = time)
             viewModel.changeOrderStatus(item.id!!,changeStatusInfo)
-
             orderTimesDialog.dismiss()
             (context as MapActivity).let { ClickHandler().openDialogFragment(it, CurrentItemFragment(item), "") }
         }

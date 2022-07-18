@@ -2,7 +2,6 @@ package com.codesroots.satavendor.presentation.current_item
 
 import android.app.Dialog
 import android.content.Intent
-import android.graphics.Rect
 import android.net.Uri
 import android.os.Bundle
 import android.view.*
@@ -18,16 +17,10 @@ import com.codesroots.satavendor.helper.ClickHandler
 import com.codesroots.satavendor.helper.PreferenceHelper
 import com.codesroots.satavendor.models.current_orders.OrderStatus
 import com.codesroots.satavendor.models.current_orders.OrdersItem
-import com.codesroots.satavendor.models.delivery.DeliveryItem
 import com.codesroots.satavendor.presentation.current_order_fragment.mvi.CurrentOrderViewModel
 import com.codesroots.satavendor.presentation.deliveries_fragment.DeliveriesFragment
 import com.codesroots.satavendor.presentation.details_order_fragment.DetailsOrderFragment
 import com.codesroots.satavendor.presentation.map_activity.MapActivity
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import kotlinx.android.synthetic.main.bottom_dialog.*
-import kotlinx.android.synthetic.main.bottom_dialog.call
-import kotlinx.android.synthetic.main.bottom_dialog.cancel
-import kotlinx.android.synthetic.main.cancel_dialog.*
 import javax.inject.Inject
 
 
@@ -76,21 +69,14 @@ class CurrentItemFragment @Inject constructor(var item: OrdersItem) : DialogFrag
 
         view.confirmButton.setOnClickListener {
             confirmRequest()
-            val fragmentTransaction =
-                (context as MapActivity).supportFragmentManager.beginTransaction()
-            fragmentTransaction.add(DeliveriesFragment(), tag)
-            fragmentTransaction.commitAllowingStateLoss()
-            val fm = (context as MapActivity).supportFragmentManager.beginTransaction()
-            val dialogFragment = DeliveriesFragment() // my custom FargmentDialog
-            var args: Bundle? = null
-            args?.putSerializable("item_data", item);
-            dialogFragment.setArguments(args)
-            dialogFragment.show(fm, "")
-
+            val dialogFragment = DeliveriesFragment()
+            val bundle = Bundle()
+            bundle.putSerializable("item_data", item)
+            dialogFragment.arguments = bundle
+            dialogFragment.show((context as MapActivity).supportFragmentManager,"")
             view.mView.visibility = View.GONE
 
         }
-
 
 
         view.dismissBtn.setOnClickListener {

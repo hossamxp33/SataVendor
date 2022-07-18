@@ -29,6 +29,7 @@ class DeliveriesAdapter(
     var context: Context,
     var data: ArrayList<DeliveryItem>,
     var frag: DeliveriesFragment,
+    var orderDetail: OrdersItem,
 ) : RecyclerView.Adapter<CustomViewHolders>() {
     var mSocket: Socket? = null
 
@@ -49,8 +50,7 @@ class DeliveriesAdapter(
         options.forceNew = true
         try {
             p0.binding.mView.setOnClickListener {
-
-                val socketObject = SetorderToDelivery(data[position].room_id,order = frag.data)
+                val socketObject = SetorderToDelivery(data[position].room_id,order =orderDetail)
                 val gson = Gson()
                 val type = object : TypeToken<SetorderToDelivery?>() {}.type
                 val newdata = gson.toJson(socketObject, type)
