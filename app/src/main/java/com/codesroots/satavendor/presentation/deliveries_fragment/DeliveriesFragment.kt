@@ -2,6 +2,7 @@ package com.codesroots.satavendor.presentation.deliveries_fragment
 
 import android.app.Dialog
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
@@ -37,6 +38,7 @@ class DeliveriesFragment @Inject constructor() : DialogFragment() {
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     val viewModel by viewModels<CurrentOrderViewModel> { viewModelFactory }
+    var data = OrdersItem()
     lateinit var deliveriesAdapter: DeliveriesAdapter
 
     lateinit var view: DeliveriesFragmentBinding
@@ -45,7 +47,11 @@ class DeliveriesFragment @Inject constructor() : DialogFragment() {
         super.onCreate(savedInstanceState)
         BaseApplication.appComponent.inject(this)
         setStyle(STYLE_NO_FRAME, R.style.colorPickerStyle);
-
+        if (getArguments() != null) {
+            val mArgs = arguments
+          data = mArgs?.getSerializable("item_data") as OrdersItem
+            Log.d("TAG","socket// setOnClickListener data $data")
+        }
     }
 
     override fun onCreateView(
@@ -61,18 +67,13 @@ class DeliveriesFragment @Inject constructor() : DialogFragment() {
         dialog!!.window!!.requestFeature(Window.FEATURE_NO_TITLE);
         dialog!!.setCanceledOnTouchOutside(true);
 
-        val mArgs = arguments
-        var item_details = mArgs?.getSerializable("item_data") as OrdersItem
 
-        val data = DeliveryItem((context as MapActivity).Pref.VendorId)
+        val data = DeliveryItem(branch_id = data.branch_id)
         viewModel.getDeliveris(data)
 
         viewModel.deliveriesDataLD.observe(requireActivity(),{
-
-
-            if (it!=null){
-
-              deliveriesAdapter = DeliveriesAdapter(requireContext(),it,this,item_details)
+          if (it!=null){
+              deliveriesAdapter = DeliveriesAdapter(requireContext(),it,this)
               deliveriesAdapter.data = it
               view.deliveriesRecycle.apply {
                   adapter = deliveriesAdapter

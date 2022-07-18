@@ -22,6 +22,10 @@
             name="listener"
             type="com.codesroots.satavendor.helper.ClickHandler"/>
 
+        <variable
+            name="status"
+            type="String" />
+
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -34,6 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/shadow_back_g"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -135,7 +140,7 @@
                 android:layout_height="35dp"
                 android:layout_margin="16dp"
                 android:background="@drawable/green_btn_bg"
-                android:text="@{String.valueOf(data.order_status_id)}"
+                android:text="@{status}"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"

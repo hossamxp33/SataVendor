@@ -27,6 +27,6 @@ data class OrdersItem(
     var total: Double? = null,
 ):Serializable
 data class SetorderToDelivery(
-    var room_id: String? = null,
+    var roomId: String? = null,
   var order:OrdersItem?= null
 )

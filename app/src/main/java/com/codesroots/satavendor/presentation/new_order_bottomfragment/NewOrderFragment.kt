@@ -3,6 +3,7 @@ package com.codesroots.satavendor.presentation.new_order_bottomfragment
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -59,6 +60,7 @@ class NewOrderFragment @Inject constructor(
         //   view.listener = ClickHandler()
         view.context = context as MapActivity
 
+        Log.d("TAG", "onCreateViewHolder: new")
         view.data = item
 
         view.listener = ClickHandler()
@@ -87,22 +89,22 @@ class NewOrderFragment @Inject constructor(
             showOrderTimesDialog(context as MapActivity)
 
             //connecting socket
-            val confirmData = JSONObject()
-            confirmData.put("roomID", pref.room_id)
-            confirmData.put("delivery_information", 1)
-
-            mSocket?.emit("OrderDeliveryCanceled", confirmData)
+//            val confirmData = JSONObject()
+//            confirmData.put("roomID", pref.room_id)
+//            confirmData.put("delivery_information", 1)
+//
+//            mSocket?.emit("OrderDeliveryCanceled", confirmData)
 
             dismiss()
 
         }
 
         view.cancelButton.setOnClickListener {
-            val cancelData = JSONObject()
-            cancelData.put("roomID", pref.room_id)
-            cancelData.put("delivery_information", 0)
-
-            mSocket?.emit("OrderDeliveryCanceled", cancelData)
+//            val cancelData = JSONObject()
+//            cancelData.put("roomID", pref.room_id)
+//            cancelData.put("delivery_information", 0)
+//
+//            mSocket?.emit("OrderDeliveryCanceled", cancelData)
 
             Error_MotionToast(requireActivity().getString(R.string.cancel2),
                 requireActivity())

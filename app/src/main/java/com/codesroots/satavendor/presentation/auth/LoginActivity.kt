@@ -73,7 +73,7 @@ class LoginActivity : AppCompatActivity() {
             } else {
 
                 pref.UserToken = it.token
-                pref.VendorId = it.user.branches!!.id
+                pref.VendorId = it.user.branches?.id
                 pref.restaurantName = it.user.branches?.name
                 pref.userPhone = it.user.branches?.phone
                 pref.room_id = it.user.room_id
