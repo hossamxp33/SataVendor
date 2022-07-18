@@ -115,11 +115,11 @@ class APIModule constructor() {
 
                 chain.proceed(newRequest)
             }
-            .connectionSpecs(listOf(ConnectionSpec.CLEARTEXT,
-                ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
-                    .allEnabledTlsVersions()
-                    .allEnabledCipherSuites()
-                    .build()))
+//            .connectionSpecs(listOf(ConnectionSpec.CLEARTEXT,
+//                ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
+//                    .allEnabledTlsVersions()
+//                    .allEnabledCipherSuites()
+//                    .build()))
             .build()
     }
 
@@ -131,13 +131,13 @@ class APIModule constructor() {
     @Singleton
     @Provides
     fun provideRetrofit(
-        okHttpClient: OkHttpClient,
-        gsonConverterFactory: GsonConverterFactory,
-    ): Retrofit {
+        gsonConverterFactory: GsonConverterFactory,okHttpClient: OkHttpClient,
+
+        ): Retrofit {
         val clients = UnsafeOkHttpClient.getUnsafeOkHttpClient()
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .client(clients)
+            .client(okHttpClient)
             .addConverterFactory(gsonConverterFactory)
             .build()
     }
