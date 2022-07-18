@@ -2,6 +2,7 @@ package com.codesroots.satavendor.presentation.current_order_fragment.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -68,6 +69,7 @@ class CurrentOrdersAdapter(
                     }
                     1 -> {
                         Log.d("TAG", "onCreateViewHolder: $adapterPosition / 1 " + currentList[adapterPosition].order_status_id)
+
                         ClickHandler().openDialogFragment(
                             context,
                             CurrentItemFragment(currentList[adapterPosition]),
@@ -77,11 +79,12 @@ class CurrentOrdersAdapter(
 
                     2 -> {
                         Log.d("TAG", "onCreateViewHolder: $adapterPosition / 2 " + currentList[adapterPosition].order_status_id)
-                        ClickHandler().openDialogFragment(
-                            (context as MapActivity),
-                            DeliveriesFragment(),
-                            ""
-                        )
+                        val fm = (context as MapActivity).supportFragmentManager.beginTransaction()
+                        val dialogFragment = DeliveriesFragment() // my custom FargmentDialog
+                        var args = Bundle()
+                        args.putSerializable("item_data", currentList[adapterPosition]);
+                        dialogFragment.arguments = args
+                        dialogFragment.show(fm, "")
                     }
 
                     3 -> {

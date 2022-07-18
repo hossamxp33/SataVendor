@@ -155,11 +155,12 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         mSocket = app.getMSocket()
         //connecting socket
         mSocket?.connect()
-        mSocket?.emit("CreateDeliveryRoom", Pref.room_id!!)
         val options = IO.Options()
         options.reconnection = true //reconnection
         options.forceNew = true
+        Log.d("TAG","socket// ${mSocket?.connected()}")
 
+        mSocket?.emit("CreateDeliveryRoom", Pref.room_id!!)
         mSocket?.emit("create_user", Pref.VendorId)
         mSocket?.on("makeNewOrderToBranch") {
             var mp = MediaPlayer.create(this, R.raw.alarm);

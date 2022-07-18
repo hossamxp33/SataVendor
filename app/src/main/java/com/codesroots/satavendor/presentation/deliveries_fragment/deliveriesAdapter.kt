@@ -11,12 +11,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide.init
 import com.codesroots.satavendor.R
 import com.codesroots.satavendor.databinding.DeliveryItemBinding
 import com.codesroots.satavendor.databinding.DetailsOrderAdapterBinding
 import com.codesroots.satavendor.helper.BaseApplication
 import com.codesroots.satavendor.helper.ClickHandler
 import com.codesroots.satavendor.helper.SUCCESS_MotionToast
+import com.codesroots.satavendor.models.auth.User
 import com.codesroots.satavendor.models.current_orders.OrderDetail
 import com.codesroots.satavendor.models.current_orders.OrdersItem
 import com.codesroots.satavendor.models.current_orders.SetorderToDelivery
@@ -26,7 +28,11 @@ import com.codesroots.satavendor.presentation.new_order_bottomfragment.NewOrderF
 import com.github.nkzawa.socketio.client.IO
 import com.github.nkzawa.socketio.client.Socket
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import kotlinx.android.synthetic.main.delivery_login_fragment.*
+import org.json.JSONObject
+import org.junit.Assert
 
 
 class DeliveriesAdapter(
@@ -34,7 +40,6 @@ class DeliveriesAdapter(
     var data: ArrayList<DeliveryItem>,
     var frag: DeliveriesFragment,
 ) : RecyclerView.Adapter<DeliveriesAdapter.CustomViewHolders>() {
-    var mSocket: Socket? = null
 
 
     override fun getItemCount(): Int {
@@ -45,12 +50,54 @@ class DeliveriesAdapter(
     override fun onBindViewHolder(p0: CustomViewHolders, position: Int) {
         p0.bind(data[position], context)
         ////////////// Socket ///////////////////////
-        val app: BaseApplication = (context as MapActivity).application as BaseApplication
-        mSocket = app.getMSocket()
-        mSocket?.connect()
-        val options = IO.Options()
-        options.reconnection = true //reconnection
-        options.forceNew = true
+
+
+        p0.binding.mView.setOnClickListener {
+//                if(itemClickable) {
+
+            val gson = Gson()
+            val gsonPretty = GsonBuilder().setPrettyPrinting().create()
+            val socketObject = SetorderToDelivery(frag.data,"sata123")
+            val jsonTut: String = gson.toJson(socketObject)
+            println(jsonTut)
+            val jsonTutPretty: String = gsonPretty.toJson(socketObject)
+
+            println(jsonTutPretty)
+            val type = object : TypeToken<SetorderToDelivery?>() {}.type
+
+            val newdata = gson.toJson(socketObject)
+
+            (context as MapActivity).mSocket?.emit("CreateDeliveryOrder", jsonTutPretty)
+            (context as MapActivity).mSocket?.emit("CreateDeliveryRoom", "sata123")
+
+            Log.d("TAG", "socket// $jsonTutPretty")
+
+
+
+        }
+//            }
+
+        (context as MapActivity).mSocket?.on("orderDelivery") {
+
+            frag.dismiss()
+            val gson = Gson()
+            var json = it.first().toString()
+
+//                val type = object : TypeToken<OrdersItem?>() {}.type
+//                var newitem = gson.fromJson<OrdersItem>(json, type)
+//
+            Log.d("TAG", "socket// orderDelivery " + json)
+//                Toast.makeText(context, "", Toast.LENGTH_LONG)
+        }
+
+        (context as MapActivity).mSocket?.on("OrderCanceled") {
+//
+            val gson = Gson()
+            var json = it.first().toString()
+//                Toast.makeText(context, "", Toast.LENGTH_LONG)
+            Log.d("TAG", "socket// orderCanceled " + json)
+        }
+
 
     }
 
@@ -61,7 +108,6 @@ class DeliveriesAdapter(
                 R.layout.delivery_item, p0, false
             )
 
-
         return CustomViewHolders(binding)
     }
 
@@ -69,45 +115,6 @@ class DeliveriesAdapter(
         var binding: DeliveryItemBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        private var itemClickable = true
-
-        init {
-            binding.mView.setOnClickListener {
-                if(itemClickable) {
-                    val socketObject = SetorderToDelivery(data[adapterPosition].room_id, order = frag.data)
-                    val gson = Gson()
-                    val type = object : TypeToken<SetorderToDelivery?>() {}.type
-                    val newdata = gson.toJson(socketObject, type)
-
-                    (context as MapActivity).mSocket?.emit("CreateDeliveryRoom", data[adapterPosition].room_id)
-                    (context as MapActivity).mSocket?.emit("CreateDeliveryOrder", newdata)
-                    itemClickable = false
-
-                    Log.d("TAG","socket// $newdata")
-                }
-            }
-
-            mSocket?.on("orderDelivery") {
-                itemClickable = true
-                frag.dismiss()
-                val gson = Gson()
-                var json = it.first().toString()
-
-//                val type = object : TypeToken<OrdersItem?>() {}.type
-//                var newitem = gson.fromJson<OrdersItem>(json, type)
-//
-                Log.d("TAG","socket// orderDelivery " + json)
-//                Toast.makeText(context, "", Toast.LENGTH_LONG)
-            }
-
-            mSocket?.on("OrderCanceled") {
-//
-                val gson = Gson()
-                var json = it.first().toString()
-//                Toast.makeText(context, "", Toast.LENGTH_LONG)
-                Log.d("TAG","socket// orderCanceled " + json)
-            }
-        }
 
         fun bind(data: DeliveryItem, context: Context?) {
             binding.data = data

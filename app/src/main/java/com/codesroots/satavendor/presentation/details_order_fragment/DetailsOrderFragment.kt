@@ -72,9 +72,6 @@ class DetailsOrderFragment @Inject constructor(var detailsOrderItems: OrdersItem
             this.dismiss()
         }
 
-        view.dismissBtn.setOnClickListener {
-            this.dismiss()
-        }
 
         return view.root
     }

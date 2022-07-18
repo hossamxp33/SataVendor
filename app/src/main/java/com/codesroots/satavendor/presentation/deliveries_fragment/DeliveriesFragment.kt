@@ -113,8 +113,6 @@ class DeliveriesFragment @Inject constructor() : DialogFragment() {
         return dialog
     }
 
-
-
     override fun onResume() {
         super.onResume()
         val params: ViewGroup.LayoutParams = dialog!!.window!!.attributes
@@ -123,6 +121,4 @@ class DeliveriesFragment @Inject constructor() : DialogFragment() {
         dialog!!.window!!.setGravity(Gravity.CENTER_HORIZONTAL or Gravity.BOTTOM)
 
     }
-
-
 }

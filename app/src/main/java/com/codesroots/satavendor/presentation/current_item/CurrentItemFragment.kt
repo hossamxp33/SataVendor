@@ -164,7 +164,7 @@ class CurrentItemFragment @Inject constructor(var item: OrdersItem) : DialogFrag
 
     fun confirmRequest() {
         val changeStatusInfo = OrderStatus(
-            order_status_id = 3, orderId = item.id!!
+            order_status_id = 3, id = item.id!!
         )
         viewModel.changeOrderStatus(item.id!!, changeStatusInfo)
     }

@@ -52,35 +52,15 @@
         <entry key="..\:/SataDelivery/app/src/main/res/menu/popup_menu.xml" value="0.2601851851851852" />
         <entry key="..\:/SataVendor/app/src/main/res/drawable/circle.xml" value="0.19375" />
         <entry key="..\:/SataVendor/app/src/main/res/layout/current_item.xml" value="0.16666666666666666" />
-        <entry key="..\:/SataVendor/app/src/main/res/layout/current_orders_adapter.xml" value="0.17760416666666667" />
+        <entry key="..\:/SataVendor/app/src/main/res/layout/current_orders_adapter.xml" value="0.18" />
         <entry key="..\:/SataVendor/app/src/main/res/layout/daily_orders_fragment.xml" value="0.16666666666666666" />
-        <entry key="..\:/SataVendor/app/src/main/res/layout/details_order_fragment.xml" value="0.16666666666666666" />
+        <entry key="..\:/SataVendor/app/src/main/res/layout/details_order_fragment.xml" value="0.1" />
         <entry key="..\:/SataVendor/app/src/main/res/layout/nav_header_main.xml" value="0.1890625" />
         <entry key="..\:/SataVendor/app/src/main/res/layout/neworder_fragment.xml" value="0.15185185185185185" />
         <entry key="..\:/SataVendor/app/src/main/res/layout/row_item_order_time.xml" value="0.17760416666666667" />
         <entry key="..\:/SataVendor/app/src/main/res/xml/network_security_config.xml" value="0.13645833333333332" />
-        <entry key="..\:/peter/vendor/app/src/main/res/drawable-v24/white_circle_bk.xml" value="0.196" />
-        <entry key="..\:/peter/vendor/app/src/main/res/drawable/cornered_white_background.xml" value="0.195" />
-        <entry key="..\:/peter/vendor/app/src/main/res/drawable/side_nav_bar.xml" value="0.2985" />
-        <entry key="..\:/peter/vendor/app/src/main/res/layout/activity_main.xml" value="0.18802083333333333" />
         <entry key="..\:/peter/vendor/app/src/main/res/layout/activity_splash.xml" value="0.358695652173913" />
-        <entry key="..\:/peter/vendor/app/src/main/res/layout/current_item.xml" value="0.358695652173913" />
-        <entry key="..\:/peter/vendor/app/src/main/res/layout/current_order_fragment.xml" value="0.358695652173913" />
-        <entry key="..\:/peter/vendor/app/src/main/res/layout/current_order_item.xml" value="0.358695652173913" />
-        <entry key="..\:/peter/vendor/app/src/main/res/layout/current_orders_adapter.xml" value="0.25" />
-        <entry key="..\:/peter/vendor/app/src/main/res/layout/daily_orders_adapter.xml" value="0.33" />
-        <entry key="..\:/peter/vendor/app/src/main/res/layout/daily_orders_fragment.xml" value="0.18802083333333333" />
-        <entry key="..\:/peter/vendor/app/src/main/res/layout/deliveries_fragment.xml" value="0.18802083333333333" />
-        <entry key="..\:/peter/vendor/app/src/main/res/layout/delivery_item.xml" value="0.18802083333333333" />
-        <entry key="..\:/peter/vendor/app/src/main/res/layout/delivery_login_fragment.xml" value="0.37604166666666666" />
-        <entry key="..\:/peter/vendor/app/src/main/res/layout/details_order_adapter.xml" value="0.5021582733812949" />
-        <entry key="..\:/peter/vendor/app/src/main/res/layout/details_order_fragment.xml" value="0.33" />
-        <entry key="..\:/peter/vendor/app/src/main/res/layout/history_order_adapter.xml" value="0.18802083333333333" />
-        <entry key="..\:/peter/vendor/app/src/main/res/layout/main_frame_content.xml" value="0.18802083333333333" />
-        <entry key="..\:/peter/vendor/app/src/main/res/layout/map_activity.xml" value="0.33" />
-        <entry key="..\:/peter/vendor/app/src/main/res/layout/neworder_fragment.xml" value="0.18802083333333333" />
-        <entry key="..\:/peter/vendor/app/src/main/res/layout/profile_fragment.xml" value="0.358695652173913" />
-        <entry key="..\:/peter/vendor/app/src/main/res/layout/row_item_order_time.xml" value="0.358695652173913" />
+        <entry key="..\:/peter/vendor/app/src/main/res/layout/current_orders_adapter.xml" value="0.358695652173913" />
         <entry key="app/src/main/res/drawable/accpet_btn_bg.xml" value="0.10729166666666666" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.1" />
         <entry key="app/src/main/res/layout/current_orders_adapter.xml" value="0.25" />

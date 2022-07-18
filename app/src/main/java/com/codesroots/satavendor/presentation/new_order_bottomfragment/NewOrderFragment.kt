@@ -139,14 +139,16 @@ class NewOrderFragment @Inject constructor(
     }
 
     fun cancelRequest() {
-        val cancelInfo = OrdersItem(
-            order_status_id = 5 , order_id = item.id)
-        viewModel.deliversOrdersCanceled(cancelInfo)
+        val cancelInfo = OrderStatus(
+            order_status_id = 5 , id = item.id)
+
+        viewModel.changeOrderStatus(item.id!!,cancelInfo)
+
     }
 
     private fun showOrderTimesDialog(context: Context) {
         orderTimesDialog = OrderTimesDialog.getInstance(requireContext()){ time ->
-            val changeStatusInfo = OrderStatus(order_status_id = 1,orderId = item.order_details?.get(0)?.orderId!!, time = time)
+            val changeStatusInfo = OrderStatus(order_status_id = 1,id = item.id, time = time)
             viewModel.changeOrderStatus(item.id!!,changeStatusInfo)
             orderTimesDialog.dismiss()
             (context as MapActivity).let { ClickHandler().openDialogFragment(it, CurrentItemFragment(item), "") }
