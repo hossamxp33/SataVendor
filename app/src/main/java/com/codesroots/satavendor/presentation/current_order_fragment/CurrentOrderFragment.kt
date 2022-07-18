@@ -56,9 +56,7 @@ class CurrentOrderFragment @Inject constructor(var viewModel:CurrentOrderViewMod
         getAllData()
 
 
-        view.dismissBtn.setOnClickListener {
-            this.dismiss()
-        }
+
 
         currentOrderRecycleView()
         return view.root
