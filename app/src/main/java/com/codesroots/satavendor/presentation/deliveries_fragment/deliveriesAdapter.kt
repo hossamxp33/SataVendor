@@ -57,6 +57,7 @@ class DeliveriesAdapter(
 
                 (context as MapActivity).mSocket?.emit("CreateDeliveryOrder",newdata)
 
+                frag.dismiss()
             }
         } catch (e: Exception) {
         }

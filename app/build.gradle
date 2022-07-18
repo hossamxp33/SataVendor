@@ -19,8 +19,8 @@ android {
         applicationId "com.codesroots.satavendor"
         minSdk 23
         targetSdk 30
-        versionCode 4
-        versionName "4"
+        versionCode 2
+        versionName "1.1"
         testInstrumentationRunner "com.codesroots.satavendor.CustomTestRunner"
         vectorDrawables.useSupportLibrary = true
 

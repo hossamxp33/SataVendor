@@ -16,4 +16,5 @@ data class DeliveryItem(
     var salary: Int?=null,
     var user: User?=null,
     var user_id: Int?=null,
+
 )

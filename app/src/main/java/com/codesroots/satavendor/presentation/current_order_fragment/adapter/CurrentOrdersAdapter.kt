@@ -35,54 +35,45 @@ class CurrentOrdersAdapter(
 
     val scope = CoroutineScope(Dispatchers.Main)
 
-    override fun onBindViewHolder(holder: MenuViewHolder, position: Int) {
-        holder.bind(context, Intent, currentList[position])
-
-    }
-
-    override fun onCreateViewHolder(p0: ViewGroup, p1: Int): MenuViewHolder {
-        val binding: CurrentOrdersAdapterBinding = DataBindingUtil.inflate(
-            LayoutInflater.from(p0.context),
-            R.layout.current_orders_adapter, p0, false
-        )
-
-        binding.mView.setOnClickListener {
+    override fun onBindViewHolder(holder: MenuViewHolder, p1: Int) {
+        holder.bind(context, Intent, currentList[p1])
+        holder.binding.mView.setOnClickListener {
             when (currentList[p1].order_status_id) {
-                0 -> ClickHandler().openDialogFragment(
-                    context,
-                    NewOrderFragment(currentList[p1], viewModel),
-                    ""
-                )
-                1 -> ClickHandler().openDialogFragment(
-                    context,
-                    CurrentItemFragment(currentList[p1]),
-                    ""
-                )
-
-                2 -> ClickHandler().openDialogFragment(
+                0 -> {
+                    ClickHandler().openDialogFragment(
+                        context,
+                        NewOrderFragment(currentList[p1], viewModel),
+                        ""
+                    )}
+                1 -> {
+                    ClickHandler().openDialogFragment(
+                        context,
+                        CurrentItemFragment(currentList[p1]),
+                        ""
+                    )}
+                2 -> { ClickHandler().openDialogFragment(
                     (context as MapActivity),
                     DeliveriesFragment(),
                     ""
-                )
-
-                3 -> ClickHandler().openDialogFragment(
+                )}
+                3 -> { ClickHandler().openDialogFragment(
+                    context,
+                    NewOrderFragment(currentList[p1], viewModel),
+                    ""
+                )}
+                else -> { ClickHandler().openDialogFragment(
                     context,
                     NewOrderFragment(currentList[p1], viewModel),
                     ""
                 )
-                else -> ClickHandler().openDialogFragment(
-                    context,
-                    NewOrderFragment(currentList[p1], viewModel),
-                    ""
-                )
 
 
+                }
             }
 
 
             fragment.dismiss()
 
-            ClickHandler().openDialogFragment(context, CurrentItemFragment(currentList[p1]), "")
             try {
                 val lat = currentList[0].billing_address!!.latitude
                 val long = currentList[0].billing_address!!.longitude
@@ -103,6 +94,16 @@ class CurrentOrdersAdapter(
             }
 
         }
+    }
+
+    override fun onCreateViewHolder(p0: ViewGroup, p1: Int): MenuViewHolder {
+        val binding: CurrentOrdersAdapterBinding = DataBindingUtil.inflate(
+            LayoutInflater.from(p0.context),
+            R.layout.current_orders_adapter, p0, false
+        )
+
+
+
         return MenuViewHolder(binding)
     }
 }
