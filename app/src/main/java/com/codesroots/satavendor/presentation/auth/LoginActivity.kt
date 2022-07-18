@@ -51,7 +51,7 @@ class LoginActivity : AppCompatActivity() {
         mSocket = app.getMSocket()
         mSocket?.connect()
 
-        login.setOnClickListener {
+        binding.btnLogin.setOnClickListener {
             isAllFieldsChecked = Validation().checkAllFields(binding,this);
             if (isAllFieldsChecked) {
                 loginRequest()

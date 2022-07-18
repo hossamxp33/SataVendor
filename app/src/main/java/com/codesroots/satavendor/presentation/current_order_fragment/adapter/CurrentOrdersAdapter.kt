@@ -55,7 +55,7 @@ class CurrentOrdersAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         init {
-            binding.mView.setOnClickListener {
+            binding.rowCurrentOrder.setOnClickListener {
                 Log.d("TAG", "onCreateViewHolder: $adapterPosition " + currentList[adapterPosition].order_status_id)
                 when (currentList[adapterPosition].order_status_id) {
                     0 -> {
