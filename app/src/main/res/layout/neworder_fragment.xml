@@ -1,191 +1,207 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-<data>
-    <variable
-        name="data"
-        type="com.codesroots.satavendor.models.current_orders.OrdersItem" />
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <variable
-        name="Context"
-        type="com.codesroots.satavendor.presentation.map_activity.MapActivity" />
-    <variable
-        name="listener"
-        type="com.codesroots.satavendor.helper.ClickHandler"/>
+    <data>
 
-</data>
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+        <variable
+            name="data"
+            type="com.codesroots.satavendor.models.current_orders.OrdersItem" />
 
-    >
+        <variable
+            name="Context"
+            type="com.codesroots.satavendor.presentation.map_activity.MapActivity" />
 
+        <variable
+            name="listener"
+            type="com.codesroots.satavendor.helper.ClickHandler" />
 
-    <View
-        android:id="@+id/guid"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.4"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/sort_recycle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/dimen_16"
-        android:background="@drawable/shadow_back_g"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guid">
+        android:layout_height="match_parent"
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_marginRight="@dimen/dimen_16"
-            android:background="@drawable/shadowbackground"
-            android:clipChildren="false"
-            android:clipToPadding="false"
-            android:dividerHeight="0.0px"
-            android:innerRadius="0dp"
-            android:padding="@dimen/dimen_4"
-            android:shape="ring"
-            app:cardCornerRadius="75dp"
-            app:cardElevation="@dimen/dimen_4"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+        >
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/appCompatImageView"
-                android:layout_width="85dp"
-                android:layout_height="85dp"
-                android:padding="12dp"
-                android:scaleType="fitXY"
-                android:src="@drawable/test"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/call"
-                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent.normal"
-                app:strokeWidth="0dp" />
 
-        </androidx.cardview.widget.CardView>
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/call"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="12dp"
-            android:scaleType="fitXY"
-            android:onClick="@{()->listener.callNumber(data.billing_address.phone,Context)}"
-            android:src="@drawable/telephone"
+        <View
+            android:id="@+id/guid"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.4"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/name"
-            style="@style/topicTitleTextStyle"
-            android:layout_width="0dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/sort_recycle"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_marginRight="8dp"
-            android:text="@{data.billing_address.first_name}"
-            app:layout_constraintRight_toLeftOf="@+id/cardView"
-            app:layout_constraintTop_toTopOf="@+id/cardView" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/address"
-            style="@style/grayTopicTitleTextStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="8dp"
-            android:text="@{data.billing_address.address}"
-            app:layout_constraintBottom_toBottomOf="@+id/cardView"
-            app:layout_constraintRight_toLeftOf="@+id/cardView"
-            app:layout_constraintTop_toBottomOf="@+id/name" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/paymentWayText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/cartBlackNormalTextStyle"
-            android:layout_marginRight="16dp"
-            android:text="@string/paymentWayText"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView" />
-
-           <androidx.appcompat.widget.AppCompatTextView
-               android:id="@+id/paymentWay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/cartBlackNormalTextStyle"
-            android:text="@{data.paymenttype.name + ` `}"
-            app:layout_constraintRight_toLeftOf="@+id/paymentWayText"
-            app:layout_constraintTop_toBottomOf="@+id/cardView" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/details_button"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_margin="16dp"
-            android:background="@drawable/orange_border_shape"
-            android:text="@string/details"
-            android:gravity="center"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_margin="@dimen/dimen_16"
+            android:background="@drawable/shadow_back_g"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView"
-            app:layout_constraintWidth_percent="0.4" />
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/guid">
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/iv_image"
+                android:layout_width="@dimen/_95sdp"
+                android:layout_height="@dimen/_95sdp"
+                android:paddingHorizontal="@dimen/_12sdp"
+                android:src="@drawable/test"
+                app:layout_constraintBottom_toBottomOf="@+id/paymentWayText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:riv_corner_radius="@dimen/_10sdp"
+                app:riv_mutate_background="true"
+                app:riv_oval="true"
+                app:riv_tile_mode="clamp" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/call"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="12dp"
+                android:onClick="@{()->listener.callNumber(data.billing_address.phone,Context)}"
+                android:scaleType="fitXY"
+                android:src="@drawable/telephone"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/name"
+                style="@style/topicTitleTextStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{data.billing_address.first_name}"
+                app:layout_constraintBottom_toTopOf="@+id/address"
+                app:layout_constraintRight_toLeftOf="@+id/iv_image"
+                app:layout_constraintTop_toTopOf="@id/iv_image"
+                tools:text="name" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/address"
+                style="@style/grayTopicTitleTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{data.billing_address.address}"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_image"
+                app:layout_constraintRight_toLeftOf="@+id/iv_image"
+                app:layout_constraintTop_toBottomOf="@+id/name"
+                tools:text="address" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_address_details"
+                style="@style/cartBlackNormalTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{ @string/floor_number + data.billing_address.floor_number + ` ` + @string/flat_number + data.billing_address.apartment_number}"
+                android:textColor="@color/red2"
+
+                app:layout_constraintBottom_toTopOf="@+id/paymentWayText"
+                app:layout_constraintEnd_toStartOf="@id/iv_image"
+                app:layout_constraintTop_toBottomOf="@+id/address"
+                tools:text="address details" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/paymentWayText"
+                style="@style/cartBlackNormalTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/paymentWayText"
+                app:layout_constraintBottom_toBottomOf="@id/iv_image"
+                app:layout_constraintEnd_toStartOf="@id/iv_image"
+                app:layout_constraintTop_toBottomOf="@+id/tv_address_details" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/paymentWay"
+                style="@style/cartBlackNormalTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{data.paymenttype.name + ` `}"
+                app:layout_constraintRight_toLeftOf="@+id/paymentWayText"
+                app:layout_constraintTop_toTopOf="@+id/paymentWayText"
+                tools:text="cash" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/details_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:background="@drawable/orange_border_shape"
+                android:gravity="center"
+                android:text="@string/details"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/paymentWayText"
+                android:paddingHorizontal="@dimen/_10sdp"/>
+
+            <TextView
+                android:id="@+id/tv_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{`Price : `+data.order_details.get(0).total + ` ` + `ج.م`}"
+                android:textColor="@color/red2"
+                android:textSize="@dimen/_16ssp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/details_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/iv_image"
+                tools:text="price" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ButtonClick"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dimen_16"
+            android:background="@android:color/transparent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sort_recycle">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/confirm_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingVertical="@dimen/_2sdp"
+                android:layout_margin="@dimen/dimen_4"
+                android:background="@drawable/accpet_btn_bg"
+                android:gravity="center"
+                android:text="@string/confirm"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dimen_16"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.47" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/cancel_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dimen_4"
+
+                android:background="@drawable/cancel_btn_bg"
+                android:gravity="center"
+                android:text="@string/cancel"
+                android:paddingVertical="@dimen/_2sdp"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dimen_16"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.46" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/ButtonClick"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:layout_margin="@dimen/dimen_16"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sort_recycle">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/confirm_button"
-            android:layout_width="0dp"
-            android:layout_height="45dp"
-            android:layout_margin="@dimen/dimen_4"
-            android:background="@drawable/accpet_btn_bg"
-            android:gravity="center"
-            android:text="@string/confirm"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="@dimen/dimen_16"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.47" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/cancel_button"
-            android:layout_width="0dp"
-            android:layout_height="45dp"
-            android:layout_margin="@dimen/dimen_4"
-            android:background="@drawable/cancel_btn_bg"
-            android:text="@string/cancel"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:textSize="@dimen/dimen_16"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.46" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

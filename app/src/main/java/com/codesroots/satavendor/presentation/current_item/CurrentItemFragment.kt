@@ -94,11 +94,6 @@ class CurrentItemFragment @Inject constructor(var item: OrdersItem) : DialogFrag
         }
 
 
-
-        view.dismissBtn.setOnClickListener {
-            this.dismiss()
-        }
-
         view.detailsButton.setOnClickListener {
             this.dismiss()
             ClickHandler().openDialogFragment(
@@ -107,13 +102,13 @@ class CurrentItemFragment @Inject constructor(var item: OrdersItem) : DialogFrag
                 ""
             )
         }
-        view.googleMapsBtn.setOnClickListener {
-            val uri =
-                "http://maps.google.com/maps?saddr=" + pref.latitude.toString() + "," + pref.longitude.toString() + "&daddr=" + item.billing_address!!.latitude.toString() + "," + item.billing_address!!.longitude
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
-            intent.setPackage("com.google.android.apps.maps")
-            startActivity(intent)
-        }
+//        view.googleMapsBtn.setOnClickListener {
+//            val uri =
+//                "http://maps.google.com/maps?saddr=" + pref.latitude.toString() + "," + pref.longitude.toString() + "&daddr=" + item.billing_address!!.latitude.toString() + "," + item.billing_address!!.longitude
+//            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+//            intent.setPackage("com.google.android.apps.maps")
+//            startActivity(intent)
+//        }
 
 
         return view.root

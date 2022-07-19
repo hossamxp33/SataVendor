@@ -72,9 +72,7 @@ class DetailsOrderFragment @Inject constructor(var detailsOrderItems: OrdersItem
             this.dismiss()
         }
 
-        view.dismissBtn.setOnClickListener {
-            this.dismiss()
-        }
+
 
         return view.root
     }
@@ -91,8 +89,6 @@ class DetailsOrderFragment @Inject constructor(var detailsOrderItems: OrdersItem
                 R.style.Animation_Design_BottomSheetDialog
             )
         }
-
-
         return dialog
     }
 

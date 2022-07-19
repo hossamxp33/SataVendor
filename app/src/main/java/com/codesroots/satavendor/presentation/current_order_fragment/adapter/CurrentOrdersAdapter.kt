@@ -143,10 +143,10 @@ class CurrentOrdersAdapter(
 
 
             val status = when (data.order_status_id) {
-                0 -> "New Order"
-                1 -> "Preparing"
-                2 -> "Prepared"
-                3 -> "Done"
+                0 -> "طلب جديد"
+                1 -> "جاري التحضير"
+                2 -> "تم التحضير"
+                3 -> "تم التوصيل"
                 else -> "Tracking"
             }
             binding.status = status

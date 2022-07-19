@@ -1,6 +1,11 @@
 package com.codesroots.satavendor.models.current_orders
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import java.io.Serializable
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 data class OrdersItem(
     var billing_address: BillingAddress? = null,
@@ -25,8 +30,13 @@ data class OrdersItem(
     var paymenttype_id: Int? = null,
     var taxes: Double? = null,
     var total: Double? = null,
-):Serializable
+):Serializable{
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun getCreationDateFormatted(): String? {
+        return created?.format(DateTimeFormatter.ISO_DATE_TIME)
+    }
+}
 data class SetorderToDelivery(
     var roomId: String? = null,
-  var order:OrdersItem?= null
+    var order:OrdersItem?= null
 )

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -21,9 +21,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-
-        >
+        android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -32,13 +30,6 @@
             android:layout_margin="16dp"
             >
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/dismissBtn"
-                android:layout_width="46dp"
-                android:layout_height="46dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:src="@drawable/dismiss_ic"/>
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/title"
                 style="@style/topicTitleTextStyle"
@@ -46,9 +37,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/dimen_24"
                 android:text="@string/dailyOrders"
-                android:textColor="@color/red2"
+                android:textColor="@color/white"
                 android:textSize="@dimen/dimen_32"
-                app:layout_constraintLeft_toRightOf="@+id/dismissBtn"
+
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -64,6 +55,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/dailyOrderRecycle"
                 android:layout_width="match_parent"
+                tools:listitem="@layout/daily_orders_adapter"
                 android:layout_height="0dp"
                 android:layout_margin="@dimen/dimen_12"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -101,6 +93,8 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
                     android:text="@string/deliveryTotalText"
+                    tools:text="@string/deliveryTotalText"
+
                     android:textSize="@dimen/dimen_12"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/orderPriceText" />

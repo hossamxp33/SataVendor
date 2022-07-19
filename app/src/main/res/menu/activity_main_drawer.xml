@@ -1,46 +1,39 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:tools="http://schemas.android.com/tools"
-      tools:showIn="navigation_view"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view"
 
     >
 
     <group
 
         android:checkableBehavior="single">
+
         <item
-                android:id="@+id/current_orders"
-                android:icon="@drawable/current_ic"
-                android:title="@string/currentOrders"/>
-        <item
-                android:id="@+id/dailyOrder"
-                android:icon="@drawable/daily_ic"
-                android:title="@string/dailyOrders"
+            android:id="@+id/dailyOrder"
+            android:title="@string/dailyOrders"
 
             />
         <item
-                android:id="@+id/archiveOrders"
-                android:icon="@drawable/calendar"
-                android:title="@string/archiveOrders"/>
-<!--        <item-->
-<!--                android:id="@+id/nav_tools"-->
-<!--                android:icon="@drawable/ic_menu_manage"-->
-<!--                android:title="@string/menu_tools"/>-->
+            android:id="@+id/archiveOrders"
+            android:title="@string/archiveOrders" />
+        <item
+            android:id="@+id/current_orders"
+            android:title="@string/currentOrders" />
+
         <item
             android:id="@+id/profile"
             android:title="الملف الشخصي"
-            android:icon="@drawable/user"
 
             />
 
-            <item
-                    android:id="@+id/logout"
-                    android:icon="@drawable/shutdown"
-                    android:title="@string/logout"/>
+        <item
+            android:id="@+id/logout"
+            android:title="@string/logout" />
 
-<!--            <item-->
-<!--                    android:id="@+id/nav_send"-->
-<!--                    android:icon="@drawable/ic_menu_send"-->
-<!--                    android:title="@string/menu_send"/>-->
+        <!--            <item-->
+        <!--                    android:id="@+id/nav_send"-->
+        <!--                    android:icon="@drawable/ic_menu_send"-->
+        <!--                    android:title="@string/menu_send"/>-->
 
 
     </group>

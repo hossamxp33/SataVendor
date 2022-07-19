@@ -87,9 +87,9 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
             getCurrentDate()
         }
 
-        view.dismissBtn.setOnClickListener {
-            this.dismiss()
-        }
+//        view.dismissBtn.setOnClickListener {
+//            this.dismiss()
+//        }
 
         view.getData.setOnClickListener {
 

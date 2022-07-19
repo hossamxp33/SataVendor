@@ -19,27 +19,24 @@
     <string name="paymentWayText">طريقة الدفع : </string>
     <string name="deliveryTimeText">وقت التسليم : </string>
     <string name="totalText">المجموع  : </string>
-    <string name="startTime">بداية المدة</string>
-    <string name="endTime">نهاية المدة</string>
+    <string name="startTime">من</string>
+    <string name="endTime">إلي</string>
     <string name="close">اغلاق</string>
     <string name="orderfound">لا يوجد طلبات</string>
     <string name="backToMenu">رجوع</string>
-
-
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
-
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="menu_tools">Tools</string>
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
-    <string name="currentOrders">الطلبات الحالية</string>
+    <string name="currentOrders">طلباتي</string>
     <string name="dailyOrders">طلبات اليوم</string>
     <string name="archiveOrders">أرشيف الطلبات</string>
     <string name="logout">خروج</string>
@@ -49,8 +46,8 @@
     <string name="password">كلمة المرور</string>
     <string name="success">تم قبول الاوردر تابع في الطلبات الحالية</string>
     <string name="editProfile">تعديل صوره الملف الشخصي</string>
-    <string name="phone">رقم الموبايل</string>
-    <string name="storeName">أسم المتجر</string>
+    <string name="phone">الهاتف</string>
+    <string name="storeName">اسم المتجر</string>
     <string name="deliveryTotalText"> مجموع خدمة التوصيل :  </string>
     <string name="required">مطلوب</string>
     <string name="orderPrice">سعر الطلب</string>
@@ -60,5 +57,12 @@
     <string name="timeoutExceeded">Timeout exceeded while waiting for loading, make sure you are connected to the internet</string>
     <string name="errorOccurred">error occurred, please try again</string>
     <string name="select_a_time">أختار وقت</string>
-    <string name="currentDeliveries">المناديب الحالية</string>
+    <string name="currentDeliveries">اختر مندوب</string>
+    <string name="floor_number">رقم الطابق</string>
+    <string name="flat_number">رقم الشقة</string>
+    <string name="order_status">حالة الطلب : </string>
+    <string name="payment_method">طريقة الدفع</string>
+    <string name="edit">تعديل</string>
+    <string name="order_date">تاريخ الطلب</string>
+    <string name="delivery_fee"> خدمة التوصيل</string>
 </resources>

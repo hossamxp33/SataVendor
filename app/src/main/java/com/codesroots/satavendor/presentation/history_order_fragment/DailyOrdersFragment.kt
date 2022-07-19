@@ -78,9 +78,9 @@ class DailyOrdersFragment @Inject constructor() : DialogFragment()
 
         viewModel.intents.trySend(MainIntent.Initialize(viewModel.state.value!!,dateInfo))
 
-        view.dismissBtn.setOnClickListener {
-            this.dismiss()
-        }
+//        view.dismissBtn.setOnClickListener {
+//            this.dismiss()
+//        }
         getAllData()
         historyOrderRecycleView()
         return view.root
