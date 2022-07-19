@@ -29,6 +29,13 @@
             {
               "client_id": "830730249765-mdr27baoqvrndvhelsnk58alf0u2ep5b.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "830730249765-a5hjn8r9duiro9lu9h6s2aca9s66c0cj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.codesroots.sataVendorApp"
+              }
             }
           ]
         }

@@ -54,27 +54,26 @@
         <entry key="..\:/SataVendor/app/src/main/res/layout/current_item.xml" value="0.16666666666666666" />
         <entry key="..\:/SataVendor/app/src/main/res/layout/current_orders_adapter.xml" value="0.18" />
         <entry key="..\:/SataVendor/app/src/main/res/layout/daily_orders_fragment.xml" value="0.16666666666666666" />
+        <entry key="..\:/SataVendor/app/src/main/res/layout/delivery_login_fragment.xml" value="0.3255208333333333" />
         <entry key="..\:/SataVendor/app/src/main/res/layout/details_order_fragment.xml" value="0.1" />
+        <entry key="..\:/SataVendor/app/src/main/res/layout/main_frame_content.xml" value="0.3255208333333333" />
         <entry key="..\:/SataVendor/app/src/main/res/layout/nav_header_main.xml" value="0.1890625" />
         <entry key="..\:/SataVendor/app/src/main/res/layout/neworder_fragment.xml" value="0.15185185185185185" />
         <entry key="..\:/SataVendor/app/src/main/res/layout/row_item_order_time.xml" value="0.17760416666666667" />
+        <entry key="..\:/SataVendor/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.12685185185185185" />
         <entry key="..\:/SataVendor/app/src/main/res/xml/network_security_config.xml" value="0.13645833333333332" />
         <entry key="..\:/peter/vendor/app/src/main/res/layout/activity_splash.xml" value="0.358695652173913" />
         <entry key="..\:/peter/vendor/app/src/main/res/layout/current_orders_adapter.xml" value="0.358695652173913" />
         <entry key="app/src/main/res/drawable/accpet_btn_bg.xml" value="0.10729166666666666" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/current_item.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/current_order_item.xml" value="0.1" />
         <entry key="app/src/main/res/layout/current_orders_adapter.xml" value="0.25" />
         <entry key="app/src/main/res/layout/delivery_item.xml" value="0.1" />
         <entry key="app/src/main/res/layout/delivery_login_fragment.xml" value="0.10190217391304347" />
-        <entry key="app/src/main/res/layout/details_order_fragment.xml" value="0.1" />
         <entry key="app/src/main/res/layout/map_activity.xml" value="0.12907608695652173" />
-        <entry key="app/src/main/res/layout/neworder_fragment.xml" value="0.1" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_15" project-jdk-name="15" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_15_PREVIEW" project-jdk-name="15" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
