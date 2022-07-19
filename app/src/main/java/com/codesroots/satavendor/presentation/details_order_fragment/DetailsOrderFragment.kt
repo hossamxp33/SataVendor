@@ -56,7 +56,7 @@ class DetailsOrderFragment @Inject constructor(var detailsOrderItems: OrdersItem
 
         for (i in 0 until detailsOrderItems.order_details!!.size) {
 
-            orderPriceValue += detailsOrderItems.order_details!![i].total.toInt()
+            orderPriceValue += detailsOrderItems.order_details!![i].total!!.toInt()
 
             totalDeliveryCost = detailsOrderItems.delivery_serivce!!.toInt()
 

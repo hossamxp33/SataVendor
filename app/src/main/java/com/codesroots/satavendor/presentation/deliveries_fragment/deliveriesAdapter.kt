@@ -3,6 +3,8 @@ package com.codesroots.satavendor.presentation.deliveries_fragment
 import android.annotation.SuppressLint
 import android.content.Context
 import android.media.MediaPlayer
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -17,7 +19,9 @@ import com.codesroots.satavendor.databinding.DeliveryItemBinding
 import com.codesroots.satavendor.databinding.DetailsOrderAdapterBinding
 import com.codesroots.satavendor.helper.BaseApplication
 import com.codesroots.satavendor.helper.ClickHandler
+import com.codesroots.satavendor.helper.Error_MotionToast
 import com.codesroots.satavendor.helper.SUCCESS_MotionToast
+import com.codesroots.satavendor.models.auth.Driver
 import com.codesroots.satavendor.models.auth.User
 import com.codesroots.satavendor.models.current_orders.OrderDetail
 import com.codesroots.satavendor.models.current_orders.OrdersItem
@@ -77,27 +81,36 @@ class DeliveriesAdapter(
         }
 //            }
 
-        (context as MapActivity).mSocket?.on("orderDelivery") {
-
-            frag.dismiss()
-            val gson = Gson()
-            var json = it.first().toString()
+        //    (context as MapActivity).mSocket?.on("orderDelivery") {
+        //      frag.dismiss()
+        //     val gson = Gson()
+        //     var json = it.first().toString()
 
 //                val type = object : TypeToken<OrdersItem?>() {}.type
 //                var newitem = gson.fromJson<OrdersItem>(json, type)
 //
-            Log.d("TAG", "socket// orderDelivery " + json)
-//                Toast.makeText(context, "", Toast.LENGTH_LONG)
-        }
 
+        //   }
         (context as MapActivity).mSocket?.on("OrderCanceled") {
-//
-            val gson = Gson()
-            var json = it.first().toString()
-//                Toast.makeText(context, "", Toast.LENGTH_LONG)
-            Log.d("TAG", "socket// orderCanceled " + json)
-        }
+                  frag.dismiss()
+                 val gson = Gson()
+                 var json = it.first().toString()
 
+                val type = object : TypeToken<Driver?>() {}.type
+                var newitem = gson.fromJson<Driver>(json, type)
+            if (newitem.delivery_information == 1) {
+                Handler(Looper.getMainLooper()).post {
+
+                    Log.d("TAG", "socket// orderDelivery " + json)
+                    SUCCESS_MotionToast("تم قبول الاوردر", context as MapActivity)
+                }
+            } else {
+                Handler(Looper.getMainLooper()).post {
+                    Error_MotionToast("تم رفض الاوردر", context as MapActivity)
+                }
+                Log.d("TAG", "socket// orderCanceled " + json)
+            }
+        }
 
     }
 

@@ -84,6 +84,8 @@ class CurrentItemFragment @Inject constructor(var item: OrdersItem) : DialogFrag
             args.putSerializable("item_data", item);
             dialogFragment.arguments = args
             dialogFragment.show(fm, "")
+            val changeStatusInfo = OrderStatus(order_status_id = 2)
+            viewModel.changeOrderStatus(item.id!!,changeStatusInfo)
             Log.d("TAG","socket// setOnClickListener data $item")
 
             view.mView.visibility = View.GONE

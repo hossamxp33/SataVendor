@@ -4,5 +4,5 @@ data class OrderStatus(
     var id: Int?=null,
     var order_status_id: Int?=null,
     var delivery_comment :String?=null,
-    var time : Int?=null
+    var delivery_time : Int?=null
 )
