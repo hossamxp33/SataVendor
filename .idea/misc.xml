@@ -63,14 +63,18 @@
         <entry key="..\:/peter/vendor/app/src/main/res/layout/current_orders_adapter.xml" value="0.358695652173913" />
         <entry key="app/src/main/res/drawable/accpet_btn_bg.xml" value="0.10729166666666666" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/current_item.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/current_order_item.xml" value="0.1" />
         <entry key="app/src/main/res/layout/current_orders_adapter.xml" value="0.25" />
         <entry key="app/src/main/res/layout/delivery_item.xml" value="0.1" />
         <entry key="app/src/main/res/layout/delivery_login_fragment.xml" value="0.10190217391304347" />
+        <entry key="app/src/main/res/layout/details_order_fragment.xml" value="0.1" />
         <entry key="app/src/main/res/layout/map_activity.xml" value="0.12907608695652173" />
+        <entry key="app/src/main/res/layout/neworder_fragment.xml" value="0.1" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_15_PREVIEW" project-jdk-name="15" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_15" project-jdk-name="15" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
