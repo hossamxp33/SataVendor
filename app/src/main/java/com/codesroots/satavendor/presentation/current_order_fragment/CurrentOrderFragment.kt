@@ -117,6 +117,7 @@ class CurrentOrderFragment @Inject constructor(var viewModel:CurrentOrderViewMod
 
 
     override fun onResume() {
+        //Mohamed
         super.onResume()
         val params: ViewGroup.LayoutParams = dialog!!.window!!.attributes
         params.width = ViewGroup.LayoutParams.MATCH_PARENT
