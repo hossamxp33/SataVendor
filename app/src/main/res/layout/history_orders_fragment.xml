@@ -44,26 +44,29 @@
                 android:id="@+id/filterLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/shadow_back_g"
-                android:minHeight="40dp"
+                android:background="@drawable/cornered_gray_background"
+                android:minHeight="@dimen/_30sdp"
                 app:layout_constraintTop_toBottomOf="@+id/recent_location">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/delivered"
                     style="@style/blackNormalTextStyle"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:minHeight="@dimen/_30sdp"
+                    android:layout_height="match_parent"
                     android:text="تم التسليم"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_percent="0.33" />
 
-                <androidx.appcompat.widget.AppCompatTextView
+                <TextView
                     android:id="@+id/canceledOrders"
                     style="@style/blackNormalTextStyle"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:minHeight="@dimen/_30sdp"
+
+                    android:layout_height="match_parent"
                     android:text="@string/canceled"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/delivered"
@@ -74,7 +77,9 @@
                     android:id="@+id/issuesOrders"
                     style="@style/blackNormalTextStyle"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:minHeight="@dimen/_30sdp"
+
+                    android:layout_height="match_parent"
                     android:text="@string/problem"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/canceledOrders"
@@ -164,7 +169,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/dimen_8"
                 android:background="@drawable/shadow_back_g_12"
-                android:paddingHorizontal="@dimen/_8sdp"
+                android:padding="@dimen/dimen_8"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent">
@@ -174,20 +179,24 @@
                     style="@style/topicTitleTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/orderPrice"
+                    android:layout_marginHorizontal="8dp"
+                    android:text="@string/total_without_delivery_fees"
                     android:textSize="@dimen/dimen_12"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/deliveryTotalText" />
+                    app:layout_constraintTop_toBottomOf="@+id/deliveryTotalText" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/deliveryTotalText"
                     style="@style/topicTitleTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="8dp"
                     android:text="@string/deliveryTotalText"
                     android:textSize="@dimen/dimen_12"
+
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="@string/deliveryTotalText" />
 
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -195,8 +204,10 @@
                     style="@style/topicTitleTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="8dp"
                     android:fontFamily="@font/diin_bold"
                     android:text="@string/totalText"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/orderPriceText" />
 
@@ -206,11 +217,12 @@
                     style="@style/topicTitleTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen_16"
                     android:text="0"
                     android:textColor="@color/red2"
                     android:textSize="@dimen/dimen_16"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="@+id/orderPriceText" />
 
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -218,25 +230,26 @@
                     style="@style/topicTitleTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen_16"
                     android:text="0"
                     android:textColor="@color/red2"
                     android:textSize="@dimen/dimen_16"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/orderPriceValue" />
+                    app:layout_constraintTop_toTopOf="@+id/deliveryTotalText" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/total"
                     style="@style/topicTitleTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen_16"
                     android:fontFamily="@font/diin_bold"
                     android:text="0"
                     android:textColor="@color/red2"
-
                     android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="@+id/totalText"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/deliveryTotal" />
+                    app:layout_constraintTop_toTopOf="@+id/totalText" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

@@ -37,35 +37,20 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent">
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
 
-                android:background="@drawable/shadowbackground"
-                android:clipChildren="false"
-                android:clipToPadding="false"
-                android:dividerHeight="0.0px"
-                android:innerRadius="0dp"
-                android:padding="@dimen/dimen_4"
-                android:shape="ring"
-                app:cardCornerRadius="75dp"
-                app:cardElevation="@dimen/dimen_4"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
 
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/appCompatImageView"
-                    android:layout_width="@dimen/_60sdp"
-                    android:layout_height="@dimen/_60sdp"
-                    android:padding="12dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/test"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/call"
-                    app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent.normal"
-                    app:strokeWidth="0dp" />
-            </androidx.cardview.widget.CardView>
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/iv_image"
+                android:layout_width="@dimen/_95sdp"
+                android:layout_height="@dimen/_95sdp"
+                android:padding="@dimen/_12sdp"
+                android:src="@drawable/test"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:riv_corner_radius="@dimen/_10sdp"
+                app:riv_mutate_background="true"
+                app:riv_oval="true"
+                app:riv_tile_mode="clamp" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/name"
@@ -76,8 +61,8 @@
                 android:layout_marginEnd="16dp"
                 android:text="@{data.billing_address.first_name}"
                 android:textStyle="bold"
-                app:layout_constraintRight_toLeftOf="@+id/cardView"
-                app:layout_constraintTop_toTopOf="@+id/cardView"
+                app:layout_constraintRight_toLeftOf="@+id/iv_image"
+                app:layout_constraintTop_toTopOf="@+id/iv_image"
                 tools:text="name" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -88,9 +73,9 @@
 
                 android:text="@{data.billing_address.address}"
 
-                app:layout_constraintBottom_toBottomOf="@+id/cardView"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_image"
                 app:layout_constraintEnd_toEndOf="@+id/name"
-                app:layout_constraintRight_toLeftOf="@+id/cardView"
+                app:layout_constraintRight_toLeftOf="@+id/iv_image"
                 app:layout_constraintTop_toBottomOf="@+id/name"
                 tools:text="address" />
 
@@ -102,13 +87,13 @@
                 android:layout_height="wrap_content"
                 android:text="@string/orderNumberText"
                 android:textColor="@color/black"
-                app:layout_constraintRight_toRightOf="@+id/cardView"
-                app:layout_constraintTop_toBottomOf="@+id/cardView"
+                app:layout_constraintRight_toRightOf="@+id/iv_image"
+                app:layout_constraintTop_toBottomOf="@+id/iv_image"
                 tools:text="رقم الطلب" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/orderNumber"
-tools:text="111"
+                tools:text="111"
                 android:textStyle="bold"
 
                 android:textColor="@color/black"
@@ -116,7 +101,7 @@ tools:text="111"
                 android:layout_height="wrap_content"
                 android:text="@{String.valueOf(data.billing_address.id)}"
                 app:layout_constraintRight_toLeftOf="@+id/orderNumberText"
-                app:layout_constraintTop_toBottomOf="@+id/cardView" />
+                app:layout_constraintTop_toBottomOf="@+id/iv_image" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/deliveryTimeText"
@@ -128,14 +113,14 @@ tools:text="111"
                 android:text="@string/deliveryTimeText"
                 android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="@+id/address"
-                app:layout_constraintRight_toRightOf="@+id/cardView"
+                app:layout_constraintRight_toRightOf="@+id/iv_image"
                 app:layout_constraintTop_toTopOf="@+id/orderNumberText"
                 tools:text="وقت التسليم" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_delivery_price"
                 android:layout_width="0dp"
-android:textStyle="bold"
+                android:textStyle="bold"
 
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_20sdp"
@@ -144,7 +129,7 @@ android:textStyle="bold"
 
                 android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="@+id/address"
-                app:layout_constraintRight_toRightOf="@+id/cardView"
+                app:layout_constraintRight_toRightOf="@+id/iv_image"
                 app:layout_constraintTop_toBottomOf="@+id/orderNumberText"
                 tools:text="خدمة التوصيل" />
 
@@ -157,7 +142,7 @@ android:textStyle="bold"
                 android:layout_height="wrap_content"
                 app:datetext="@{data.billing_address.created_at}"
                 app:layout_constraintRight_toLeftOf="@+id/deliveryTimeText"
-                app:layout_constraintTop_toBottomOf="@+id/cardView" />
+                app:layout_constraintTop_toBottomOf="@+id/iv_image" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/totalText"
@@ -171,18 +156,15 @@ android:textStyle="bold"
 
                 android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="@+id/address"
-                app:layout_constraintRight_toRightOf="@+id/cardView"
+                app:layout_constraintRight_toRightOf="@+id/iv_image"
                 app:layout_constraintTop_toBottomOf="@+id/tv_delivery_price"
                 tools:text="الإجمالي" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/total"
                 android:textStyle="bold"
-
                 android:textColor="@color/black"
-
                 android:layout_width="0dp"
-
                 android:layout_height="wrap_content"
                 android:text="@{String.valueOf(data.total)}"
                 app:layout_constraintEnd_toStartOf="@+id/totalText"
@@ -198,7 +180,7 @@ android:textStyle="bold"
                 android:text="@string/paymentWayText"
 
                 android:textColor="@color/black"
-                app:layout_constraintRight_toRightOf="@+id/cardView"
+                app:layout_constraintRight_toRightOf="@+id/iv_image"
                 app:layout_constraintTop_toBottomOf="@+id/orderNumberText"
                 tools:text="الدفع" />
 

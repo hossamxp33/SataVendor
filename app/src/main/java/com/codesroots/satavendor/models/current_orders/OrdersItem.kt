@@ -3,6 +3,7 @@ package com.codesroots.satavendor.models.current_orders
 import android.os.Build
 import androidx.annotation.RequiresApi
 import java.io.Serializable
+import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -33,7 +34,8 @@ data class OrdersItem(
 ):Serializable{
     @RequiresApi(Build.VERSION_CODES.O)
     fun getCreationDateFormatted(): String? {
-        return created?.format(DateTimeFormatter.ISO_DATE_TIME)
+       val date =  SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(created)
+        return SimpleDateFormat("yyyy-MM-dd").format(date)
     }
 }
 data class SetorderToDelivery(

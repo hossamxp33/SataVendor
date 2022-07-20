@@ -18,7 +18,7 @@
     <string name="orderNumberText"> رقم الطلب : </string>
     <string name="paymentWayText">طريقة الدفع : </string>
     <string name="deliveryTimeText">وقت التسليم : </string>
-    <string name="totalText">المجموع  : </string>
+    <string name="totalText">الإجمالي  : </string>
     <string name="startTime">من</string>
     <string name="endTime">إلي</string>
     <string name="close">اغلاق</string>
@@ -41,14 +41,14 @@
     <string name="archiveOrders">أرشيف الطلبات</string>
     <string name="logout">خروج</string>
     <string name="search">بحث</string>
-    <string name="login">تسجيل الدخول</string>
+    <string name="login">التسجيل</string>
     <string name="customerName">اسم المستخدم</string>
     <string name="password">كلمة المرور</string>
     <string name="success">تم قبول الاوردر تابع في الطلبات الحالية</string>
     <string name="editProfile">تعديل صوره الملف الشخصي</string>
     <string name="phone">الهاتف</string>
     <string name="storeName">اسم المتجر</string>
-    <string name="deliveryTotalText"> مجموع خدمة التوصيل :  </string>
+    <string name="deliveryTotalText"> إجمالي خدمة التوصيل :  </string>
     <string name="required">مطلوب</string>
     <string name="orderPrice">سعر الطلب</string>
     <string name="problem">مشكلة!</string>
@@ -65,4 +65,9 @@
     <string name="edit">تعديل</string>
     <string name="order_date">تاريخ الطلب</string>
     <string name="delivery_fee"> خدمة التوصيل</string>
+    <string name="home_screen">الرئيسية</string>
+    <string name="profile">الحساب الشخصي</string>
+    <string name="total_without_delivery_fees">الاجمالي بدون خدمة التوصيل</string>
+    <string name="splash_image_view">splash image view</string>
+    <string name="profile_personal">الملف الشخصي</string>
 </resources>

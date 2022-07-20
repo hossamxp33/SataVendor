@@ -286,23 +286,20 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
     }
 
     private fun coloredView(view: View) {
-        view.setBackgroundColor(
+        view.setBackgroundDrawable(
             ContextCompat
-                .getColor(requireContext(), R.color.light_orange)
+                .getDrawable(requireContext(), R.drawable.cornered_white_background)
         )
     }
 
     private fun whiteView(view: View) {
-        view.setBackgroundColor(
-            ContextCompat
-                .getColor(requireContext(), R.color.white)
-        )
+        view.setBackgroundDrawable(null)
+
     }
 
     private fun noColoredView() {
         whiteView(view.issuesOrders)
         whiteView(view.delivered)
         whiteView(view.canceledOrders)
-
     }
 }
