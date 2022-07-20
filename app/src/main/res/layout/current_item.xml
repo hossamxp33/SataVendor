@@ -45,37 +45,20 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/guid2">
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="24dp"
-                android:background="@drawable/shadowbackground"
-                android:clipChildren="false"
-                android:clipToPadding="false"
-                android:dividerHeight="0.0px"
-                android:innerRadius="0dp"
-                android:padding="@dimen/dimen_4"
-                android:shape="ring"
-                app:cardCornerRadius="75dp"
-                app:cardElevation="@dimen/dimen_4"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/call">
-
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/appCompatImageView"
-                    android:layout_width="85dp"
-                    android:layout_height="85dp"
-                    android:padding="12dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/test"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/call"
-                    app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent.normal"
-                    app:strokeWidth="0dp" />
-            </androidx.cardview.widget.CardView>
-
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/iv_image"
+                android:layout_width="@dimen/_95sdp"
+                android:layout_height="@dimen/_95sdp"
+                android:padding="@dimen/_12sdp"
+                android:layout_marginRight="@dimen/_16sdp"
+                android:src="@drawable/test"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="@dimen/_10sdp"
+                app:riv_corner_radius="@dimen/_10sdp"
+                app:riv_mutate_background="true"
+                app:riv_oval="true"
+                app:riv_tile_mode="clamp" />
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/call"
                 android:layout_width="48dp"
@@ -97,8 +80,8 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 android:text="@{data.billing_address.first_name+` `+data.billing_address.last_name}"
-                app:layout_constraintRight_toLeftOf="@+id/cardView"
-                app:layout_constraintTop_toTopOf="@+id/cardView"
+                app:layout_constraintRight_toLeftOf="@+id/iv_image"
+                app:layout_constraintTop_toTopOf="@+id/iv_image"
                 tools:text="name" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -108,7 +91,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:text="@{data.billing_address.address}"
-                app:layout_constraintRight_toLeftOf="@+id/cardView"
+                app:layout_constraintRight_toLeftOf="@+id/iv_image"
                 app:layout_constraintTop_toBottomOf="@+id/name"
                 tools:text="address" />
 
@@ -121,7 +104,7 @@
                 android:layout_marginRight="16dp"
                 android:text="@{`الدور`+` : `+ data.billing_address.floor_number }"
                 android:textColor="@color/red2"
-                app:layout_constraintRight_toLeftOf="@+id/cardView"
+                app:layout_constraintRight_toLeftOf="@+id/iv_image"
                 app:layout_constraintTop_toBottomOf="@+id/address"
                 tools:text="addressDetails" />
 
@@ -148,7 +131,7 @@
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardView"
+                app:layout_constraintTop_toBottomOf="@+id/iv_image"
                 app:layout_constraintWidth_percent="0.35" />
 
 
@@ -160,7 +143,7 @@
                 android:text="@{`Price : `+data.order_details.get(0).total + ` ` + `ج.م`}"
                 android:textColor="@color/red2"
                 app:layout_constraintBottom_toBottomOf="@+id/details_button"
-                app:layout_constraintRight_toRightOf="@+id/cardView"
+                app:layout_constraintRight_toRightOf="@+id/iv_image"
                 app:layout_constraintTop_toTopOf="@+id/details_button"
                 tools:text="price" />
 
