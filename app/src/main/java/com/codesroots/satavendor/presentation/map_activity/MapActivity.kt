@@ -479,6 +479,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     @SuppressLint("MissingPermission")
     fun enableMyLocation(context: Context) {
         map?.isMyLocationEnabled = true
+        map?.isTrafficEnabled = true
         mFusedLocationClient!!.lastLocation.addOnCompleteListener { task ->
             val location: Location? = task.result
             if (location == null) {
@@ -678,7 +679,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                                 map!!.addMarker(MarkerOptions().position(clientLatLng))
 
                                 val options = PolylineOptions()
-                                options.color(this@MapActivity.getColor(R.color.orange))
+                                options.color(this@MapActivity.getColor(R.color.black))
                                 options.width(10f)
                                 val url = getURL(homeLatLng, clientLatLng)
 

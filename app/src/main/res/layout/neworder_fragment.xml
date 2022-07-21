@@ -54,6 +54,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/paymentWayText"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.75"
                 app:riv_corner_radius="@dimen/_10sdp"
                 app:riv_mutate_background="true"
                 app:riv_oval="true"
@@ -145,13 +146,13 @@
                 android:id="@+id/tv_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/_16sdp"
                 android:text="@{`Price : `+data.order_details.get(0).total + ` ` + `ج.م`}"
                 android:textColor="@color/red2"
                 android:textSize="@dimen/_16ssp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/details_button"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/iv_image"
                 tools:text="price" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
