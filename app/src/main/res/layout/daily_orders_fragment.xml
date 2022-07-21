@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -21,9 +21,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-
-        >
+        android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -32,13 +30,6 @@
             android:layout_margin="16dp"
             >
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/dismissBtn"
-                android:layout_width="46dp"
-                android:layout_height="46dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:src="@drawable/dismiss_ic"/>
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/title"
                 style="@style/topicTitleTextStyle"
@@ -46,9 +37,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/dimen_24"
                 android:text="@string/dailyOrders"
-                android:textColor="@color/red2"
+                android:textColor="@color/white"
                 android:textSize="@dimen/dimen_32"
-                app:layout_constraintLeft_toRightOf="@+id/dismissBtn"
+
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -64,6 +55,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/dailyOrderRecycle"
                 android:layout_width="match_parent"
+                tools:listitem="@layout/daily_orders_adapter"
                 android:layout_height="0dp"
                 android:layout_margin="@dimen/dimen_12"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -88,22 +80,24 @@
                     style="@style/topicTitleTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:text="@string/orderPrice"
+                    android:layout_marginHorizontal="8dp"
+                    android:text="@string/total_without_delivery_fees"
                     android:textSize="@dimen/dimen_12"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@+id/deliveryTotalText" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/deliveryTotalText"
                     style="@style/topicTitleTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
+                    android:layout_marginHorizontal="8dp"
                     android:text="@string/deliveryTotalText"
                     android:textSize="@dimen/dimen_12"
+
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/orderPriceText" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="@string/deliveryTotalText" />
 
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -111,12 +105,12 @@
                     style="@style/topicTitleTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
+                    android:layout_marginHorizontal="8dp"
                     android:fontFamily="@font/diin_bold"
                     android:text="@string/totalText"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/deliveryTotalText" />
+                    app:layout_constraintTop_toBottomOf="@+id/orderPriceText" />
 
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -129,7 +123,7 @@
                     android:textColor="@color/red2"
                     android:textSize="@dimen/dimen_16"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="@+id/orderPriceText" />
 
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -142,7 +136,7 @@
                     android:textColor="@color/red2"
                     android:textSize="@dimen/dimen_16"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/orderPriceValue" />
+                    app:layout_constraintTop_toTopOf="@+id/deliveryTotalText" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/total"
@@ -153,11 +147,10 @@
                     android:fontFamily="@font/diin_bold"
                     android:text="0"
                     android:textColor="@color/red2"
-
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/deliveryTotal" />
+                    app:layout_constraintTop_toTopOf="@+id/totalText" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

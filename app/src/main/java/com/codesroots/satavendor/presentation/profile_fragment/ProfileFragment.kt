@@ -71,12 +71,12 @@ class ProfileFragment @Inject constructor() : Fragment() {
         view.pref = (context as MapActivity).Pref
 
 
-        view.appCompatImageView2.setOnClickListener {
-            addimage()
-        }
-        view.editImage.setOnClickListener {
-            addimage()
-        }
+//        view.appCompatImageView2.setOnClickListener {
+//            addimage()
+//        }
+//        view.editImage.setOnClickListener {
+//            addimage()
+//        }
 
         viewModel.getBranchData(pref.VendorId!!)
 
@@ -128,7 +128,7 @@ class ProfileFragment @Inject constructor() : Fragment() {
                 fileUri = data?.data!!
 
                 //  mProfileUri = fileUri
-                view.appCompatImageView2.setImageURI(fileUri)
+//                view.appCompatImageView2.setImageURI(fileUri)
 
             } else if (resultCode == ImagePicker.RESULT_ERROR) {
                 Toast.makeText(requireContext(), ImagePicker.getError(data), Toast.LENGTH_SHORT)
@@ -139,11 +139,11 @@ class ProfileFragment @Inject constructor() : Fragment() {
         }
 
     fun editRequest() {
-        val name = view.deliveryName.text.toString().replace("\"", "");
+//        val name = view.deliveryName.text.toString().replace("\"", "");
         val mobile = view.mobileNumber.text.toString().replace("\"", "");
         if (fileUri != null) {
             val photo_part = prepareFilePart("img", fileUri!!)
-            viewModel.editDeliveryData(pref.deliveryId, photo_part, name, mobile)
+//            viewModel.editDeliveryData(pref.deliveryId, photo_part, name, mobile)
         }
 
     }

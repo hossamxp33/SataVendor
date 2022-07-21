@@ -78,9 +78,6 @@ class DailyOrdersFragment @Inject constructor() : DialogFragment()
 
         viewModel.intents.trySend(MainIntent.Initialize(viewModel.state.value!!,dateInfo))
 
-        view.dismissBtn.setOnClickListener {
-            this.dismiss()
-        }
         getAllData()
         historyOrderRecycleView()
         return view.root
@@ -129,8 +126,6 @@ class DailyOrdersFragment @Inject constructor() : DialogFragment()
                             if (!it.data.isNullOrEmpty() ) {
                                 view.noOrderFound.isVisible = false
                                 historyOrdersAdapter.submitList(it.data)
-
-
 
                                 for (i in 0 until it.data!!.size) {
 

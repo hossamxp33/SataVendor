@@ -72,26 +72,23 @@ class DeliveriesFragment @Inject constructor() : DialogFragment() {
 
         viewModel.getDeliveris(data)
 
-        viewModel.deliveriesDataLD.observe(requireActivity(),{
-          if (it!=null){
-              deliveriesAdapter = DeliveriesAdapter(requireContext(),it,this)
-              deliveriesAdapter.data = it
-              view.deliveriesRecycle.apply {
-                  adapter = deliveriesAdapter
-                  isNestedScrollingEnabled = false
-                  setHasFixedSize(true)
-                  view.progress.isVisible=false
-              }
-          }else
-          {
-              WARN_MotionToast("",requireActivity())
-          }
-        })
-
-
-        view.dismissBtn.setOnClickListener {
-            this.dismiss()
+        viewModel.deliveriesDataLD.observe(requireActivity()) {
+            if (it != null) {
+                deliveriesAdapter = DeliveriesAdapter(requireContext(), it, this)
+                deliveriesAdapter.data = it
+                view.deliveriesRecycle.apply {
+                    adapter = deliveriesAdapter
+                    isNestedScrollingEnabled = false
+                    setHasFixedSize(true)
+                    view.progress.isVisible = false
+                }
+            } else {
+                WARN_MotionToast("", requireActivity())
+            }
         }
+
+
+
 
         return view.root
     }

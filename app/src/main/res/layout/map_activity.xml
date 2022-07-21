@@ -40,9 +40,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-
-
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/mapLayout"
             android:layout_width="match_parent"
@@ -57,65 +54,30 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/siteDrawerMenuButton"
-                android:layout_width="44dp"
-                android:layout_height="44dp"
-                android:layout_marginTop="8dp"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_margin="@dimen/_8sdp"
                 android:background="@drawable/white_circle_bk"
-                android:padding="@dimen/dimen_8"
-                android:src="@drawable/menu"
+                android:padding="@dimen/_4sdp"
+                android:src="@drawable/ic_dots"
+                android:tint="@color/orange"
                 android:translationZ="3dp"
-                app:layout_constraintStart_toStartOf="@+id/note"
-                app:layout_constraintTop_toBottomOf="@+id/note" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/note"
-                android:layout_width="44dp"
-                android:layout_height="44dp"
-                android:layout_marginLeft="12dp"
-                android:layout_marginTop="64dp"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_margin="@dimen/_8sdp"
                 android:background="@drawable/white_circle_bk"
                 android:padding="@dimen/dimen_8"
                 android:src="@drawable/note"
+                android:tint="@color/orange"
                 android:translationZ="3dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/statusLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/shadow_back_g"
-                android:translationZ="3dp"
-                app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toBottomOf="@+id/siteDrawerMenuButton" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/status"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dimen_8"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginBottom="@dimen/dimen_4"
-                    android:textColor="@color/black"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toLeftOf="@+id/statusIcon"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/statusIcon"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_marginRight="8dp"
-                    android:src="@drawable/online_ic"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
             <fragment
@@ -139,13 +101,14 @@
             android:layout_height="match_parent"
             android:layout_gravity="right"
             android:background="@color/white"
+            android:elevation="@dimen/_10sdp"
             android:fitsSystemWindows="true"
             android:padding="8dp"
-            app:itemTextAppearance="@style/TextStyle"
             app:headerLayout="@layout/nav_header_main"
-            app:itemIconTint="@color/green"
-            app:itemTextColor="@color/green"
             app:itemBackground="@drawable/shadow_back_g_12"
+            app:itemIconTint="@color/green"
+            app:itemTextAppearance="@style/TextStyle"
+            app:itemTextColor="@color/green"
             app:menu="@menu/activity_main_drawer" />
 
 

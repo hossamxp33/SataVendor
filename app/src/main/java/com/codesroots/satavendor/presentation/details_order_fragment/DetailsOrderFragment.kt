@@ -13,7 +13,6 @@ import com.codesroots.satavendor.presentation.map_activity.MapActivity
 import javax.inject.Inject
 import android.view.Gravity
 import com.codesroots.satavendor.databinding.DetailsOrderFragmentBinding
-import com.codesroots.satavendor.helper.Error_MotionToast
 import com.codesroots.satavendor.models.current_orders.OrdersItem
 import com.codesroots.satavendor.presentation.details_order_fragment.adapter.DetailsOrderAdapter
 
@@ -54,18 +53,14 @@ class DetailsOrderFragment @Inject constructor(var detailsOrderItems: OrdersItem
         dailyOrderRecycleView()
 
         detailsOrderAdapter.submitList(detailsOrderItems.order_details)
-        try {
-            for (element in detailsOrderItems.order_details!!) {
 
-                orderPriceValue += element.total!!.toInt()
+        for (i in 0 until detailsOrderItems.order_details!!.size) {
 
-                totalDeliveryCost = detailsOrderItems.delivery_serivce!!.toInt()
+            orderPriceValue += detailsOrderItems.order_details!![i].total.toInt()
 
-            }
-        } catch (e: Exception) {
-         Error_MotionToast(e.message.toString(),requireActivity())
+            totalDeliveryCost = detailsOrderItems.delivery_serivce!!.toInt()
+
         }
-
 
         view.deliveryTotal.text = totalDeliveryCost.toString()
 
@@ -76,6 +71,7 @@ class DetailsOrderFragment @Inject constructor(var detailsOrderItems: OrdersItem
         view.closeButton.setOnClickListener {
             this.dismiss()
         }
+
 
 
         return view.root
@@ -93,8 +89,6 @@ class DetailsOrderFragment @Inject constructor(var detailsOrderItems: OrdersItem
                 R.style.Animation_Design_BottomSheetDialog
             )
         }
-
-
         return dialog
     }
 
