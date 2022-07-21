@@ -3,10 +3,9 @@ package com.codesroots.satavendor.presentation.history_order_fragment
 import android.app.Dialog
 
 import android.os.Bundle
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.util.DisplayMetrics
+import android.view.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 
 import androidx.databinding.DataBindingUtil
@@ -175,14 +174,20 @@ class DailyOrdersFragment @Inject constructor() : DialogFragment()
 
 
 
-    override fun onResume() {
-        super.onResume()
-        val params: ViewGroup.LayoutParams = dialog!!.window!!.attributes
-        params.width = ViewGroup.LayoutParams.MATCH_PARENT
-        params.height = 1800
-        dialog!!.window!!.setGravity(Gravity.CENTER_HORIZONTAL or Gravity.BOTTOM)
+      override fun onResume() {
+          super.onResume()
+          val params: ViewGroup.LayoutParams = dialog!!.window!!.attributes
+          params.width = ViewGroup.LayoutParams.MATCH_PARENT
 
-    }
+
+          val displayMetrics = DisplayMetrics()
+          val windowsManager =
+              context!!.getSystemService(AppCompatActivity.WINDOW_SERVICE) as WindowManager
+          windowsManager.defaultDisplay.getMetrics(displayMetrics)
+          params.height = (displayMetrics.heightPixels / 4) * 3
+          dialog!!.window!!.setGravity(Gravity.CENTER_HORIZONTAL or Gravity.BOTTOM)
+
+      }
 
 
 }

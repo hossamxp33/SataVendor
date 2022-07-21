@@ -92,7 +92,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_16sdp"
                 tools:text="arabiata"
-                android:text="@{data.branches.name}"
+                android:text="@{data.name}"
                 android:textSize="@dimen/_18ssp"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/storeNameText" />

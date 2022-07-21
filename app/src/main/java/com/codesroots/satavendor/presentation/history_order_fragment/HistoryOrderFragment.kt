@@ -5,11 +5,11 @@ import android.app.DatePickerDialog
 import android.app.Dialog
 
 import android.os.Bundle
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.util.DisplayMetrics
+import android.util.Log
+import android.view.*
 import android.widget.DatePicker
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 
@@ -148,7 +148,7 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
                         } else {
                             view.progress.visibility = View.GONE
                             if (it.data != null) {
-                               view. chooseDate.isVisible = false
+                                view.chooseDate.isVisible = false
                                 historyOrdersAdapter.submitList(it.filterData)
                                 for (i in 0 until it.data!!.size) {
                                     orderPriceValue += it.data!![i].total!!.toInt()
@@ -169,7 +169,12 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
                                     noColoredView()
                                     coloredView(it1)
 
-                                    viewModel.intents.trySend(MainIntent.FilterData(viewModel.state.value!!, 4))
+                                    viewModel.intents.trySend(
+                                        MainIntent.FilterData(
+                                            viewModel.state.value!!,
+                                            4
+                                        )
+                                    )
 
                                 }
 
@@ -264,6 +269,12 @@ class HistoryOrderFragment @Inject constructor() : DialogFragment(),
         val params: ViewGroup.LayoutParams = dialog!!.window!!.attributes
         params.width = ViewGroup.LayoutParams.MATCH_PARENT
 
+
+        val displayMetrics = DisplayMetrics()
+        val windowsManager =
+            context!!.getSystemService(AppCompatActivity.WINDOW_SERVICE) as WindowManager
+        windowsManager.defaultDisplay.getMetrics(displayMetrics)
+        params.height = (displayMetrics.heightPixels / 4) * 3
         dialog!!.window!!.setGravity(Gravity.CENTER_HORIZONTAL or Gravity.BOTTOM)
 
     }

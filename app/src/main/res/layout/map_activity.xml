@@ -88,12 +88,15 @@
                 android:layout_marginRight="8dp"
                 android:layout_marginBottom="@dimen/dimen_4"
                 android:textColor="@color/black"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toLeftOf="@+id/statusIcon"
-                app:layout_constraintTop_toTopOf="parent" />
+
+
+                app:layout_constraintLeft_toLeftOf="@id/statusIcon"
+                app:layout_constraintRight_toRightOf="@+id/statusIcon"
+                app:layout_constraintTop_toBottomOf="@id/statusIcon" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/statusIcon"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_marginRight="8dp"

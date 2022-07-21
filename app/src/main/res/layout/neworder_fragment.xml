@@ -86,9 +86,12 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/address"
                 style="@style/grayTopicTitleTextStyle"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="right"
+                android:maxLines="2"
                 android:text="@{data.billing_address.address}"
+                app:layout_constraintLeft_toRightOf="@id/call"
                 app:layout_constraintRight_toLeftOf="@+id/iv_image"
                 app:layout_constraintTop_toBottomOf="@+id/call"
                 tools:text="address" />

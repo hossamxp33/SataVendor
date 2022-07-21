@@ -3,11 +3,10 @@ package com.codesroots.satavendor.presentation.new_order_bottomfragment
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.util.Log
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
@@ -116,9 +115,17 @@ class NewOrderFragment @Inject constructor(
         super.onResume()
         val params: ViewGroup.LayoutParams = dialog!!.window!!.attributes
         params.width = ViewGroup.LayoutParams.MATCH_PARENT
-        params.height = 1800
+
+
+        val displayMetrics = DisplayMetrics()
+        val windowsManager =
+            context!!.getSystemService(AppCompatActivity.WINDOW_SERVICE) as WindowManager
+        windowsManager.defaultDisplay.getMetrics(displayMetrics)
+        params.height = (displayMetrics.heightPixels / 4) * 3
         dialog!!.window!!.setGravity(Gravity.CENTER_HORIZONTAL or Gravity.BOTTOM)
+
     }
+
 
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
