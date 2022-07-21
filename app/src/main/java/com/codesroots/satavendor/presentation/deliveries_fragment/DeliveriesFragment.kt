@@ -2,6 +2,7 @@ package com.codesroots.satavendor.presentation.deliveries_fragment
 
 import android.app.Dialog
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.*
 import androidx.databinding.DataBindingUtil
@@ -13,6 +14,7 @@ import com.codesroots.satavendor.helper.ClickHandler
 import com.codesroots.satavendor.presentation.map_activity.MapActivity
 import javax.inject.Inject
 import android.view.Gravity
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -114,8 +116,15 @@ class DeliveriesFragment @Inject constructor() : DialogFragment() {
         super.onResume()
         val params: ViewGroup.LayoutParams = dialog!!.window!!.attributes
         params.width = ViewGroup.LayoutParams.MATCH_PARENT
-        params.height = 1800
+
+
+        val displayMetrics = DisplayMetrics()
+        val windowsManager =
+            context!!.getSystemService(AppCompatActivity.WINDOW_SERVICE) as WindowManager
+        windowsManager.defaultDisplay.getMetrics(displayMetrics)
+        params.height = (displayMetrics.heightPixels / 4) * 3
         dialog!!.window!!.setGravity(Gravity.CENTER_HORIZONTAL or Gravity.BOTTOM)
 
     }
+
 }

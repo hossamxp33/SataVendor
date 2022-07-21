@@ -2,6 +2,7 @@ package com.codesroots.satavendor.presentation.details_order_fragment
 
 import android.app.Dialog
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
@@ -12,6 +13,7 @@ import com.codesroots.satavendor.helper.ClickHandler
 import com.codesroots.satavendor.presentation.map_activity.MapActivity
 import javax.inject.Inject
 import android.view.Gravity
+import androidx.appcompat.app.AppCompatActivity
 import com.codesroots.satavendor.databinding.DetailsOrderFragmentBinding
 import com.codesroots.satavendor.helper.Error_MotionToast
 import com.codesroots.satavendor.models.current_orders.OrdersItem
@@ -112,10 +114,17 @@ class DetailsOrderFragment @Inject constructor(var detailsOrderItems: OrdersItem
         super.onResume()
         val params: ViewGroup.LayoutParams = dialog!!.window!!.attributes
         params.width = ViewGroup.LayoutParams.MATCH_PARENT
-        params.height = 1800
+
+
+        val displayMetrics = DisplayMetrics()
+        val windowsManager =
+            context!!.getSystemService(AppCompatActivity.WINDOW_SERVICE) as WindowManager
+        windowsManager.defaultDisplay.getMetrics(displayMetrics)
+        params.height = (displayMetrics.heightPixels / 4) * 3
         dialog!!.window!!.setGravity(Gravity.CENTER_HORIZONTAL or Gravity.BOTTOM)
 
     }
+
 
 
 }
