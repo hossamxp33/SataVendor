@@ -9,6 +9,7 @@ import com.codesroots.satavendor.models.current_orders.OrderStatus
 import com.codesroots.satavendor.models.current_orders.OrdersItem
 import com.codesroots.satavendor.models.delivery.Delivery
 import com.codesroots.satavendor.models.delivery.DeliveryItem
+import com.satafood.core.entities.token.Token
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.*
@@ -25,7 +26,8 @@ interface APIServices {
     suspend fun getDeliveris(@Body delivery: DeliveryItem?): ArrayList<DeliveryItem>
 
     //delivers/GetDliveryOrders
-
+    @POST("users/edit/{id}")
+    suspend fun updateUserToken(@Path("id") id: Int, @Body token: Token): Int
 
     @GET("orders/currentorders/{id}/0")
     suspend fun getCurrentOrders(@Path("id") id: Int): ArrayList<OrdersItem>

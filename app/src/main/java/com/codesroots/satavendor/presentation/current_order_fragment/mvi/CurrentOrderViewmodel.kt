@@ -10,6 +10,7 @@ import com.codesroots.satavendor.models.delivery.Delivery
 import com.codesroots.satavendor.models.delivery.DeliveryItem
 import com.codesroots.satavendor.repository.DataRepo
 import com.codesroots.satavendor.repository.RemoteDataSource
+import com.satafood.core.entities.token.Token
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -39,6 +40,9 @@ class CurrentOrderViewModel @Inject constructor(private val DateRepoCompnay: Dat
     var deliveriesDataLD = MutableLiveData< ArrayList<DeliveryItem>>()
 
     var OrderStateLD: MutableLiveData<OrderStatus>? = null
+
+    var tokenLD: MutableLiveData<Int>? = null
+
 
     protected val getStatusState : MutableStateFlow<DeliveryItem>? = null
 
@@ -96,13 +100,13 @@ class CurrentOrderViewModel @Inject constructor(private val DateRepoCompnay: Dat
 
     }
 
-    fun deliversOrdersCanceled(data:OrdersItem) {
+    fun updateUserToken(userId: Int, token: Token) {
         job = CoroutineScope(Dispatchers.IO+coroutineExceptionHandler).launch {
-            val response = DateRepoCompnay.deliversOrdersCanceled(data)
+            val response = DateRepoCompnay.updateUserToken(userId,token)
             withContext(Dispatchers.Main+coroutineExceptionHandler) {
                 (response.collect {
                     runCatching {
-                        OrderState?.value = it.getOrNull()!!
+                        tokenLD?.value = it.getOrNull()!!
 
                     }.getOrElse {
                         onError("Error : ${it.message} ")
@@ -113,6 +117,7 @@ class CurrentOrderViewModel @Inject constructor(private val DateRepoCompnay: Dat
         }
 
     }
+
     fun getDeliveris(data:DeliveryItem) {
         job = CoroutineScope(Dispatchers.IO+coroutineExceptionHandler).launch {
             val response = DateRepoCompnay.getDeliveris(data)
@@ -130,23 +135,7 @@ class CurrentOrderViewModel @Inject constructor(private val DateRepoCompnay: Dat
         }
 
     }
-//changeDeliveryStatus
-fun changeDeliversStatus(Id:Int,statusId:Int) {
-    job = CoroutineScope(Dispatchers.IO+coroutineExceptionHandler).launch {
-        val response = DateRepoCompnay.changeDeliveryStatus(Id, statusId)
-        withContext(Dispatchers.Main) {
-            (response.collect {
-                runCatching {
-                    OrderState?.value = it.getOrNull()!!
 
-                }.getOrElse {
-                    onError("Error : ${it.message} ")
-
-                }
-            })
-        }
-    }
-}
 
     fun getBranchData(Id:Int) {
         job = CoroutineScope(Dispatchers.IO+coroutineExceptionHandler).launch {

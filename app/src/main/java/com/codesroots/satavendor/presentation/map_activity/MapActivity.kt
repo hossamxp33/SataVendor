@@ -13,7 +13,6 @@ import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import com.codesroots.satavendor.R
 import android.os.Looper
 import android.provider.Settings
 import android.util.Log
@@ -32,7 +31,8 @@ import androidx.drawerlayout.widget.DrawerLayout.SimpleDrawerListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import cn.pedant.SweetAlert.SweetAlertDialog
-import com.beust.klaxon.*
+import com.beust.klaxon.Parser
+import com.codesroots.satavendor.R
 import com.codesroots.satavendor.databinding.MapActivityBinding
 import com.codesroots.satavendor.databinding.NavHeaderMainBinding
 import com.codesroots.satavendor.helper.*
@@ -53,25 +53,26 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.installations.FirebaseInstallations
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.satafood.core.entities.token.Token
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import kotlinx.android.synthetic.main.map_activity.*
-import kotlinx.android.synthetic.main.nav_header_main.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import org.jetbrains.anko.custom.async
 import org.jetbrains.anko.custom.onUiThread
 import java.io.IOException
 import java.net.URL
-import java.util.*
 import javax.inject.Inject
 
 
@@ -101,6 +102,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     var data: ArrayList<OrdersItem>? = null
 
     var userLocationMarker: Marker? = null
+    var isConnected = false;
 
     @Inject
     lateinit var socket: Socket
@@ -153,7 +155,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         statusCheck()
         val headerBinding: NavHeaderMainBinding =
 
-            NavHeaderMainBinding.bind(binding.navView.getHeaderView(0))
+      NavHeaderMainBinding.bind(binding.navView.getHeaderView(0))
 
 
         ////////////// Socket ///////////////////////
@@ -164,10 +166,38 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         val options = IO.Options()
         options.reconnection = true //reconnection
         options.forceNew = true
-        Log.d("TAG","socket// ${mSocket?.connected()}")
+
+
+        socket.on(Socket.EVENT_CONNECT) {
+            try {
+                nav_view.getHeaderView(0).switch1.isChecked = true
+                status.text = "متصل"
+                statusIcon.setImageResource(R.drawable.online_ic)
+               Log.d("TAG", "socket// ${"connect"}")
+
+            } catch (e: Exception) {
+                Log.d(TAG, e.message!!)
+            }
+        }.on(Socket.EVENT_CONNECT_ERROR) {
+            val e = it[0]
+            Log.e(TAG, "error $e")
+            WARN_MotionToast("error $e", this)
+
+        }.on(Socket.EVENT_DISCONNECT) {
+            val e = it[0]
+            Log.e(TAG, "Transport error $e")
+                runOnUiThread {
+                nav_view.getHeaderView(0).switch1.isChecked = false
+                WARN_MotionToast("غير متصل", this)
+                status.text = "غير متصل"
+                Log.d("TAG", "socket// ${mSocket?.connected()}")
+                statusIcon.setImageResource(R.drawable.offline_ic)
+            }
+
+        }
 
         mSocket?.emit("CreateDeliveryRoom", Pref.room_id!!)
-        mSocket?.emit("create_user", Pref.VendorId)
+        connectToSocket()
         mSocket?.on("makeNewOrderToBranch") {
             var mp = MediaPlayer.create(this, R.raw.alarm);
             mp.start();
@@ -190,20 +220,12 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         ////// Delivery Status online/offline ///////////
         viewModel.getBranchData(Pref.VendorId!!)
         try {
+
             viewModel.deliveryItemLD!!.observe(this) {
                 if (!it.isNullOrEmpty()) {
                     headerBinding.data = it[0]
                     nav_view.getHeaderView(0).userName.text = it[0].name?.replace("\"", "")
-                    if (it[0].is_online == 1) {
-                        nav_view.getHeaderView(0).switch1.isChecked = true
-                        status.text = "متصل"
-                        statusIcon.setImageResource(R.drawable.online_ic)
-                    } else {
-                        nav_view.getHeaderView(0).switch1.isChecked = false
-                        WARN_MotionToast("غير متصل", this)
-                        status.text = "غير متصل"
-                        statusIcon.setImageResource(R.drawable.offline_ic)
-                    }
+
                 } else
                     WARN_MotionToast("غير متصل", this)
 
@@ -218,19 +240,10 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
             ?.setOnCheckedChangeListener { buttonView, isChecked ->
                 if (isChecked) {
                     // The switch enabled
-                    switch1.text = "متصل"
-                    status.text = "متصل"
-
-                    viewModel.changeDeliversStatus(Pref.deliveryId, 1)
-                    statusIcon.setImageResource(R.drawable.online_ic)
-
+                    mSocket?.connect()
                 } else {
                     // The switch disabled
-                    switch1.text = "غير متصل"
-                    status.text = " غير متصل"
-
-                    viewModel.changeDeliversStatus(Pref.deliveryId, 0)
-                    statusIcon.setImageResource(R.drawable.offline_ic)
+                    mSocket?.disconnect()
 
                 }
             }
@@ -242,7 +255,8 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         mDrawerLayout!!.addDrawerListener(object : SimpleDrawerListener() {
             override fun onDrawerStateChanged(newState: Int) {
                 if (newState == DrawerLayout.STATE_SETTLING && !mDrawerLayout!!.isDrawerOpen(
-                        GravityCompat.START)
+                        GravityCompat.START
+                    )
                 ) {
                     viewModel.getBranchData(Pref.VendorId!!)
 
@@ -287,6 +301,23 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
         }
 
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.d("TAG", "token:///:false ${task.exception?.message}")
+                return@OnCompleteListener
+            }
+
+            // Get new FCM registration token
+            val token = task.result
+           viewModel.updateUserToken(Pref.VendorId!!,Token(token))
+            Log.d("TAG", "token:///:"  + Pref.VendorId +"///"+ token)
+            if (!Pref.UserToken.isNullOrEmpty()) {
+                lifecycleScope.launch {
+
+                }
+            }
+            // Log and toast
+        })
     }
 
 
@@ -327,6 +358,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
             checkBackgroundLocation()
         }
     }
+
     fun setNewFcm() {
         FirebaseInstallations.getInstance().getToken(true)
             .addOnCompleteListener { task ->
@@ -335,10 +367,11 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                 }
                 if (task.result != null) {
                     val token: String = task.result.token
-               token
+                    token
                 }
             }
     }
+
     private fun requestLocationPermission() {
         ActivityCompat.requestPermissions(
             this,
@@ -489,8 +522,14 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
             latitude = location!!.latitude
             longitude = location.longitude
 
-            map!!.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(latitude!!,
-                longitude!!), 16.0f))
+            map!!.animateCamera(
+                CameraUpdateFactory.newLatLngZoom(
+                    LatLng(
+                        latitude!!,
+                        longitude!!
+                    ), 16.0f
+                )
+            )
             homeLatLng = LatLng(latitude!!, longitude!!)
 
         }
@@ -498,10 +537,13 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     }
 
     fun startLocationUpdate() {
-        if (ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+        if (ActivityCompat.checkSelfPermission(
                 this,
-                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
         ) {
 
             return
@@ -515,10 +557,13 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     }
 
     fun stopLocationUpdate() {
-        if (ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+        if (ActivityCompat.checkSelfPermission(
                 this,
-                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
         ) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -537,17 +582,20 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     fun setUserLocationMarker(location: Location) {
         homeLatLng = LatLng(location.latitude, location.longitude)
         if (userLocationMarker == null) {
-            userLocationMarker = map!!.addMarker(MarkerOptions()
-                .position(homeLatLng)
-                .icon(BitmapDescriptorFactory
-                    .fromResource(R.drawable.restaurant_ic))
+            userLocationMarker = map!!.addMarker(
+                MarkerOptions()
+                    .position(homeLatLng)
+                    .icon(
+                        BitmapDescriptorFactory
+                            .fromResource(R.drawable.restaurant_ic)
+                    )
 //                .rotation(location.bearing)
 //                .anchor(0.5f, 0.5f)
             )
 
         } else {
             userLocationMarker!!.position = homeLatLng
-    //        userLocationMarker!!.rotation = location.bearing
+            //        userLocationMarker!!.rotation = location.bearing
 
 
         }
@@ -587,10 +635,13 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                 }
             }
         }
-        if (ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+        if (ActivityCompat.checkSelfPermission(
                 this,
-                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
         ) {
             try {
 
@@ -607,10 +658,12 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 //            mFusedLocationClient!!.removeLocationUpdates(locationCallback)
 //
 //        } else {
-            mFusedLocationClient?.requestLocationUpdates(locationRequest,
-                locationCallback,
-                Looper.getMainLooper())
-    //    }
+        mFusedLocationClient?.requestLocationUpdates(
+            locationRequest,
+            locationCallback,
+            Looper.getMainLooper()
+        )
+        //    }
 
     }
 
@@ -633,8 +686,12 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         try {
             val homeLatLng = LatLng(mlatitude, mLogitude)
             map?.clear()
-            map!!.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(mlatitude, mLogitude),
-                16.0f))
+            map!!.animateCamera(
+                CameraUpdateFactory.newLatLngZoom(
+                    LatLng(mlatitude, mLogitude),
+                    16.0f
+                )
+            )
 
             map!!.setOnCameraIdleListener(GoogleMap.OnCameraIdleListener {
                 latitude = map!!.cameraPosition.target.latitude
@@ -659,10 +716,13 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                             if (it.progress == true) {
                                 val clientLatLng = LatLng(end_latitude, end_longitude)
                                 if (userLocationMarker == null) {
-                                    userLocationMarker = map!!.addMarker(MarkerOptions()
-                                        .position(homeLatLng)
-                                        .icon(BitmapDescriptorFactory
-                                            .fromResource(R.drawable.motor_ic))
+                                    userLocationMarker = map!!.addMarker(
+                                        MarkerOptions()
+                                            .position(homeLatLng)
+                                            .icon(
+                                                BitmapDescriptorFactory
+                                                    .fromResource(R.drawable.motor_ic)
+                                            )
 //                                        .rotation(location.bearing)
 //                                        .anchor(0.5f, 0.5f)
                                     )
@@ -707,8 +767,10 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
                                             val polypts =
                                                 points.flatMap {
-                                                    decodePoly(it.obj("polyline")
-                                                        ?.string("points")!!)
+                                                    decodePoly(
+                                                        it.obj("polyline")
+                                                            ?.string("points")!!
+                                                    )
                                                 }
                                             // Add  points to polyline and bounds
 
@@ -725,9 +787,12 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                                             // add polyline to the map
                                             map!!.addPolyline(options)
                                             // show map with route centered
-                                            map!!.moveCamera(CameraUpdateFactory.newLatLngBounds(
-                                                bounds,
-                                                60))
+                                            map!!.moveCamera(
+                                                CameraUpdateFactory.newLatLngBounds(
+                                                    bounds,
+                                                    60
+                                                )
+                                            )
                                         } catch (e: Exception) {
                                         }
                                     }
@@ -792,8 +857,10 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
             val dlng = if (result and 1 != 0) (result shr 1).inv() else result shr 1
             lng += dlng
 
-            val p = LatLng(lat.toDouble() / 1E5,
-                lng.toDouble() / 1E5)
+            val p = LatLng(
+                lat.toDouble() / 1E5,
+                lng.toDouble() / 1E5
+            )
             poly.add(p)
         }
 
@@ -805,19 +872,25 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         when (item.itemId) {
             R.id.current_orders -> {
                 // Handle the camera action
-                ClickHandler().openDialogCurrentOrderFragment(this,
+                ClickHandler().openDialogCurrentOrderFragment(
+                    this,
                     CurrentOrderFragment(viewModel),
-                    CurrentOrderFragment.TAG, viewModel)
+                    CurrentOrderFragment.TAG, viewModel
+                )
             }
             R.id.dailyOrder -> {
-                ClickHandler().openDialogFragment(this,
+                ClickHandler().openDialogFragment(
+                    this,
                     DailyOrdersFragment(),
-                    DailyOrdersFragment.TAG)
+                    DailyOrdersFragment.TAG
+                )
             }
             R.id.archiveOrders -> {
-                ClickHandler().openDialogFragment(this,
+                ClickHandler().openDialogFragment(
+                    this,
                     HistoryOrderFragment(),
-                    HistoryOrderFragment.TAG)
+                    HistoryOrderFragment.TAG
+                )
             }
 //            R.id.nav_tools -> {
 //
@@ -882,11 +955,18 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     }
 
 
-
     override fun onResume() {
         super.onResume()
         updateLocation()
+        connectToSocket()
 
+
+
+    }
+
+    private fun connectToSocket() {
+        mSocket?.connect()
+        mSocket?.emit("create_user", Pref.VendorId)
 
     }
 
