@@ -14,8 +14,6 @@ import com.codesroots.satavendor.databinding.ProfileFragmentBinding
 import com.codesroots.satavendor.helper.*
 import com.codesroots.satavendor.presentation.map_activity.MapActivity
 import com.codesroots.satavendor.presentation.profile_fragment.viewmodel.ProfileViewmodel
-import kotlinx.android.synthetic.main.delivery_login_fragment.*
-import kotlinx.android.synthetic.main.profile_fragment.*
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -80,7 +78,7 @@ class ProfileFragment @Inject constructor() : Fragment() {
             addimage()
         }
 
-        viewModel.getDeliversStatus(pref.delivery_status)
+        viewModel.getBranchData(pref.VendorId!!)
 
         viewModel.deliveryItemLD!!.observe(requireActivity()) {
             view.data = it[0]

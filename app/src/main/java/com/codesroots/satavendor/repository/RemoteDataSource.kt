@@ -55,8 +55,8 @@ class RemoteDataSource @Inject constructor(private val ApiService: APIServices)
         return ApiService.editDeliveryData(file!!,name!!,phone!!,id!!)
     }
 
-    override suspend fun getDeliversStatus(id: Int?): Response<Delivery>  {
-        return ApiService.getDeliversStatus(id!!)
+    override suspend fun getBranchData(branchId: Int?): Response<Delivery>  {
+        return ApiService.getBranchData(branchId!!)
     }
 
 

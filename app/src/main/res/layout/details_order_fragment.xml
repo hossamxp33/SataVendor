@@ -164,7 +164,6 @@
                     android:fontFamily="@font/diin_bold"
                     android:text="0"
                     android:textColor="@color/red2"
-
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"

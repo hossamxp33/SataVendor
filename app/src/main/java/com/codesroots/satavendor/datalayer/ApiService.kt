@@ -30,8 +30,8 @@ interface APIServices {
     @GET("orders/currentorders/{id}/0")
     suspend fun getCurrentOrders(@Path("id") id: Int): ArrayList<OrdersItem>
 
-    @GET("branches/view/{id}")
-    suspend fun getDeliversStatus(@Path("id") id: Int): Response<Delivery>
+    @POST("branches/view/{branchId}")
+    suspend fun getBranchData(@Path("branchId") id: Int): Response<Delivery>
 
     //Delivery Orders By Date
     @POST("orders/GetBranchOrdersByDate")

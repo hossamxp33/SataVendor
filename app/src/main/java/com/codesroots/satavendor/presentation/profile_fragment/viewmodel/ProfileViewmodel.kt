@@ -50,9 +50,9 @@ class ProfileViewmodel @Inject constructor(private val DateRepoCompnay: DataRepo
         }
 
     }
-    fun getDeliversStatus(Id:Int) {
+    fun getBranchData(Id:Int) {
         job = CoroutineScope(Dispatchers.IO).launch {
-            val response = Datasources.getDeliversStatus(Id)
+            val response = Datasources.getBranchData(Id)
             withContext(Dispatchers.Main) {
                 if (response.isSuccessful) {
                     deliveryItemLD?.postValue(response.body())

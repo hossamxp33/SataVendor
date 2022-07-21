@@ -55,6 +55,8 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.installations.FirebaseInstallations
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import dagger.android.AndroidInjection
@@ -137,10 +139,14 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
         val binding: MapActivityBinding =
             DataBindingUtil.setContentView(this, R.layout.map_activity)
+
         // Get the SupportMapFragment and request notification when the map is ready to be used.
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
 
         mapFragment?.getMapAsync(this)
+        FirebaseMessaging.getInstance().isAutoInitEnabled = true;
+
+        setNewFcm()
 
         mDrawerLayout = binding.drawerLayout
 
@@ -182,13 +188,12 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         }
 
         ////// Delivery Status online/offline ///////////
-        viewModel.getDeliversStatus(Pref.delivery_status)
-
+        viewModel.getBranchData(Pref.VendorId!!)
         try {
             viewModel.deliveryItemLD!!.observe(this) {
                 if (!it.isNullOrEmpty()) {
                     headerBinding.data = it[0]
-                    nav_view.getHeaderView(0).userName.text = it[0].name?.replace("\"", "");
+                    nav_view.getHeaderView(0).userName.text = it[0].name?.replace("\"", "")
                     if (it[0].is_online == 1) {
                         nav_view.getHeaderView(0).switch1.isChecked = true
                         status.text = "متصل"
@@ -198,7 +203,6 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                         WARN_MotionToast("غير متصل", this)
                         status.text = "غير متصل"
                         statusIcon.setImageResource(R.drawable.offline_ic)
-
                     }
                 } else
                     WARN_MotionToast("غير متصل", this)
@@ -240,7 +244,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                 if (newState == DrawerLayout.STATE_SETTLING && !mDrawerLayout!!.isDrawerOpen(
                         GravityCompat.START)
                 ) {
-                    viewModel.getDeliversStatus(Pref.delivery_status)
+                    viewModel.getBranchData(Pref.VendorId!!)
 
                 }
             }
@@ -323,7 +327,18 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
             checkBackgroundLocation()
         }
     }
-
+    fun setNewFcm() {
+        FirebaseInstallations.getInstance().getToken(true)
+            .addOnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    return@addOnCompleteListener
+                }
+                if (task.result != null) {
+                    val token: String = task.result.token
+               token
+                }
+            }
+    }
     private fun requestLocationPermission() {
         ActivityCompat.requestPermissions(
             this,

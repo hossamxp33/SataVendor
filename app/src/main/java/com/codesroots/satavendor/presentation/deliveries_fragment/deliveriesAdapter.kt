@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -67,32 +68,18 @@ class DeliveriesAdapter(
             val jsonTutPretty: String = gsonPretty.toJson(socketObject)
 
             println(jsonTutPretty)
-            val type = object : TypeToken<SetorderToDelivery?>() {}.type
-
-            val newdata = gson.toJson(socketObject)
 
             (context as MapActivity).mSocket?.emit("CreateDeliveryOrder", jsonTutPretty)
             (context as MapActivity).mSocket?.emit("CreateDeliveryRoom", "sata123")
 
             Log.d("TAG", "socket// $jsonTutPretty")
 
+            frag.view.progress.isVisible = true
 
 
         }
-//            }
 
-        //    (context as MapActivity).mSocket?.on("orderDelivery") {
-        //      frag.dismiss()
-        //     val gson = Gson()
-        //     var json = it.first().toString()
-
-//                val type = object : TypeToken<OrdersItem?>() {}.type
-//                var newitem = gson.fromJson<OrdersItem>(json, type)
-//
-
-        //   }
         (context as MapActivity).mSocket?.on("OrderCanceled") {
-                  frag.dismiss()
                  val gson = Gson()
                  var json = it.first().toString()
 
@@ -103,10 +90,13 @@ class DeliveriesAdapter(
 
                     Log.d("TAG", "socket// orderDelivery " + json)
                     SUCCESS_MotionToast("تم قبول الاوردر", context as MapActivity)
+                    frag.view.progress.isVisible = false
+                    frag.dismiss()
                 }
             } else {
                 Handler(Looper.getMainLooper()).post {
-                    Error_MotionToast("تم رفض الاوردر", context as MapActivity)
+                    Error_MotionToast(" تم رفض الاوردر اختار مندوب  أخر ", context as MapActivity)
+
                 }
                 Log.d("TAG", "socket// orderCanceled " + json)
             }

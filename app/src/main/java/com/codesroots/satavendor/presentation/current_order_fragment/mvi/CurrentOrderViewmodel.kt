@@ -148,9 +148,9 @@ fun changeDeliversStatus(Id:Int,statusId:Int) {
     }
 }
 
-    fun getDeliversStatus(Id:Int) {
+    fun getBranchData(Id:Int) {
         job = CoroutineScope(Dispatchers.IO+coroutineExceptionHandler).launch {
-            val response = Datasources.getDeliversStatus(Id)
+            val response = Datasources.getBranchData(Id)
             withContext(Dispatchers.Main
             +coroutineExceptionHandler) {
                 if (response.isSuccessful) {
