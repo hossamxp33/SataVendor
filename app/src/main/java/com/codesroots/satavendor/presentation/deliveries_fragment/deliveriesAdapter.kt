@@ -87,7 +87,6 @@ class DeliveriesAdapter(
                 var newitem = gson.fromJson<Driver>(json, type)
             if (newitem.delivery_information == 1) {
                 Handler(Looper.getMainLooper()).post {
-
                     Log.d("TAG", "socket// orderDelivery " + json)
                     SUCCESS_MotionToast("تم قبول الاوردر", context as MapActivity)
                     frag.view.progress.isVisible = false
