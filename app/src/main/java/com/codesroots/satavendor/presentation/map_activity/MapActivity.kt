@@ -193,7 +193,6 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                 Log.d("TAG", "socket// ${mSocket?.connected()}")
                 statusIcon.setImageResource(R.drawable.offline_ic)
             }
-
         }
 
         mSocket?.emit("CreateDeliveryRoom", Pref.room_id!!)
@@ -203,14 +202,11 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
             mp.start();
             runOnUiThread {
                 val gson = Gson()
-                var json = it.first().toString()
+                val json = it.first().toString()
                 val type = object : TypeToken<OrdersItem?>() {}.type
-                var newitem = gson.fromJson<OrdersItem>(json, type)
-
+                val newitem = gson.fromJson<OrdersItem>(json, type)
                 data?.add(0, newitem)
-
                 ClickHandler().openDialogFragment(this, NewOrderFragment(newitem!!, viewModel), "")
-
                 Log.d("socket", json)
 
             }
@@ -220,22 +216,18 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         ////// Delivery Status online/offline ///////////
         viewModel.getBranchData(Pref.VendorId!!)
         try {
-
             viewModel.deliveryItemLD!!.observe(this) {
                 if (!it.isNullOrEmpty()) {
                     headerBinding.data = it[0]
                     nav_view.getHeaderView(0).userName.text = it[0].name?.replace("\"", "")
-
                 } else
                     WARN_MotionToast("غير متصل", this)
-
             }
         } catch (e: java.lang.Exception) {
 
         }
         getClientAddress()
         nav_view.setNavigationItemSelectedListener(this)
-
         nav_view.getHeaderView(0).switch1
             ?.setOnCheckedChangeListener { buttonView, isChecked ->
                 if (isChecked) {
@@ -345,8 +337,6 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                         //Prompt the user once explanation has been shown
                         requestLocationPermission()
                         // selected Don't ask again
-
-
                     }
                     .create()
                     .show()
