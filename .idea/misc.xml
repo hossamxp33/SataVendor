@@ -76,13 +76,13 @@
         <entry key="..\:/peter/vendor/app/src/main/res/layout/current_item.xml" value="0.264" />
         <entry key="..\:/peter/vendor/app/src/main/res/layout/current_order_fragment.xml" value="0.358695652173913" />
         <entry key="..\:/peter/vendor/app/src/main/res/layout/current_order_item.xml" value="0.358695652173913" />
-        <entry key="..\:/peter/vendor/app/src/main/res/layout/current_orders_adapter.xml" value="0.264" />
+        <entry key="..\:/peter/vendor/app/src/main/res/layout/current_orders_adapter.xml" value="0.536" />
         <entry key="..\:/peter/vendor/app/src/main/res/layout/daily_orders_adapter.xml" value="0.2" />
         <entry key="..\:/peter/vendor/app/src/main/res/layout/daily_orders_fragment.xml" value="0.264" />
         <entry key="..\:/peter/vendor/app/src/main/res/layout/deliveries_fragment.xml" value="0.5" />
         <entry key="..\:/peter/vendor/app/src/main/res/layout/delivery_item.xml" value="0.18802083333333333" />
         <entry key="..\:/peter/vendor/app/src/main/res/layout/delivery_login_fragment.xml" value="0.2889273356401384" />
-        <entry key="..\:/peter/vendor/app/src/main/res/layout/details_order_adapter.xml" value="0.5021582733812949" />
+        <entry key="..\:/peter/vendor/app/src/main/res/layout/details_order_adapter.xml" value="0.536" />
         <entry key="..\:/peter/vendor/app/src/main/res/layout/details_order_fragment.xml" value="0.3001579778830964" />
         <entry key="..\:/peter/vendor/app/src/main/res/layout/history_order_adapter.xml" value="0.4" />
         <entry key="..\:/peter/vendor/app/src/main/res/layout/history_orders_fragment.xml" value="0.2733812949640288" />
@@ -90,7 +90,7 @@
         <entry key="..\:/peter/vendor/app/src/main/res/layout/main_frame_content.xml" value="0.18802083333333333" />
         <entry key="..\:/peter/vendor/app/src/main/res/layout/map_activity.xml" value="0.136" />
         <entry key="..\:/peter/vendor/app/src/main/res/layout/nav_header_main.xml" value="0.21" />
-        <entry key="..\:/peter/vendor/app/src/main/res/layout/neworder_fragment.xml" value="0.2" />
+        <entry key="..\:/peter/vendor/app/src/main/res/layout/neworder_fragment.xml" value="0.4" />
         <entry key="..\:/peter/vendor/app/src/main/res/layout/profile_fragment.xml" value="0.2" />
         <entry key="..\:/peter/vendor/app/src/main/res/layout/row_item_order_time.xml" value="0.358695652173913" />
         <entry key="..\:/peter/vendor/app/src/main/res/menu/activity_main_drawer.xml" value="0.36666666666666664" />

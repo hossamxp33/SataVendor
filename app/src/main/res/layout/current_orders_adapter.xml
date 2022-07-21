@@ -87,12 +87,12 @@
             android:id="@+id/tv_status"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:gravity="end"
             android:text="@{ @string/order_status +status}"
             android:textColor="@color/black"
-            android:gravity="end"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_order"
+            app:layout_constraintTop_toBottomOf="@+id/tv_address"
             tools:text="status" />
 
         <TextView
