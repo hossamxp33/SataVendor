@@ -77,6 +77,7 @@ class LoginActivity : AppCompatActivity() {
                 pref.restaurantName = it.user.branches?.name
                 pref.userPhone = it.user.branches?.phone
                 pref.room_id = it.user.room_id
+                pref.userId = it.user.id!!
                 pref.restaurantLat = it.user.branches?.latitude.toString()
                 pref.restaurantLong = it.user.branches?.longitude.toString()
                 progress.isVisible = false

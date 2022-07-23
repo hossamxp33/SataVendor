@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.drawable.Drawable
 import android.location.Location
 import android.location.LocationManager
 import android.media.MediaPlayer
@@ -148,14 +149,11 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         mapFragment?.getMapAsync(this)
         FirebaseMessaging.getInstance().isAutoInitEnabled = true;
 
-        setNewFcm()
-
         mDrawerLayout = binding.drawerLayout
 
         statusCheck()
-        val headerBinding: NavHeaderMainBinding =
 
-      NavHeaderMainBinding.bind(binding.navView.getHeaderView(0))
+        var headerBinding: NavHeaderMainBinding = NavHeaderMainBinding.bind(binding.navView.getHeaderView(0))
 
 
         ////////////// Socket ///////////////////////
@@ -170,10 +168,8 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
         socket.on(Socket.EVENT_CONNECT) {
             try {
-                nav_view.getHeaderView(0).switch1.isChecked = true
-                status.text = "متصل"
-                statusIcon.setImageResource(R.drawable.online_ic)
-               Log.d("TAG", "socket// ${"connect"}")
+                restaurantStatus(" متصل",true,R.drawable.online_ic)
+                Log.d("TAG", "socket// ${"connect"}")
 
             } catch (e: Exception) {
                 Log.d(TAG, e.message!!)
@@ -181,17 +177,17 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         }.on(Socket.EVENT_CONNECT_ERROR) {
             val e = it[0]
             Log.e(TAG, "error $e")
+            runOnUiThread {
             WARN_MotionToast("error $e", this)
-
+            }
         }.on(Socket.EVENT_DISCONNECT) {
             val e = it[0]
             Log.e(TAG, "Transport error $e")
                 runOnUiThread {
-                nav_view.getHeaderView(0).switch1.isChecked = false
-                WARN_MotionToast("غير متصل", this)
-                status.text = "غير متصل"
+                restaurantStatus("غير متصل",false,R.drawable.offline_ic)
+                    WARN_MotionToast("غير متصل", this)
+
                 Log.d("TAG", "socket// ${mSocket?.connected()}")
-                statusIcon.setImageResource(R.drawable.offline_ic)
             }
         }
 
@@ -229,20 +225,26 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         getClientAddress()
         nav_view.setNavigationItemSelectedListener(this)
         nav_view.getHeaderView(0).switch1
-            ?.setOnCheckedChangeListener { buttonView, isChecked ->
-                if (isChecked) {
+            ?.setOnClickListener {
+                if (nav_view.getHeaderView(0).switch1.isChecked) {
                     // The switch enabled
                     mSocket?.connect()
+                    restaurantStatus(" متصل",true,R.drawable.online_ic)
+                    Log.d("TAG", "socket// ${mSocket?.connected()}")
+
                 } else {
                     // The switch disabled
                     mSocket?.disconnect()
+                    runOnUiThread {
+                        restaurantStatus("غير متصل",false,R.drawable.offline_ic)
+                        WARN_MotionToast("غير متصل", this)
+                        Log.d("TAG", "socket// ${mSocket?.connected()}")
 
+                    }
                 }
             }
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-
-
 
         mDrawerLayout!!.addDrawerListener(object : SimpleDrawerListener() {
             override fun onDrawerStateChanged(newState: Int) {
@@ -259,7 +261,6 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         siteDrawerMenuButton.setOnClickListener { view ->
             this.openCloseNavigationDrawer(view)
             note.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.note));
-
             if (MapHelper().CheckPermission(this)) {
                 if (MapHelper().isLocationEnabled(this)) {
                     enableMyLocation(this)
@@ -301,7 +302,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
             // Get new FCM registration token
             val token = task.result
-           viewModel.updateUserToken(Pref.VendorId!!,Token(token))
+           viewModel.updateUserToken(Pref.userId!!,Token(token))
             Log.d("TAG", "token:///:"  + Pref.VendorId +"///"+ token)
             if (!Pref.UserToken.isNullOrEmpty()) {
                 lifecycleScope.launch {
@@ -349,18 +350,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         }
     }
 
-    fun setNewFcm() {
-        FirebaseInstallations.getInstance().getToken(true)
-            .addOnCompleteListener { task ->
-                if (!task.isSuccessful) {
-                    return@addOnCompleteListener
-                }
-                if (task.result != null) {
-                    val token: String = task.result.token
-                    token
-                }
-            }
-    }
+
 
     private fun requestLocationPermission() {
         ActivityCompat.requestPermissions(
@@ -945,6 +935,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     }
 
 
+
     override fun onResume() {
         super.onResume()
         updateLocation()
@@ -954,6 +945,12 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
     }
 
+
+    fun restaurantStatus(resStatus:String,isChecked:Boolean,icon:Int){
+        nav_view.getHeaderView(0).switch1.isChecked = isChecked
+        status.text = resStatus
+        statusIcon.setImageResource(icon)
+    }
     private fun connectToSocket() {
         mSocket?.connect()
         mSocket?.emit("create_user", Pref.VendorId)

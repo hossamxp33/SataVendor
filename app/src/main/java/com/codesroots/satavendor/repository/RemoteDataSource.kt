@@ -53,9 +53,6 @@ class RemoteDataSource @Inject constructor(private val ApiService: APIServices)
         return ApiService.updateUserToken(userId, token)
     }
 
-    override suspend fun changeDeliveryStatus(id:Int?,statusId:Int): OrdersItem {
-        return ApiService.changeDeliveryStatus(id!!,statusId)
-    }
 
 
     //changeDeliveryStatus

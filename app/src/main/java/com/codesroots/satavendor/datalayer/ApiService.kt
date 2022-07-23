@@ -26,7 +26,7 @@ interface APIServices {
     suspend fun getDeliveris(@Body delivery: DeliveryItem?): ArrayList<DeliveryItem>
 
     //delivers/GetDliveryOrders
-    @POST("users/edit/{id}")
+    @POST("users/edituser/{id}")
     suspend fun updateUserToken(@Path("id") id: Int, @Body token: Token): Int
 
     @GET("orders/currentorders/{id}/0")
@@ -48,19 +48,6 @@ interface APIServices {
     suspend fun changeOrderStatus(
         @Path("order_id") orderId: Int, @Body  data: OrderStatus): OrderStatus
 
-//    @FormUrlEncoded
-//    @POST("orders/edit/{order_id}")
-//    suspend fun changeOrderStatus( @Path("order_id") orderId: Int,
-    //        @Field("order_status_id") status: Int,
-    //        @Field("delivery_id") delivery_id: Int,
-    //    ): OrdersItem
-
-    @FormUrlEncoded
-    @POST("delivers/edit/{id}")
-    suspend fun changeDeliveryStatus(
-        @Path("id") id: Int,
-        @Field("is_online") status: Int,
-    ): OrdersItem
 
     //deliversOrdersCanceled/add
     @POST("deliversOrdersCanceled/add")

@@ -35,7 +35,6 @@ interface DataSource {
 
     suspend fun getBranchData(id :Int?) : Response<Delivery>
 
-    suspend fun changeDeliveryStatus(id :Int?,statusId:Int) : OrdersItem
     suspend fun deliversOrdersCanceled(data:OrdersItem) : OrdersItem
 
 
