@@ -91,7 +91,7 @@
                 android:id="@+id/orderNumber"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-
+                android:layout_marginRight="@dimen/_4sdp"
                 android:text="@{String.valueOf(data.billing_address.id)}"
                 android:textColor="@color/black"
                 android:textStyle="bold"
@@ -105,13 +105,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_10sdp"
                 android:gravity="start"
-                android:text="@string/deliveryTimeText"
+                android:text="@{@string/deliveryTimeText}"
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/address"
                 app:layout_constraintRight_toRightOf="@+id/iv_image"
                 app:layout_constraintTop_toTopOf="@+id/orderNumberText"
-                tools:text="وقت التسليم" />
+                tools:text="وقت التسليم : 50" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_delivery_price"
@@ -127,7 +127,7 @@
                 app:layout_constraintEnd_toEndOf="@+id/address"
                 app:layout_constraintRight_toRightOf="@+id/iv_image"
                 app:layout_constraintTop_toBottomOf="@+id/orderNumberText"
-                tools:text="خدمة التوصيل" />
+                tools:text="خدمة التوصيل : 20.00" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/deliveryTime"
@@ -152,7 +152,7 @@
                 app:layout_constraintEnd_toEndOf="@+id/paymentWayText"
                 app:layout_constraintRight_toRightOf="@+id/iv_image"
                 app:layout_constraintTop_toBottomOf="@+id/paymentWayText"
-                tools:text="الإجمالي" />
+                tools:text="الإجمالي : 115.00" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/total"
@@ -176,7 +176,7 @@
                 android:textStyle="bold"
                 app:layout_constraintRight_toRightOf="@+id/iv_image"
                 app:layout_constraintTop_toBottomOf="@+id/orderNumberText"
-                tools:text="الدفع" />
+                tools:text="الدفع كاش" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/paymentWay"
@@ -207,12 +207,12 @@
             <TextView
                 android:id="@+id/tv_history"
                 android:layout_width="wrap_content"
-                android:layout_marginRight="@dimen/_10sdp"
                 android:layout_height="wrap_content"
                 android:text="@{data.getCreationDateFormatted()}"
                 android:textColor="@color/gray"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@+id/deliveryTime"
+                app:layout_constraintEnd_toStartOf="@+id/tv_delivery_price"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/deliveryTimeText"
                 tools:text="@string/order_date" />
 
