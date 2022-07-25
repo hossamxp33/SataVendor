@@ -40,14 +40,15 @@ jobs:
     needs: [unit-test]
     runs-on: macos-latest
     steps:
-      - name: Checkout the code
+
+      - name: Checkout
         uses: actions/checkout@v2
 
       - name: Run espresso tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 29
-          script: chmod +x ./gradlew connectedCheck
+          script: chmod +x ./gradlew
 
       - name: Upload test report
         uses: actions/upload-artifact@v2
