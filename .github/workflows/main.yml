@@ -69,7 +69,7 @@ jobs:
           java-version: 11
 
       - name: SonarCloud Scan
-        run: chmod +x ./gradlew app:sonarqube -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+        run: chmod +x ./gradlew
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -87,7 +87,7 @@ jobs:
           java-version: 1.8
 
       - name: Build debug APK
-        run: chmod +x ./gradlew assembleDebug --stacktrace
+        run: chmod +x ./gradlew
 
       - name: Upload APK
         uses: actions/upload-artifact@v2
