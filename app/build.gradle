@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'androidx.navigation.safeargs.kotlin'
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
+    id 'com.github.triplet.play'
 
 
 }
@@ -10,17 +11,29 @@ plugins {
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.github.triplet.play'
 apply plugin: 'com.google.firebase.crashlytics'
 
 android {
     compileSdk 31
-
+    signingConfigs {
+        signingConfigs {
+            release {
+                // You need to specify either an absolute path or include the
+                // keystore file in the same directory as the build.gradle file.
+                storeFile = file("satavendorkey.jks")
+                storePassword = "123456"
+                keyAlias = "key0"
+                keyPassword = "123456"
+            }
+        }
+    }
     defaultConfig {
         applicationId "com.codesroots.satavendor"
         minSdk 23
         targetSdk 30
-        versionCode 4
-        versionName "4"
+        versionCode 5
+        versionName "5"
         testInstrumentationRunner "com.codesroots.satavendor.CustomTestRunner"
         vectorDrawables.useSupportLibrary = true
 
@@ -47,13 +60,22 @@ android {
 
     buildTypes {
         release {
-
+            signingConfig signingConfigs.release
             minifyEnabled false
             multiDexEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
         }
+    }
+    play {
+
+        track.set("production") // internal / alpha / beta / production
+
+        updatePriority.set(5) // Between 0 and 5
+
+        serviceAccountCredentials.set(file("key.json"))
+
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
