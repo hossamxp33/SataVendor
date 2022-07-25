@@ -85,7 +85,7 @@ jobs:
                     with:
                       java-version: 1.8
                   - name: Build
-                    run: ./gradlew build
+                    run: chmod +x ./gradlew
                   - name: Assemble Release Bundle
                     run: |
                       ./gradlew assembleRelease
