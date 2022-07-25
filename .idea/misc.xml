@@ -50,11 +50,13 @@
         <entry key="..\:/SataDelivery/app/src/main/res/menu/activity_main_drawer.xml" value="0.178125" />
         <entry key="..\:/SataDelivery/app/src/main/res/menu/bottom_menu.xml" value="0.2601851851851852" />
         <entry key="..\:/SataDelivery/app/src/main/res/menu/popup_menu.xml" value="0.2601851851851852" />
+        <entry key="..\:/SataVendor/app/src/main/res/drawable-v24/white_circle_bk.xml" value="0.16944444444444445" />
         <entry key="..\:/SataVendor/app/src/main/res/drawable/circle.xml" value="0.19375" />
         <entry key="..\:/SataVendor/app/src/main/res/layout/current_item.xml" value="0.16666666666666666" />
         <entry key="..\:/SataVendor/app/src/main/res/layout/current_orders_adapter.xml" value="0.17760416666666667" />
         <entry key="..\:/SataVendor/app/src/main/res/layout/daily_orders_fragment.xml" value="0.16666666666666666" />
         <entry key="..\:/SataVendor/app/src/main/res/layout/details_order_fragment.xml" value="0.16666666666666666" />
+        <entry key="..\:/SataVendor/app/src/main/res/layout/history_order_adapter.xml" value="0.17760416666666667" />
         <entry key="..\:/SataVendor/app/src/main/res/layout/nav_header_main.xml" value="0.1890625" />
         <entry key="..\:/SataVendor/app/src/main/res/layout/neworder_fragment.xml" value="0.15185185185185185" />
         <entry key="..\:/SataVendor/app/src/main/res/layout/row_item_order_time.xml" value="0.17760416666666667" />
