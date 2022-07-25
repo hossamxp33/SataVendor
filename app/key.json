@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "satavendor-c0491",
+  "private_key_id": "52affbe35c4236300d3c36d189872ef9f5f8192f",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCwLiqWimkoVwXa\nX6jryoxzHVzjxswhdG06K7QRA7F7hRFv0GP/1HzgmaxNFckjfAD+nexwV4V3Oaxv\nFoAYPkF17/RolUxxpkb4dbpuBAD6Xh6C5/JOn+ORvGodAqaqHxr5rCwApqgOZhpE\nsnqIljQhwvHb05WGRtZ8Z/3Ujaopv+SKFuJklS3hud8AMjf1zCRTrSUHLLbeFWib\nM8otBIwj9bFOtiox9kb8KKT4x9eex1pameXENo6t0yY67b2xN4OaJeYYAu3JR+3f\nQW4Z8E6OKDixgrF6CvVa/k15IGKa2ViwOqkrJRZhXIyhn6D/EP1hyINKdQhjxpXC\nK/SvKnv5AgMBAAECggEABXYYPB8phBZ8KsEodSRhLvAqs7AIiSNzqi1WDpPMRfF8\nVpiG7F86U+3ePgFQ6+c2x9hzo+ZfT5CI6GR8n0kZF0uzSlAmz4bpit9pt79q8S08\nec9F7xBsr0p1dCAuSYD/bDH9UbOuKzcYn/Hz6NrAyN34XcRSQuMHLadSwnVglbIX\n0UTFl8zEg/BExuiCDUZUZbyWdfjieuya6TY7sM/Kz3qw+9HsCFCFi/iIg10ke2C0\nSNt/EHksx48aYRmDIx6df+CrjpHWpszVp/Y1GqjKngmZWEPdtjlxvK5VMOHwSv3i\naGsl0XGh4GA0AXgmu/6JL0ogpHCmMfsQ9N2AsfWE0QKBgQDVrFFDtjP3RZMapcuc\nMN0GzxjI72IIlouRu544+fWQ7Dsp0KsFPqcuL4TQRxRYpSkR9xT2Igd+gHnQK62+\nyKcblx/xuuUOgYC/rmXuB8PaUCToVTRMf4gLozQOsIfiAnVaPj2pu6n5NdmLbpB3\n+vCQt6HzSY/jTjH+nCsLSo67SQKBgQDTFIjB5d5/mmNiKWYCezHerSxZH8QHc8Yd\nfArVkkjE3Iw4EknP7ilxGow3SoDfxBjiFb6bc0xIMnI/SJK63woRKJHEw4PiERMV\nE7U7O3tx5VNEndPGyi0lK2ySKpSa9jH4EzAv1svqfFAFb5apQ08YSM75/h4Z7npy\nCS2UsOiLMQKBgQCI9rjsl2l+Ejn2NdprFyNGzw9LFa8YZC+4zbPhP9B6AgL2jcxi\nQ0P0pf8TZsyS+eN2oZPtJej53K64kpb/mS0M0XVnhO54uuhldgveZVnUodTWnG82\nrfTtyMKAvAWOCRdiLk1mdGXC2hLFfqzaS59SlHMaOMgj4ybG1yH8TeFqCQKBgQCX\nayKTnbeX6AOlNjdkTkW/DJFEueHgyq9zFTmcbZzgA6peytfCXoHCDh5Jx5tdagnD\nnX+nefVd0TpdpU0E2t0Y4/Z1pR+le0QqGYInpIrwcGbkUSfLcdsiz9zJmdwSscu0\nvucRWk/bvSOWUq9MaumBbTF06lNjnMyfo2/cO3AF8QKBgHs6SFjx0Wl9MqTdvBm0\n2+hQ0pcjQzXUnn2w173cZo9lLcRYTRZ0K+y41lDPRlY/9T40HDLuA3AJvTm2Crmg\nCdA83+WNnSj3pEwYx1slZbEThln4Zm6hMT+iwvSX4Lw03/vb7N+fFvK1gAnsYEB3\nhhBh4VAQxuyhqEwS7SVqwJiE\n-----END PRIVATE KEY-----\n",
+  "client_email": "upload-new-release@satavendor-c0491.iam.gserviceaccount.com",
+  "client_id": "105924118685127136107",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/upload-new-release%40satavendor-c0491.iam.gserviceaccount.com"
+}

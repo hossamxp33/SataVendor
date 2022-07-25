@@ -96,7 +96,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
     var homeLatLng = LatLng(0.0, 0.0)
 
-    //   var branchesList = ArrayList<BranchesModelListItem>()
+
     var intent1: Intent? = null
 
     var mSocket: Socket? = null
@@ -722,7 +722,6 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                                 options.color(this@MapActivity.getColor(R.color.black))
                                 options.width(10f)
                                 val url = getURL(homeLatLng, clientLatLng)
-
                                 async {
                                     // Connect to URL, download content and convert into string asynchronously
                                     val result = URL(url).readText()
@@ -730,7 +729,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
                                     onUiThread {
                                         // When API call is done, create parser and convert into JsonObjec
-                                        val parser: Parser = Parser()
+                                        val parser = Parser()
                                         val stringBuilder: StringBuilder = StringBuilder(result)
                                         val json: com.beust.klaxon.JsonObject =
                                             parser.parse(stringBuilder) as com.beust.klaxon.JsonObject
