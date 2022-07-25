@@ -1,6 +1,7 @@
 package com.codesroots.satavendor.repository
 
 
+import androidx.test.orchestrator.junit.BundleJUnitUtils
 import com.codesroots.satavendor.datalayer.APIServices
 import com.codesroots.satavendor.models.auth.AuthModel
 import com.codesroots.satavendor.models.auth.Driver
@@ -10,6 +11,7 @@ import com.codesroots.satavendor.models.current_orders.OrderStatus
 import com.codesroots.satavendor.models.current_orders.OrdersItem
 import com.codesroots.satavendor.models.delivery.Delivery
 import com.codesroots.satavendor.models.delivery.DeliveryItem
+import com.satafood.core.entities.token.Token
 import okhttp3.MultipartBody
 
 import retrofit2.Response
@@ -26,6 +28,8 @@ class RemoteDataSource @Inject constructor(private val ApiService: APIServices)
     override suspend fun getLoginResponse(loginModel: User): Response<AuthModel> {
         return ApiService.login(loginModel)
     }
+
+
 
     override suspend fun getDeliveris(delivery: DeliveryItem):ArrayList<DeliveryItem>{
         return ApiService.getDeliveris(delivery)
@@ -45,9 +49,10 @@ class RemoteDataSource @Inject constructor(private val ApiService: APIServices)
         return ApiService.changeOrderStatus(order_id,data)
     }
 
-    override suspend fun changeDeliveryStatus(id:Int?,statusId:Int): OrdersItem {
-        return ApiService.changeDeliveryStatus(id!!,statusId)
+    override suspend fun updateUserToken(userId: Int, token: Token): Int {
+        return ApiService.updateUserToken(userId, token)
     }
+
 
 
     //changeDeliveryStatus

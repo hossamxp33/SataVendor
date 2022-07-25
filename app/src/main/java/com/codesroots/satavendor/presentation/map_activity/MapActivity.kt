@@ -7,20 +7,18 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.drawable.Drawable
 import android.location.Location
 import android.location.LocationManager
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import com.codesroots.satavendor.R
 import android.os.Looper
 import android.provider.Settings
-import android.util.DisplayMetrics
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
-import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
@@ -34,7 +32,8 @@ import androidx.drawerlayout.widget.DrawerLayout.SimpleDrawerListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import cn.pedant.SweetAlert.SweetAlertDialog
-import com.beust.klaxon.*
+import com.beust.klaxon.Parser
+import com.codesroots.satavendor.R
 import com.codesroots.satavendor.databinding.MapActivityBinding
 import com.codesroots.satavendor.databinding.NavHeaderMainBinding
 import com.codesroots.satavendor.helper.*
@@ -55,25 +54,26 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.installations.FirebaseInstallations
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.satafood.core.entities.token.Token
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import kotlinx.android.synthetic.main.map_activity.*
-import kotlinx.android.synthetic.main.nav_header_main.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import org.jetbrains.anko.custom.async
 import org.jetbrains.anko.custom.onUiThread
 import java.io.IOException
 import java.net.URL
-import java.util.*
 import javax.inject.Inject
 
 
@@ -83,8 +83,6 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     @Inject
     lateinit var Pref: PreferenceHelper
     internal var mFusedLocationClient: FusedLocationProviderClient? = null
-
-
 
     var map: GoogleMap? = null
 
@@ -105,6 +103,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     var data: ArrayList<OrdersItem>? = null
 
     var userLocationMarker: Marker? = null
+    var isConnected = false;
 
     @Inject
     lateinit var socket: Socket
@@ -150,14 +149,11 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         mapFragment?.getMapAsync(this)
         FirebaseMessaging.getInstance().isAutoInitEnabled = true;
 
-        setNewFcm()
-
         mDrawerLayout = binding.drawerLayout
 
         statusCheck()
-        val headerBinding: NavHeaderMainBinding =
 
-            NavHeaderMainBinding.bind(binding.navView.getHeaderView(0))
+        var headerBinding: NavHeaderMainBinding = NavHeaderMainBinding.bind(binding.navView.getHeaderView(0))
 
 
         ////////////// Socket ///////////////////////
@@ -168,23 +164,45 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         val options = IO.Options()
         options.reconnection = true //reconnection
         options.forceNew = true
-        Log.d("TAG", "socket// ${mSocket?.connected()}")
+
+
+        socket.on(Socket.EVENT_CONNECT) {
+            try {
+                restaurantStatus(" متصل",true,R.drawable.online_ic)
+                Log.d("TAG", "socket// ${"connect"}")
+
+            } catch (e: Exception) {
+                Log.d(TAG, e.message!!)
+            }
+        }.on(Socket.EVENT_CONNECT_ERROR) {
+            val e = it[0]
+            Log.e(TAG, "error $e")
+            runOnUiThread {
+            WARN_MotionToast("error $e", this)
+            }
+        }.on(Socket.EVENT_DISCONNECT) {
+            val e = it[0]
+            Log.e(TAG, "Transport error $e")
+                runOnUiThread {
+                restaurantStatus("غير متصل",false,R.drawable.offline_ic)
+                    WARN_MotionToast("غير متصل", this)
+
+                Log.d("TAG", "socket// ${mSocket?.connected()}")
+            }
+        }
 
         mSocket?.emit("CreateDeliveryRoom", Pref.room_id!!)
-        mSocket?.emit("create_user", Pref.VendorId)
+        connectToSocket()
         mSocket?.on("makeNewOrderToBranch") {
             var mp = MediaPlayer.create(this, R.raw.alarm);
             mp.start();
             runOnUiThread {
                 val gson = Gson()
-                var json = it.first().toString()
+                val json = it.first().toString()
                 val type = object : TypeToken<OrdersItem?>() {}.type
-                var newitem = gson.fromJson<OrdersItem>(json, type)
-
+                val newitem = gson.fromJson<OrdersItem>(json, type)
                 data?.add(0, newitem)
-
                 ClickHandler().openDialogFragment(this, NewOrderFragment(newitem!!, viewModel), "")
-
                 Log.d("socket", json)
 
             }
@@ -198,50 +216,35 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                 if (!it.isNullOrEmpty()) {
                     headerBinding.data = it[0]
                     nav_view.getHeaderView(0).userName.text = it[0].name?.replace("\"", "")
-                    if (it[0].is_online == 1) {
-                        nav_view.getHeaderView(0).switch1.isChecked = true
-                        status.text = "متصل"
-                        statusIcon.setImageResource(R.drawable.online_ic)
-                    } else {
-                        nav_view.getHeaderView(0).switch1.isChecked = false
-                        WARN_MotionToast("غير متصل", this)
-                        status.text = "غير متصل"
-                        statusIcon.setImageResource(R.drawable.offline_ic)
-                    }
                 } else
                     WARN_MotionToast("غير متصل", this)
-
             }
         } catch (e: java.lang.Exception) {
 
         }
         getClientAddress()
         nav_view.setNavigationItemSelectedListener(this)
-
         nav_view.getHeaderView(0).switch1
-            ?.setOnCheckedChangeListener { buttonView, isChecked ->
-                if (isChecked) {
+            ?.setOnClickListener {
+                if (nav_view.getHeaderView(0).switch1.isChecked) {
                     // The switch enabled
-                    switch1.text = "متصل"
-                    status.text = "متصل"
-
-                    viewModel.changeDeliversStatus(Pref.deliveryId, 1)
-                    statusIcon.setImageResource(R.drawable.online_ic)
+                    mSocket?.connect()
+                    restaurantStatus(" متصل",true,R.drawable.online_ic)
+                    Log.d("TAG", "socket// ${mSocket?.connected()}")
 
                 } else {
                     // The switch disabled
-                    switch1.text = "غير متصل"
-                    status.text = " غير متصل"
+                    mSocket?.disconnect()
+                    runOnUiThread {
+                        restaurantStatus("غير متصل",false,R.drawable.offline_ic)
+                        WARN_MotionToast("غير متصل", this)
+                        Log.d("TAG", "socket// ${mSocket?.connected()}")
 
-                    viewModel.changeDeliversStatus(Pref.deliveryId, 0)
-                    statusIcon.setImageResource(R.drawable.offline_ic)
-
+                    }
                 }
             }
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-
-
 
         mDrawerLayout!!.addDrawerListener(object : SimpleDrawerListener() {
             override fun onDrawerStateChanged(newState: Int) {
@@ -258,7 +261,6 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         siteDrawerMenuButton.setOnClickListener { view ->
             this.openCloseNavigationDrawer(view)
             note.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.note));
-
             if (MapHelper().CheckPermission(this)) {
                 if (MapHelper().isLocationEnabled(this)) {
                     enableMyLocation(this)
@@ -292,6 +294,23 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
         }
 
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.d("TAG", "token:///:false ${task.exception?.message}")
+                return@OnCompleteListener
+            }
+
+            // Get new FCM registration token
+            val token = task.result
+           viewModel.updateUserToken(Pref.userId!!,Token(token))
+            Log.d("TAG", "token:///:"  + Pref.VendorId +"///"+ token)
+            if (!Pref.UserToken.isNullOrEmpty()) {
+                lifecycleScope.launch {
+
+                }
+            }
+            // Log and toast
+        })
     }
 
 
@@ -319,8 +338,6 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
                         //Prompt the user once explanation has been shown
                         requestLocationPermission()
                         // selected Don't ask again
-
-
                     }
                     .create()
                     .show()
@@ -333,18 +350,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         }
     }
 
-    fun setNewFcm() {
-        FirebaseInstallations.getInstance().getToken(true)
-            .addOnCompleteListener { task ->
-                if (!task.isSuccessful) {
-                    return@addOnCompleteListener
-                }
-                if (task.result != null) {
-                    val token: String = task.result.token
-                    token
-                }
-            }
-    }
+
 
     private fun requestLocationPermission() {
         ActivityCompat.requestPermissions(
@@ -929,10 +935,25 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     }
 
 
+
     override fun onResume() {
         super.onResume()
         updateLocation()
+        connectToSocket()
 
+
+
+    }
+
+
+    fun restaurantStatus(resStatus:String,isChecked:Boolean,icon:Int){
+        nav_view.getHeaderView(0).switch1.isChecked = isChecked
+        status.text = resStatus
+        statusIcon.setImageResource(icon)
+    }
+    private fun connectToSocket() {
+        mSocket?.connect()
+        mSocket?.emit("create_user", Pref.VendorId)
 
     }
 

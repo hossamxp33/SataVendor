@@ -6,6 +6,7 @@ import com.codesroots.satavendor.models.current_orders.DateModel
 import com.codesroots.satavendor.models.current_orders.OrderStatus
 import com.codesroots.satavendor.models.current_orders.OrdersItem
 import com.codesroots.satavendor.models.delivery.DeliveryItem
+import com.satafood.core.entities.token.Token
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
@@ -78,11 +79,9 @@ class DataRepo @Inject constructor(
             .flowOn(ioDispatcher)
 
 
-
-    //changeDeliveryStatus
-    suspend  fun changeDeliveryStatus(Id:Int,statusId:Int): Flow<Result<OrdersItem>> =
+    suspend  fun updateUserToken(userId: Int, token: Token): Flow<Result<Int>> =
         flow {
-            emit(Datasources.changeDeliveryStatus(Id,statusId))
+            emit(Datasources.updateUserToken(userId, token))
         }
             .map {
                 Result.success(it)
@@ -95,6 +94,8 @@ class DataRepo @Inject constructor(
                     throwable ->  emit(Result.failure(throwable)) }
 
             .flowOn(ioDispatcher)
+
+
 
 //deliversOrdersCanceled
 suspend  fun deliversOrdersCanceled(data:OrdersItem): Flow<Result<OrdersItem>> =

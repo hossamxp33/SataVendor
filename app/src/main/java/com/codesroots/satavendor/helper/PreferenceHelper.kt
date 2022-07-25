@@ -146,11 +146,11 @@ class PreferenceHelper(private val context: Context) {
         }
 
 
-    var UserId: Int
-        get() = app_prefs!!.getInt("UserId", 0)
-        set(UserId) {
+    var userId: Int
+        get() = app_prefs!!.getInt("userId", 0)
+        set(userId) {
             var edit = app_prefs!!.edit()
-            edit.putInt("UserId", UserId)
+            edit.putInt("userId", userId)
             edit.apply()
         }
 
