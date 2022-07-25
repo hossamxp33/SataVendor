@@ -96,7 +96,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
     var homeLatLng = LatLng(0.0, 0.0)
 
-    //   var branchesList = ArrayList<BranchesModelListItem>()
+
     var intent1: Intent? = null
 
     var mSocket: Socket? = null
