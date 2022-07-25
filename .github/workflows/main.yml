@@ -2,17 +2,7 @@ name: CI/CD Google Play
 
 on:
   push:
-    branches: [ master ]
-
-env:
-  ossUsername: ${{ secrets.OSSRH_USERNAME }}
-  ossPassword: ${{ secrets.OSSRH_PASSWORD }}
-  signingKeyId: ${{ secrets.SIGNINGKEYID }}
-  signingKeyPassword: ${{ secrets.SIGNINGKEYPASSWORD }}
-  signingKey: ${{ secrets.SIGNINGKEY }}
-  ONEGRAVITY_KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-  ONEGRAVITY_OPENSOURCE_KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-  ONEGRAVITY_OPENSOURCE_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+    branches: [ main ]
 
 jobs:
   build:
