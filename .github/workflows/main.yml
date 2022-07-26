@@ -51,10 +51,10 @@ jobs:
 
       # Build bundle and publish to Google Play
       - name: Build & publish to Google Play
-        run:  ./gradlew
+        run:  ./gradlew publishBundle
           -PgooglePlayApiKey=${{ secrets.GOOGLE_PLAY_API_KEY }}
           -PKEYSTORE_FILE=${{ secrets.KEYSTORE_FILE }}
           -PKEYSTORE_PASSWORD=${{ secrets.KEY_STORE_PASSWORD }}
           -PKEY_ALIAS=${{ secrets.KEY_ALIAS }}
           -PKEY_PASSWORD=${{ secrets.KEY_PASSWORD }}
-          ./gradlew  publishBundle
+           publishBundle --max-workers 1
