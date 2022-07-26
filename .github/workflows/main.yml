@@ -48,7 +48,8 @@ jobs:
           fileDir: './app'
           fileName: 'key.json'
           encodedString: ${{ secrets.GOOGLE_PLAY_API_KEY }}
-
+     - name: Make gradlew executable
+      run: chmod +x ./gradlew
       # Build bundle and publish to Google Play
       - name: Build & publish to Google Play
         run:  ./gradlew
