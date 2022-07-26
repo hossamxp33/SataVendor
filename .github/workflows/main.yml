@@ -36,7 +36,6 @@ jobs:
         id: decode_keystore
         uses: timheuer/base64-to-file@v1.1
         with:
-          fileDir: './secrets'
           fileName: 'satavendorkey.jks'
           encodedString: ${{ secrets.KEYSTORE_FILE }}
 
@@ -45,7 +44,6 @@ jobs:
         id: decode_api_key
         uses: timheuer/base64-to-file@v1.1
         with:
-          fileDir: './secrets'
           fileName: 'key.json'
           encodedString: ${{ secrets.GOOGLE_PLAY_API_KEY }}
 
