@@ -103,6 +103,13 @@ jobs:
                       name: app
                       path: app/build/outputs/apk/release
 
-                    - name: Publish Release Bundle
-                      run: |
-                        ./gradlew publishBundle
+
+  puplish:
+    needs: [package]
+    name: Publish Release Bundle
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+        run: |
+           ./gradlew publishBundle
