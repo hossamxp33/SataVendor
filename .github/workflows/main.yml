@@ -75,7 +75,7 @@ jobs:
 
   package:
     needs: [static-code-analysis]
-    name: Generate Signed Bundle/APK
+    name: Generate Signed Bundle/ APK
     runs-on: ubuntu-latest
     steps:
 
@@ -87,8 +87,7 @@ jobs:
                   - name: Build
                     run: chmod +x ./gradlew
                   - name: Assemble Release Bundle
-                    run: |
-                      ./gradlew publishBundle
+                    run:  chmod +x  ./gradlew assembleRelease
                   - name: Sign Release
                     uses: r0adkll/sign-android-release@v1
                     with:
