@@ -57,4 +57,4 @@ jobs:
           -PKEYSTORE_PASSWORD=${{ secrets.KEY_STORE_PASSWORD }}
           -PKEY_ALIAS=${{ secrets.KEY_ALIAS }}
           -PKEY_PASSWORD=${{ secrets.KEY_PASSWORD }}
-           publishBundle
+          ./gradlew  publishBundle
