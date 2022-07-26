@@ -32,8 +32,8 @@ android {
         applicationId "com.codesroots.satavendor"
         minSdk 23
         targetSdk 30
-        versionCode 6
-        versionName "5.1"
+        versionCode 9
+        versionName "9"
         testInstrumentationRunner "com.codesroots.satavendor.CustomTestRunner"
         vectorDrawables.useSupportLibrary = true
 
@@ -74,7 +74,7 @@ android {
 
         updatePriority.set(5) // Between 0 and 5
 
-        serviceAccountCredentials.set(file("key.json"))
+        serviceAccountCredentials.set(file("google_play_api_key.json"))
 
     }
     compileOptions {
@@ -84,6 +84,7 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
         freeCompilerArgs = ["-Xallow-result-return-type"]
+
 
     }
     tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
