@@ -2,7 +2,7 @@ name: CI/CD Google Play
 
 on:
   push:
-    branches: [ github_actions ]
+    branches: [ main ]
 
 env:
   ossUsername: ${{ secrets.OSSRH_USERNAME }}
@@ -36,7 +36,7 @@ jobs:
         id: decode_keystore
         uses: timheuer/base64-to-file@v1.1
         with:
-          fileDir: './secrets'
+          fileDir: './app'
           fileName: 'satavendorkey.jks'
           encodedString: ${{ secrets.KEYSTORE_FILE }}
 
@@ -45,16 +45,17 @@ jobs:
         id: decode_api_key
         uses: timheuer/base64-to-file@v1.1
         with:
-          fileDir: './secrets'
+          fileDir: './app'
           fileName: 'google_play_api_key.json'
           encodedString: ${{ secrets.GOOGLE_PLAY_API_KEY }}
 
       # Build bundle and publish to Google Play
       - name: Build & publish to Google Play
-        run:  ./gradlew
-          -PgooglePlayApiKey=${{ secrets.GOOGLE_PLAY_API_KEY }}
-          -PKEYSTORE_FILE=${{ secrets.KEYSTORE_FILE }}
-          -PKEYSTORE_PASSWORD=${{ secrets.KEY_STORE_PASSWORD }}
+        run: ./gradlew
+          -PBUILD_NUMBER="${{ env.BUILD_NUMBER }}"
+          -PgooglePlayApiKey="../${{ steps.decode_api_key.outputs.filePath }}"
+          -PKEYSTORE_FILE="../${{ steps.decode_keystore.outputs.filePath }}"
+          -PKEYSTORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }}
           -PKEY_ALIAS=${{ secrets.KEY_ALIAS }}
           -PKEY_PASSWORD=${{ secrets.KEY_PASSWORD }}
-           publishBundle --max-workers 1
+          publishBundle --max-workers 1

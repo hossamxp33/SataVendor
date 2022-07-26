@@ -18,11 +18,13 @@ android {
     compileSdk 31
     signingConfigs {
         signingConfigs {
-            create("release") {
-                storeFile = file(project.property("KEYSTORE_FILE").toString())
-                storePassword = project.property("KEYSTORE_PASSWORD").toString()
-                keyAlias = project.property("KEY_ALIAS").toString()
-                keyPassword = project.property("KEY_PASSWORD").toString()
+            release {
+                // You need to specify either an absolute path or include the
+                // keystore file in the same directory as the build.gradle file.
+                storeFile = file("satavendorkey.jks")
+                storePassword = "123456"
+                keyAlias = "key0"
+                keyPassword = "123456"
             }
         }
     }
@@ -30,8 +32,8 @@ android {
         applicationId "com.codesroots.satavendor"
         minSdk 23
         targetSdk 30
-        versionCode 6
-        versionName "6"
+        versionCode 10
+        versionName "1.2"
         testInstrumentationRunner "com.codesroots.satavendor.CustomTestRunner"
         vectorDrawables.useSupportLibrary = true
 
@@ -57,15 +59,6 @@ android {
     }
 
     buildTypes {
-        getByName("debug") {
-            // more stuff here
-            signingConfig = signingConfigs.getByName(name)
-        }
-
-        getByName("release") {
-            // more stuff here
-            signingConfig = signingConfigs.getByName(name)
-        }
         release {
             signingConfig signingConfigs.release
             minifyEnabled false
@@ -75,21 +68,15 @@ android {
         debug {
         }
     }
-//    play {
-//
-//        track.set("production") // internal / alpha / beta / production
-//
-//        updatePriority.set(5) // Between 0 and 5
-//
-//        serviceAccountCredentials.set(file("key.json"))
-//
-//    }
     play {
-        serviceAccountCredentials.set(file(project.property("googlePlayApiKey").toString()))
-        track.set("internal")
+
+        track.set("production") // internal / alpha / beta / production
+
+        updatePriority.set(5) // Between 0 and 5
+
+        serviceAccountCredentials.set(file("google_play_api_key.json"))
+
     }
-
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -97,6 +84,7 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
         freeCompilerArgs = ["-Xallow-result-return-type"]
+
 
     }
     tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
