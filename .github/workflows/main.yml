@@ -2,7 +2,7 @@ name: CI/CD Google Play
 
 on:
   push:
-    branches: [ github_actions ]
+    branches: [ main ]
 
 env:
   ossUsername: ${{ secrets.OSSRH_USERNAME }}
