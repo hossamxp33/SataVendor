@@ -19,6 +19,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
       - uses: actions/checkout@v2
       - name: set up JDK 11
         uses: actions/setup-java@v2
@@ -26,8 +28,7 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
           cache: gradle
-       - name: Make gradlew executable
-       run: chmod +x ./gradlew
+
       # Create a build number based on timestamp / UTC time
       - name: set release date
         run: |
