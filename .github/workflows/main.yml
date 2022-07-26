@@ -37,7 +37,7 @@ jobs:
         uses: timheuer/base64-to-file@v1.1
         with:
           fileDir: './secrets'
-          fileName: '1gravity.keystore'
+          fileName: 'satavendorkey.jks'
           encodedString: ${{ secrets.KEYSTORE_FILE }}
 
       # Decode the Google Play api key file
@@ -46,7 +46,7 @@ jobs:
         uses: timheuer/base64-to-file@v1.1
         with:
           fileDir: './secrets'
-          fileName: 'google-play-api-key.json'
+          fileName: 'key.json'
           encodedString: ${{ secrets.GOOGLE_PLAY_API_KEY }}
 
       # Build bundle and publish to Google Play
