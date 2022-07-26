@@ -38,7 +38,6 @@
             app:layout_constraintRight_toRightOf="parent">
 
 
-
             <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/iv_image"
                 android:layout_width="@dimen/_75sdp"
@@ -66,11 +65,10 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/address"
-                android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{data.billing_address.address}"
-
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_image"
                 app:layout_constraintEnd_toEndOf="@+id/name"
                 app:layout_constraintRight_toLeftOf="@+id/iv_image"
@@ -80,64 +78,64 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/orderNumberText"
                 android:layout_width="0dp"
-                android:textStyle="bold"
-
                 android:layout_height="wrap_content"
+
                 android:text="@string/orderNumberText"
                 android:textColor="@color/black"
+                android:textStyle="bold"
                 app:layout_constraintRight_toRightOf="@+id/iv_image"
                 app:layout_constraintTop_toBottomOf="@+id/iv_image"
                 tools:text="رقم الطلب" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/orderNumber"
-                tools:text="111"
-                android:textStyle="bold"
-
-                android:textColor="@color/black"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/_4sdp"
                 android:text="@{String.valueOf(data.billing_address.id)}"
+                android:textColor="@color/black"
+                android:textStyle="bold"
                 app:layout_constraintRight_toLeftOf="@+id/orderNumberText"
-                app:layout_constraintTop_toBottomOf="@+id/iv_image" />
+                app:layout_constraintTop_toBottomOf="@+id/iv_image"
+                tools:text="111" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/deliveryTimeText"
                 android:layout_width="0dp"
-                android:textStyle="bold"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_10sdp"
                 android:gravity="start"
-                android:text="@string/deliveryTimeText"
+                android:text="@{@string/deliveryTimeText}"
                 android:textColor="@color/black"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/address"
                 app:layout_constraintRight_toRightOf="@+id/iv_image"
                 app:layout_constraintTop_toTopOf="@+id/orderNumberText"
-                tools:text="وقت التسليم" />
+                tools:text="وقت التسليم : 50" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_delivery_price"
                 android:layout_width="0dp"
-                android:textStyle="bold"
-
                 android:layout_height="wrap_content"
+
                 android:layout_marginHorizontal="@dimen/_10sdp"
                 android:gravity="start"
                 android:text="@{@string/delivery_fee + ` ` + data.delivery_serivce}"
-
                 android:textColor="@color/black"
+
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/address"
                 app:layout_constraintRight_toRightOf="@+id/iv_image"
                 app:layout_constraintTop_toBottomOf="@+id/orderNumberText"
-                tools:text="خدمة التوصيل" />
+                tools:text="خدمة التوصيل : 20.00" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/deliveryTime"
-                android:textColor="@color/black"
                 android:layout_width="0dp"
-                android:textStyle="bold"
-
                 android:layout_height="wrap_content"
+                android:textColor="@color/black"
+
+                android:textStyle="bold"
                 app:datetext="@{data.billing_address.created_at}"
                 app:layout_constraintRight_toLeftOf="@+id/deliveryTimeText"
                 app:layout_constraintTop_toBottomOf="@+id/iv_image" />
@@ -145,27 +143,24 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/totalText"
                 android:layout_width="0dp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@id/details_button"
-                android:layout_marginBottom="@dimen/_5sdp"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/_10sdp"
                 android:gravity="start"
                 android:text="@string/totalText"
+                android:textColor="@color/red2"
+                android:textStyle="bold"
 
-                android:textColor="@color/black"
-                app:layout_constraintEnd_toEndOf="@+id/address"
+                app:layout_constraintEnd_toEndOf="@+id/paymentWayText"
                 app:layout_constraintRight_toRightOf="@+id/iv_image"
-                app:layout_constraintTop_toBottomOf="@+id/tv_delivery_price"
-                tools:text="الإجمالي" />
+                app:layout_constraintTop_toBottomOf="@+id/paymentWayText"
+                tools:text="الإجمالي : 115.00" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/total"
-                android:textStyle="bold"
-                android:textColor="@color/black"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@{String.valueOf(data.total)}"
+                android:textColor="@color/black"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@+id/totalText"
                 app:layout_constraintRight_toLeftOf="@+id/deliveryTimeText"
                 app:layout_constraintTop_toTopOf="@+id/totalText" />
@@ -173,24 +168,24 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/paymentWayText"
                 android:layout_width="0dp"
-                android:textStyle="bold"
-
                 android:layout_height="wrap_content"
-                android:text="@string/paymentWayText"
 
+                android:text="@string/paymentWayText"
                 android:textColor="@color/black"
+
+                android:textStyle="bold"
                 app:layout_constraintRight_toRightOf="@+id/iv_image"
                 app:layout_constraintTop_toBottomOf="@+id/orderNumberText"
-                tools:text="الدفع" />
+                tools:text="الدفع كاش" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/paymentWay"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+
                 android:text="@{data.paymenttype.name}"
+                android:textColor="@color/black"
+                android:textStyle="bold"
                 app:layout_constraintRight_toLeftOf="@+id/paymentWayText"
                 app:layout_constraintTop_toBottomOf="@+id/orderNumberText" />
 
@@ -206,21 +201,19 @@
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/totalText"
                 app:layout_constraintWidth_percent="0.45"
                 tools:ignore="TextContrastCheck" />
 
             <TextView
                 android:id="@+id/tv_history"
-                android:textStyle="bold"
-
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@{data.getCreationDateFormatted()}"
                 android:textColor="@color/gray"
-                app:layout_constraintBottom_toBottomOf="@+id/details_button"
-                app:layout_constraintEnd_toEndOf="@+id/paymentWayText"
-                app:layout_constraintTop_toBottomOf="@+id/totalText"
-                app:layout_constraintVertical_bias="1.0"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/tv_delivery_price"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/deliveryTimeText"
                 tools:text="@string/order_date" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
