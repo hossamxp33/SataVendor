@@ -85,4 +85,4 @@ jobs:
                     with:
                       java-version: 11
                     - name: Assemble Release Bundle
-                       run: chmod +x  ./gradlew assembleRelease
+                       run: chmod +x  ./gradlew publishBundle
