@@ -22,6 +22,10 @@ Created by Prokash Sarkar on Tue, January 19, 2021
 interface DataSource {
 
     suspend fun getLoginResponse(loginModel: User): Response<AuthModel>
+
+    suspend fun registerToken(loginModel: AuthModel): Response<AuthModel>
+    suspend fun sendNotificationToDevice(loginModel: AuthModel): Response<AuthModel>
+
     suspend fun getDeliveris(deliveryItem: DeliveryItem): ArrayList<DeliveryItem>
 
     suspend fun getCurrentOrders(id :Int?): ArrayList<OrdersItem>

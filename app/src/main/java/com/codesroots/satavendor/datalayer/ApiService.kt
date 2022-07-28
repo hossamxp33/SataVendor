@@ -25,6 +25,17 @@ interface APIServices {
     @POST("delivers/indexForBranch")
     suspend fun getDeliveris(@Body delivery: DeliveryItem?): ArrayList<DeliveryItem>
 
+    ////////////// notifications
+    @POST("users/registerToken")
+    suspend fun registerToken(@Body user: AuthModel?): Response<AuthModel>
+
+
+    @POST("notification/sendToDevice")
+    suspend fun sendNotificationToDevice(@Body user: AuthModel?): Response<AuthModel>
+
+
+
+
     //delivers/GetDliveryOrders
     @POST("users/edituser/{id}")
     suspend fun updateUserToken(@Path("id") id: Int, @Body token: Token): Int

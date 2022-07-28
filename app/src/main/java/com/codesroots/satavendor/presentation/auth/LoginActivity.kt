@@ -73,13 +73,13 @@ class LoginActivity : AppCompatActivity() {
             } else {
 
                 pref.UserToken = it.token
-                pref.VendorId = it.user.branches?.id
-                pref.restaurantName = it.user.branches?.name
-                pref.userPhone = it.user.branches?.phone
-                pref.room_id = it.user.room_id
-                pref.userId = it.user.id!!
-                pref.restaurantLat = it.user.branches?.latitude.toString()
-                pref.restaurantLong = it.user.branches?.longitude.toString()
+                pref.VendorId = it.user!!.branches?.id
+                pref.restaurantName = it.user!!.branches?.name
+                pref.userPhone = it.user!!.branches?.phone
+                pref.room_id = it.user!!.room_id
+                pref.userId = it.user!!.id!!
+                pref.restaurantLat = it.user!!.branches?.latitude.toString()
+                pref.restaurantLong = it.user!!.branches?.longitude.toString()
                 progress.isVisible = false
                 val mainIntent = Intent(this, MapActivity::class.java)
                 startActivity(mainIntent)

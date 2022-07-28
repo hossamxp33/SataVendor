@@ -5,6 +5,7 @@ import android.content.Context
 import android.media.MediaPlayer
 import android.os.Handler
 import android.os.Looper
+import android.os.Message
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -22,6 +23,7 @@ import com.codesroots.satavendor.helper.BaseApplication
 import com.codesroots.satavendor.helper.ClickHandler
 import com.codesroots.satavendor.helper.Error_MotionToast
 import com.codesroots.satavendor.helper.SUCCESS_MotionToast
+import com.codesroots.satavendor.models.auth.AuthModel
 import com.codesroots.satavendor.models.auth.Driver
 import com.codesroots.satavendor.models.auth.User
 import com.codesroots.satavendor.models.current_orders.OrderDetail
@@ -59,7 +61,6 @@ class DeliveriesAdapter(
 
         p0.binding.mView.setOnClickListener {
 //                if(itemClickable) {
-
             val gson = Gson()
             val gsonPretty = GsonBuilder().setPrettyPrinting().create()
             val socketObject = SetorderToDelivery(frag.data,"sata123")
@@ -68,6 +69,7 @@ class DeliveriesAdapter(
             val jsonTutPretty: String = gsonPretty.toJson(socketObject)
 
             println(jsonTutPretty)
+            sendNotificationToDevice(data[position].branches?.user_id!!,"طلب جديد","لديك طلب جديد يحتاج التوصيل")
 
             (context as MapActivity).mSocket?.emit("CreateDeliveryOrder", jsonTutPretty)
             (context as MapActivity).mSocket?.emit("CreateDeliveryRoom", "sata123")
@@ -127,7 +129,12 @@ class DeliveriesAdapter(
 
 
     }
+    fun sendNotificationToDevice(user_id:Int,title:String,message: String) {
+        val notificationInfo = AuthModel(
+            title = title, user_id =user_id ,message = message)
 
-}
+       frag.viewModel.sendNotificationToDevice(notificationInfo)
 
+    }
+    }
 

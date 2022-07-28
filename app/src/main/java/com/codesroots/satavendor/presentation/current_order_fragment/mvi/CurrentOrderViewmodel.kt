@@ -4,6 +4,7 @@ package com.codesroots.satavendor.presentation.current_order_fragment.mvi
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.codesroots.satavendor.helper.BaseViewModel
+import com.codesroots.satavendor.models.auth.AuthModel
 import com.codesroots.satavendor.models.current_orders.OrderStatus
 import com.codesroots.satavendor.models.current_orders.OrdersItem
 import com.codesroots.satavendor.models.delivery.Delivery
@@ -43,6 +44,8 @@ class CurrentOrderViewModel @Inject constructor(private val DateRepoCompnay: Dat
 
     var tokenLD: MutableLiveData<Int>? = null
 
+    var authLD: MutableLiveData<AuthModel>? = null
+
 
     protected val getStatusState : MutableStateFlow<DeliveryItem>? = null
 
@@ -59,6 +62,7 @@ class CurrentOrderViewModel @Inject constructor(private val DateRepoCompnay: Dat
         deliveryItemLD = MutableLiveData()
         OrderStateLD = MutableLiveData()
         deliveriesDataLD = MutableLiveData()
+        authLD = MutableLiveData()
     }
     val coroutineExceptionHandler = CoroutineExceptionHandler{_, throwable ->
         throwable.printStackTrace()
@@ -153,7 +157,43 @@ class CurrentOrderViewModel @Inject constructor(private val DateRepoCompnay: Dat
 
     }
 
+    //authentication
+    fun registerToken(loginModel: AuthModel?) {
+        val coroutineExceptionHandler = CoroutineExceptionHandler{_, throwable ->
+            throwable.printStackTrace()
+        }
+        job = CoroutineScope(Dispatchers.IO + coroutineExceptionHandler).launch {
+            val response = Datasources.registerToken(loginModel!!)
+            withContext(Dispatchers.Main + coroutineExceptionHandler) {
+                if (response.isSuccessful) {
+                    authLD?.postValue(response.body())
 
+                } else {
+                    onError("Error : ${response.message()} ")
+                }
+            }
+        }
+
+    }
+
+    //authentication
+    fun sendNotificationToDevice(loginModel: AuthModel?) {
+        val coroutineExceptionHandler = CoroutineExceptionHandler{_, throwable ->
+            throwable.printStackTrace()
+        }
+        job = CoroutineScope(Dispatchers.IO + coroutineExceptionHandler).launch {
+            val response = Datasources.sendNotificationToDevice(loginModel!!)
+            withContext(Dispatchers.Main + coroutineExceptionHandler) {
+                if (response.isSuccessful) {
+                    authLD?.postValue(response.body())
+
+                } else {
+                    onError("Error : ${response.message()} ")
+                }
+            }
+        }
+
+    }
 
     private fun onError(message: String) {
 //        errorMessage.value = message

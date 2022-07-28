@@ -37,6 +37,8 @@ import com.codesroots.satavendor.R
 import com.codesroots.satavendor.databinding.MapActivityBinding
 import com.codesroots.satavendor.databinding.NavHeaderMainBinding
 import com.codesroots.satavendor.helper.*
+import com.codesroots.satavendor.models.auth.AuthModel
+import com.codesroots.satavendor.models.auth.User
 import com.codesroots.satavendor.models.current_orders.OrdersItem
 import com.codesroots.satavendor.presentation.auth.LoginActivity
 import com.codesroots.satavendor.presentation.current_order_fragment.CurrentOrderFragment
@@ -66,6 +68,7 @@ import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
+import kotlinx.android.synthetic.main.delivery_login_fragment.*
 import kotlinx.android.synthetic.main.map_activity.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
 import kotlinx.coroutines.flow.collect
@@ -114,7 +117,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
     var locationRequest: LocationRequest? = null
 
-    lateinit var pDialog: SweetAlertDialog
+
 
     val viewModel by viewModels<CurrentOrderViewModel> { viewModelFactory }
     val locationCallback: LocationCallback = object : LocationCallback() {
@@ -147,6 +150,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
 
         mapFragment?.getMapAsync(this)
+
         FirebaseMessaging.getInstance().isAutoInitEnabled = true;
 
         mDrawerLayout = binding.drawerLayout
@@ -154,6 +158,7 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
         statusCheck()
 
         var headerBinding: NavHeaderMainBinding = NavHeaderMainBinding.bind(binding.navView.getHeaderView(0))
+
 
 
         ////////////// Socket ///////////////////////
@@ -302,7 +307,9 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
 
             // Get new FCM registration token
             val token = task.result
-           viewModel.updateUserToken(Pref.userId!!,Token(token))
+            registerTokenRequest(token)
+            viewModel.updateUserToken(Pref.userId,Token(token))
+
             Log.d("TAG", "token:///:"  + Pref.VendorId +"///"+ token)
             if (!Pref.UserToken.isNullOrEmpty()) {
                 lifecycleScope.launch {
@@ -953,6 +960,14 @@ class MapActivity : AppCompatActivity(), HasAndroidInjector, OnMapReadyCallback,
     private fun connectToSocket() {
         mSocket?.connect()
         mSocket?.emit("create_user", Pref.VendorId)
+
+    }
+
+    fun registerTokenRequest(firebaseToken:String) {
+        val registerTokenInfo = AuthModel(
+            token = firebaseToken, user_id = Pref.userId)
+
+        viewModel.registerToken(registerTokenInfo)
 
     }
 

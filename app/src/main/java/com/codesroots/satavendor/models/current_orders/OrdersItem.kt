@@ -28,6 +28,8 @@ data class OrdersItem(
     var paymenttype_id: Int? = null,
     var taxes: Double? = null,
     var total: Double? = null,
+    var offer_discount: Int?=null,
+    var wallet_discount: Int?=null,
 ):Serializable{
     @RequiresApi(Build.VERSION_CODES.O)
     fun getCreationDateFormatted(): String? {

@@ -30,4 +30,7 @@ data class User(
     var room_id: String?=null,
     var user_group_id: Int?=null,
     var username: String?=null,
+    var title: String?=null,
+    var message: String?=null,
+    var user_id: Int?=null,
 )

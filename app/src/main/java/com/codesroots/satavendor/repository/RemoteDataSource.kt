@@ -30,6 +30,15 @@ class RemoteDataSource @Inject constructor(private val ApiService: APIServices)
     }
 
 
+    override suspend fun registerToken(loginModel: AuthModel): Response<AuthModel> {
+        return ApiService.registerToken(loginModel)
+    }
+
+    override suspend fun sendNotificationToDevice(loginModel: AuthModel): Response<AuthModel> {
+        return ApiService.sendNotificationToDevice(loginModel)
+    }
+
+
 
     override suspend fun getDeliveris(delivery: DeliveryItem):ArrayList<DeliveryItem>{
         return ApiService.getDeliveris(delivery)
